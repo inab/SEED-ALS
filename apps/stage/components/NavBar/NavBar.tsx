@@ -5,18 +5,22 @@ import { createRef, ReactElement } from 'react';
 
 import { getConfig } from '../../global/config';
 import useAuthContext from '../../global/hooks/useAuthContext';
-import { ARRANGER_GQL, ELASTICVUE_DOCS, INTERNAL_PATHS, LOGIN_PATH, USER_PATH } from '../../global/utils/constants';
+import { INTERNAL_PATHS, LOGIN_PATH, USER_PATH } from '../../global/utils/constants';
 import { InternalLink, StyledLinkAsButton } from '../Link';
 import defaultTheme from '../theme';
 import UserDropdown from '../UserDropdown';
 
 import labIcon from '@/public/images/navbar-logo.png';
-import DataTablesDropdown from './DataTablesDropdown';
-import DocumentationDropdown from './DocumentationDropdown';
-import Dropdown from './Dropdown';
-import { StyledListLink } from './styles';
 
 export const navBarRef = createRef<HTMLDivElement>();
+
+const navItems = [
+	{ path: INTERNAL_PATHS.ALS_OVERVIEW, label: 'ALS Overview' },
+	{ path: INTERNAL_PATHS.EGA_EXPLORER, label: 'EGA Explorer' },
+	{ path: INTERNAL_PATHS.DISEASE_MODEL, label: 'Disease Model' },
+	{ path: INTERNAL_PATHS.DATA_SOURCES, label: 'Data Sources' },
+	{ path: INTERNAL_PATHS.ABOUT, label: 'About' },
+];
 
 const NavBar = (): ReactElement => {
 	const router = useRouter();
@@ -69,7 +73,7 @@ const NavBar = (): ReactElement => {
 					>
 						<img
 							src={labIcon.src}
-							alt="Prelude Logo"
+							alt="SEED-ALS Logo"
 							css={css`
 								width: ${theme.dimensions.labIcon.width}px;
 								height: auto;
@@ -117,111 +121,43 @@ const NavBar = (): ReactElement => {
 						color: ${theme.colors.black};
 					`}
 				>
-					<div
-						css={(theme) => css`
-							display: flex;
-							align-items: center;
-							justify-content: center;
-							width: 144px;
-							background-color: ${theme.colors.white};
-							height: 100%;
-							&:hover {
-								background-color: ${theme.colors.grey_2};
-							}
-							border-right: 2px solid ${theme.colors.white};
-							margin: 0;
-						`}
-					>
-						<DataTablesDropdown />
-					</div>
-					{/* <div
-						css={(theme) => css`
-							display: flex;
-							align-items: center;
-							justify-content: center;
-							width: 144px;
-							background-color: ${theme.colors.white};
-							height: 100%;
-							&:hover {
-								background-color: ${theme.colors.grey_2};
-							}
-							border-right: 2px solid ${theme.colors.white};
-							margin: 0;
-							${router.pathname === INTERNAL_PATHS.DICTIONARY ? activeLinkStyle : ''}
-						`}
-					>
-						<InternalLink path={INTERNAL_PATHS.DICTIONARY}>
-							<a
-								css={css`
-									width: 100%;
-									height: 100%;
-									display: flex;
-									align-items: center;
-									justify-content: center;
-									color: ${theme.colors.accent_dark};
-									font-size: 14px;
-									font-weight: bold;
-									text-decoration: none;
-								`}
-							>
-								Data Dictionary
-							</a>
-						</InternalLink>
-					</div> */}
-					<div
-						css={(theme) => css`
-							display: flex;
-							align-items: center;
-							justify-content: center;
-							width: 144px;
-							background-color: ${theme.colors.white};
-							height: 100%;
-							&:hover {
-								background-color: ${theme.colors.grey_2};
-							}
-							border-right: 2px solid ${theme.colors.white};
-							margin: 0;
-						`}
-					>
-						<DocumentationDropdown />
-					</div>
-					<div
-						css={(theme) => css`
-							display: flex;
-							align-items: center;
-							justify-content: center;
-							width: 144px;
-							background-color: ${theme.colors.white};
-							height: 100%;
-							&:hover {
-								background-color: ${theme.colors.grey_2};
-							}
-							border-right: 2px solid ${theme.colors.white};
-							margin: 0;
-						`}
-					>
-						<Dropdown
-							css={css`
-								width: 100%;
-								height: 100%;
+					{navItems.map(({ path, label }) => (
+						<div
+							key={path}
+							css={(theme) => css`
 								display: flex;
 								align-items: center;
 								justify-content: center;
-								color: ${theme.colors.accent_dark};
-								font-size: 14px;
-								font-weight: bold;
+								width: 144px;
+								background-color: ${theme.colors.white};
+								height: 100%;
+								&:hover {
+									background-color: ${theme.colors.grey_2};
+								}
+								border-right: 2px solid ${theme.colors.white};
+								margin: 0;
+								${router.pathname === path ? activeLinkStyle : ''}
 							`}
-							data={[
-								<a href={ARRANGER_GQL} target="_blank" rel="noopener noreferrer">
-									<StyledListLink>GraphQL API</StyledListLink>
-								</a>,
-								<a href={ELASTICVUE_DOCS} target="_blank" rel="noopener noreferrer">
-									<StyledListLink>ElasticVue</StyledListLink>
-								</a>,
-							]}
-							label="APIs"
-						/>
-					</div>
+						>
+							<InternalLink path={path}>
+								<a
+									css={css`
+										width: 100%;
+										height: 100%;
+										display: flex;
+										align-items: center;
+										justify-content: center;
+										color: ${theme.colors.accent_dark};
+										font-size: 14px;
+										font-weight: bold;
+										text-decoration: none;
+									`}
+								>
+									{label}
+								</a>
+							</InternalLink>
+						</div>
+					))}
 				</div>
 
 				{/* Auth Section */}
