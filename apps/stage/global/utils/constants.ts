@@ -46,6 +46,11 @@ export enum INTERNAL_PATHS {
 	LECTERN = '/swaggerDocs/lectern',
 	SCORE = '/swaggerDocs/score',
 	DICTIONARY = '/dictionary',
+	ALS_OVERVIEW = '/als-overview',
+	EGA_EXPLORER = '/ega-explorer',
+	DISEASE_MODEL = '/disease-model',
+	DATA_SOURCES = '/data-sources',
+	ABOUT = '/about',
 }
 
 // external Swagger links
