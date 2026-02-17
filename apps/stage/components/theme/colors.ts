@@ -30,20 +30,20 @@ const grey = {
 	grey_2: '#E8EAED',
 	grey_3: '#AEAFB3',
 	grey_4: '#9BB9D1',
-	grey_5: '#5E6068',
+	grey_5: '#7C8795',
 	grey_6: '#282A35',
 	grey_highlight: '#DFDFE1',
 };
 
 const primary = {
-	primary: '#113052',
-	primary_dark: '#0A1F35',
-	primary_darker: '#06131F',
-	primary_light: '#1A4270',
-	primary_lighter: '#265A97',
-	primary_lightest: '#3373BF',
-	primary_pale: '#DAE2EC',
-	primary_palest: '#EDF1F5',
+	primary: '#003B75',
+	primary_dark: '#002A54',
+	primary_darker: '#001B38',
+	primary_light: '#1A5490',
+	primary_lighter: '#336DAB',
+	primary_lightest: '#4D87C6',
+	primary_pale: '#D6E2F0',
+	primary_palest: '#EBF0F7',
 };
 
 // Blue shades from the Secondary palette

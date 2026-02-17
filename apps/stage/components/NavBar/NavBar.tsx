@@ -5,12 +5,10 @@ import { createRef, ReactElement } from 'react';
 
 import { getConfig } from '../../global/config';
 import useAuthContext from '../../global/hooks/useAuthContext';
-import { INTERNAL_PATHS, LOGIN_PATH, USER_PATH } from '../../global/utils/constants';
+import { INTERNAL_PATHS, LOGIN_PATH } from '../../global/utils/constants';
 import { InternalLink, StyledLinkAsButton } from '../Link';
 import defaultTheme from '../theme';
 import UserDropdown from '../UserDropdown';
-
-import labIcon from '@/public/images/navbar-logo.png';
 
 export const navBarRef = createRef<HTMLDivElement>();
 
@@ -26,147 +24,116 @@ const NavBar = (): ReactElement => {
 	const router = useRouter();
 	const theme: typeof defaultTheme = useTheme();
 	const { user } = useAuthContext();
-	const { NEXT_PUBLIC_AUTH_PROVIDER, NEXT_PUBLIC_LAB_NAME } = getConfig();
-
-	const activeLinkStyle = `
-    background-color: ${theme.colors.grey_2};
-    color: ${theme.colors.accent2_dark};
-  `;
+	const { NEXT_PUBLIC_AUTH_PROVIDER } = getConfig();
 
 	return (
 		<div
 			ref={navBarRef}
 			css={css`
 				display: flex;
-				justify-content: flex-start;
+				align-items: center;
+				justify-content: space-between;
 				height: ${theme.dimensions.navbar.height}px;
 				background: ${theme.colors.white};
-				background-size: 281px;
-				${theme.shadow.default};
 				position: fixed;
 				top: 0;
 				left: 0;
 				z-index: 666;
 				width: 100%;
-				min-width: 100%;
-				max-width: 100vw;
 				box-sizing: border-box;
+				padding: 0 24px;
+				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 			`}
 		>
+			{/* Logo */}
 			<div
 				css={css`
 					display: flex;
 					align-items: center;
-					margin-left: 16px;
-					cursor: pointer;
+					flex-shrink: 0;
 				`}
 			>
 				<InternalLink path={INTERNAL_PATHS.HOME}>
 					<a
-						css={(theme) => css`
+						css={css`
 							display: flex;
 							align-items: center;
 							text-decoration: none;
-							${theme.typography.heading};
-							color: ${theme.colors.accent_dark};
 						`}
 					>
 						<img
-							src={labIcon.src}
-							alt="SEED-ALS Logo"
+							src="/seed-als/logos/SEED-ALS PNG/logo SEED-ALS_Azul.png"
+							alt="SEED-ALS"
 							css={css`
-								width: ${theme.dimensions.labIcon.width}px;
-								height: auto;
-								margin-left: 30px;
-								@media (max-width: 425px) {
-									display: none;
-								}
+								height: 70px;
+								width: auto;
 							`}
 						/>
-						<span
-							css={css`
-								color: ${theme.colors.black};
-								text: ${theme.typography.button};
-								padding-left: 30px;
-								white-space: nowrap;
-								@media (max-width: 884px) {
-									display: none;
-								}
-							`}
-						>
-							{NEXT_PUBLIC_LAB_NAME}
-						</span>
 					</a>
 				</InternalLink>
 			</div>
+
+			{/* Nav links + Auth */}
 			<div
 				css={css`
 					display: flex;
-					margin-left: 30px;
-					margin-top: 0px;
 					align-items: center;
-					justify-content: space-between;
-					width: 100%;
-					a {
-						text-decoration: none;
-					}
+					height: 100%;
+					gap: 0;
 				`}
 			>
-				<div
+				{/* Navigation links */}
+				<nav
 					css={css`
 						display: flex;
 						align-items: center;
 						height: 100%;
-						width: 100%;
-						color: ${theme.colors.black};
+						@media (max-width: 768px) {
+							display: none;
+						}
 					`}
 				>
-					{navItems.map(({ path, label }) => (
-						<div
-							key={path}
-							css={(theme) => css`
-								display: flex;
-								align-items: center;
-								justify-content: center;
-								width: 144px;
-								background-color: ${theme.colors.white};
-								height: 100%;
-								&:hover {
-									background-color: ${theme.colors.grey_2};
-								}
-								border-right: 2px solid ${theme.colors.white};
-								margin: 0;
-								${router.pathname === path ? activeLinkStyle : ''}
-							`}
-						>
-							<InternalLink path={path}>
+					{navItems.map(({ path, label }) => {
+						const isActive = router.pathname === path;
+						return (
+							<InternalLink key={path} path={path}>
 								<a
 									css={css`
-										width: 100%;
-										height: 100%;
 										display: flex;
 										align-items: center;
 										justify-content: center;
-										color: ${theme.colors.accent_dark};
+										height: ${theme.dimensions.navbar.height}px;
+										padding: 0 18px;
+										font-family: 'Geomanist', sans-serif;
 										font-size: 14px;
-										font-weight: bold;
+										font-weight: ${isActive ? '700' : '400'};
+										letter-spacing: 0.3px;
+										color: ${isActive ? theme.colors.primary : theme.colors.grey_5};
 										text-decoration: none;
+										background-color: ${isActive ? theme.colors.primary_palest : 'transparent'};
+										border-radius: 6px;
+										box-sizing: border-box;
+										transition: color 0.2s, background-color 0.2s;
+										&:hover {
+											color: ${theme.colors.primary};
+											background-color: ${theme.colors.primary_palest};
+										}
 									`}
 								>
 									{label}
 								</a>
 							</InternalLink>
-						</div>
-					))}
-				</div>
+						);
+					})}
+				</nav>
 
-				{/* Auth Section */}
+				{/* Auth Section — hidden for now, functionality preserved */}
 				{NEXT_PUBLIC_AUTH_PROVIDER && (
 					<div
 						css={css`
-							display: flex;
+							display: none;
 							align-items: center;
-							margin-right: 16px;
+							margin-left: 16px;
 						`}
 					>
 						{user ? (
@@ -176,35 +143,35 @@ const NavBar = (): ReactElement => {
 									height: ${theme.dimensions.navbar.height}px;
 									position: relative;
 									display: flex;
-									${router.pathname === USER_PATH ? activeLinkStyle : ''}
 									&:hover {
-										background-color: ${theme.colors.grey_2};
+										background-color: ${theme.colors.grey_1};
 									}
 								`}
 							>
 								<UserDropdown />
 							</div>
 						) : (
-							<div
-								css={css`
-									width: 145px;
-									display: flex;
-									align-items: center;
-									justify-content: center;
-								`}
-							>
-								<InternalLink path={LOGIN_PATH}>
-									<StyledLinkAsButton
-										css={(theme) => css`
-											width: 70px;
-											${theme.typography.button};
-											line-height: 20px;
-										`}
-									>
-										Log in
-									</StyledLinkAsButton>
-								</InternalLink>
-							</div>
+							<InternalLink path={LOGIN_PATH}>
+								<StyledLinkAsButton
+									css={css`
+										font-family: 'Geomanist', sans-serif;
+										font-size: 13px;
+										font-weight: 700;
+										padding: 6px 20px;
+										border-radius: 4px;
+										background-color: ${theme.colors.primary};
+										color: ${theme.colors.white};
+										border: none;
+										cursor: pointer;
+										transition: background-color 0.2s;
+										&:hover {
+											background-color: ${theme.colors.primary_light};
+										}
+									`}
+								>
+									Log in
+								</StyledLinkAsButton>
+							</InternalLink>
 						)}
 					</div>
 				)}
