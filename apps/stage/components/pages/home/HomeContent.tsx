@@ -1,26 +1,20 @@
-import HeroBanner from '@/components/HeroBanner';
-import { css } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 import { ReactElement } from 'react';
-import defaultTheme from '../../theme';
-import HomeNavigation from './HomeNavigation';
-import WelcomeBanner from './WelcomeBanner';
+import HomeHero from './HomeHero';
+import HomeFeatures from './HomeFeatures';
 
 const HomeContent = (): ReactElement => {
+	const theme = useTheme();
+
 	return (
 		<main
 			css={css`
-				background-color: ${defaultTheme.colors.grey_1};
+				background-color: ${theme.colors.grey_1};
 				min-height: 100vh;
 			`}
 		>
-			<WelcomeBanner />
-			<HeroBanner
-				title="Search & Exploration Demo"
-				description="Version 1-beta"
-				breadcrumbs={[{ label: 'Home', href: '/' }]}
-				fixed={false}
-			/>
-			<HomeNavigation />
+			<HomeHero />
+			<HomeFeatures />
 		</main>
 	);
 };

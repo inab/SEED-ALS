@@ -9,11 +9,32 @@ const Document = () => {
 	return (
 		<Html>
 			<Head>
-				<link rel="preconnect" href="https://fonts.googleapis.com" />
-				<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-				<link
-					href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;600&amp;display=swap"
-					rel="stylesheet"
+				<style
+					dangerouslySetInnerHTML={{
+						__html: `
+							@font-face {
+								font-family: 'Geomanist';
+								src: url('/seed-als/fonts/woff2/Geomanist-Light-WZ.woff2') format('woff2');
+								font-weight: 300;
+								font-style: normal;
+								font-display: swap;
+							}
+							@font-face {
+								font-family: 'Geomanist';
+								src: url('/seed-als/fonts/woff2/Geomanist-Book-WZ.woff2') format('woff2');
+								font-weight: 400;
+								font-style: normal;
+								font-display: swap;
+							}
+							@font-face {
+								font-family: 'Geomanist';
+								src: url('/seed-als/fonts/woff2/Geomanist-Bold-WZ.woff2') format('woff2');
+								font-weight: 700;
+								font-style: normal;
+								font-display: swap;
+							}
+						`,
+					}}
 				/>
 				<link rel="shortcut icon" href={urlJoin(NEXT_PUBLIC_BASE_PATH, '/images/favicon.ico')} />
 			</Head>

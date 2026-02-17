@@ -1,79 +1,105 @@
-/*
- *
- * Copyright (c) 2022 The Ontario Institute for Cancer Research. All rights reserved
- *
- *  This program and the accompanying materials are made available under the terms of
- *  the GNU Affero General Public License v3.0. You should have received a copy of the
- *  GNU Affero General Public License along with this program.
- *   If not, see <http://www.gnu.org/licenses/>.
- *
- *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
- *  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
- *  OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
- *  SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
- *  INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
- *  TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
- *  OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER
- *  IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
- *  ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- */
-
 import { css } from '@emotion/react';
-import { getConfig } from '../global/config';
-import { HELP_URL } from '../global/utils/constants';
-import StyledLink from './Link';
 import defaultTheme from './theme';
-import { OvertureLogoWithText } from './theme/icons';
 
 const Footer = () => {
-	const { NEXT_PUBLIC_UI_VERSION } = getConfig();
-
 	return (
 		<div
 			css={(theme: typeof defaultTheme) => css`
-				height: ${theme.dimensions.footer.height}px;
 				background-color: ${theme.colors.white};
-				border-top: 1px solid ${theme.colors.grey_3};
+				box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
 				display: flex;
-				justify-content: flex-end;
+				flex-direction: column;
 				align-items: center;
-				padding: 0 18px;
-				${theme.shadow.default};
-				z-index: 25;
-				position: fixed;
-				bottom: 0px;
-				left: 0px;
-				right: 0px;
+				padding: 40px 24px 32px;
+				gap: 28px;
 			`}
 		>
-			<StyledLink
-				css={(theme) => css`
-					${theme.typography.subheading2};
-					padding-right: 13px;
+			{/* Row 1: BSC + Overture logos */}
+			<div
+				css={css`
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					gap: 60px;
+					flex-wrap: wrap;
 				`}
-				href={HELP_URL}
-				target="_blank"
 			>
-				Help
-			</StyledLink>
-			<span
-				css={(theme) =>
-					css`
-						color: ${theme.colors.accent_dark};
-						${theme.typography.subheading2}
-						line-height: 24px;
-						font-weight: normal;
-						padding-right: 10px;
-						padding-left: 5px;
-					`
-				}
+				<a href="https://www.bsc.es/" target="_blank" rel="noopener noreferrer">
+					<img
+						src="/seed-als/footer/BSC-blue.svg"
+						alt="Barcelona Supercomputing Center"
+						css={css`
+							height: 50px;
+							width: auto;
+						`}
+					/>
+				</a>
+				<a href="https://www.overture.bio/" target="_blank" rel="noopener noreferrer">
+					<img
+						src="/seed-als/footer/overture.svg"
+						alt="Overture"
+						css={css`
+							height: 30px;
+							width: auto;
+						`}
+					/>
+				</a>
+			</div>
+
+			{/* Row 2: Financing acknowledgement */}
+			<div
+				css={css`
+					text-align: center;
+					max-width: 720px;
+					display: flex;
+					flex-direction: column;
+					gap: 6px;
+				`}
 			>
-				{NEXT_PUBLIC_UI_VERSION && `UI v${NEXT_PUBLIC_UI_VERSION}`} powered by
-			</span>
-			<a href="https://www.overture.bio/" target="_blank">
-				<OvertureLogoWithText width={100} height={18} />
-			</a>
+				<p
+					css={(theme: typeof defaultTheme) => css`
+						font-family: 'Geomanist', sans-serif;
+						font-size: 12px;
+						font-weight: 700;
+						color: ${theme.colors.grey_5};
+						margin: 0;
+						letter-spacing: 0.3px;
+					`}
+				>
+					PMPER24/00017 (IP. ADOLFO L&Oacute;PEZ DE MUNAIN)
+				</p>
+				<p
+					css={(theme: typeof defaultTheme) => css`
+						font-family: 'Geomanist', sans-serif;
+						font-size: 11px;
+						font-weight: 400;
+						color: ${theme.colors.grey_5};
+						margin: 0;
+						line-height: 1.5;
+					`}
+				>
+					ENTIDAD FINANCIADORA: INSTITUTO DE SALUD CARLOS III (ISCIII). PROYECTO FINANCIADO CON CARGO A FONDOS NEXTGENERATION EU,
+					<br />
+					QUE FINANCIAN LAS ACTUACIONES DEL MRR
+				</p>
+			</div>
+
+			{/* Row 3: Financing entity logos */}
+			<div
+				css={css`
+					display: flex;
+					justify-content: center;
+				`}
+			>
+				<img
+					src="/seed-als/footer/financing-logos.png"
+					alt="Entidades financiadoras: Gobierno de España, ISCIII, Plan de Recuperación, Unión Europea"
+					css={css`
+						height: 50px;
+						width: auto;
+					`}
+				/>
+			</div>
 		</div>
 	);
 };
