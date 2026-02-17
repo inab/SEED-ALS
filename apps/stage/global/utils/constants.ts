@@ -93,3 +93,14 @@ export const INTERNAL_API_PROXY = {
 	PROTECTED_KEYCLOAK_TOKEN_ENDPOINT: urlJoin(PROXY_PROTECTED_API_PATH, 'keycloak/token'),
 	SONG: urlJoin(PROXY_API_PATH, 'song'),
 } as const;
+
+// Monarch Initiative API
+export const MONARCH_API_BASE_URL = 'https://api-v3.monarchinitiative.org/v3/api';
+export const ALS_MONDO_ID = 'MONDO:0004976';
+
+export enum MONARCH_ASSOCIATION_CATEGORIES {
+	CAUSAL_GENE = 'biolink:CausalGeneToDiseaseAssociation',
+	CORRELATED_GENE = 'biolink:CorrelatedGeneToDiseaseAssociation',
+	PHENOTYPE = 'biolink:DiseaseToPhenotypicFeatureAssociation',
+	DISEASE = 'biolink:DiseaseOrPhenotypicFeatureToGeneticInheritanceAssociation',
+}
