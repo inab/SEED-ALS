@@ -7,7 +7,7 @@ import { ALS_MONDO_ID } from '../../../global/utils/constants';
 import DiseaseHeader from './DiseaseHeader';
 import SideNav from './SideNav';
 import SummaryCards from './SummaryCards';
-// import PhenotypeOverview from './PhenotypeOverview';      // pending
+import PhenotypeOverview from './PhenotypeOverview';
 // import GenesTable from './GenesTable';                    // pending
 // import GeneToPhenotype from './GeneToPhenotype';          // pending
 // import DiseaseModels from './DiseaseModels';              // pending
@@ -15,7 +15,7 @@ import SummaryCards from './SummaryCards';
 
 const AlsOverview = (): ReactElement => {
 	const theme: typeof defaultTheme = useTheme();
-	const { entity, loading, error } = useMonarchData(ALS_MONDO_ID);
+	const { entity, loading, error, fetchAssociations } = useMonarchData(ALS_MONDO_ID);
 
 	return (
 		<PageLayout subtitle="ALS Overview">
@@ -74,6 +74,7 @@ const AlsOverview = (): ReactElement => {
 							`}
 						>
 							<SummaryCards associationCounts={entity.association_counts} />
+							<PhenotypeOverview fetchAssociations={fetchAssociations} />
 						</main>
 					</div>
 				</>
