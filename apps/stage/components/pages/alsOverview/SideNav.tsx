@@ -2,13 +2,12 @@ import { css, useTheme } from '@emotion/react';
 import { ReactElement } from 'react';
 import defaultTheme from '../../theme';
 
-const NAV_HEIGHT = 72; // px — height of the top navbar
+const NAV_HEIGHT = 72;
 
 const NAV_ITEMS = [
 	{ id: 'overview', label: 'Disease Overview' },
 	{ id: 'phenotypes', label: 'Phenotypes' },
-	{ id: 'causal-genes', label: 'Causal Genes' },
-	{ id: 'correlated-genes', label: 'Correlated Genes' },
+	{ id: 'genes', label: 'Genes' },
 	{ id: 'gene-phenotype', label: 'Gene–Phenotype' },
 	{ id: 'disease-models', label: 'Disease Models' },
 	{ id: 'hierarchy', label: 'Disease Hierarchy' },
@@ -29,7 +28,7 @@ const SideNav = (): ReactElement => {
 		font-weight: 300;
 		color: ${theme.colors.grey_6};
 		text-decoration: none;
-		padding: 10px 20px;
+		padding: 15px 20px;
 		border-left: 2px solid transparent;
 		transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 
