@@ -1,23 +1,15 @@
-// Service layer for Monarch Initiative API v3
-// Pure functions — no React dependencies
-
-import { MONARCH_API_BASE_URL } from '../utils/constants';
+import { MONARCH_API_BASE_URL, MONARCH_ASSOCIATION_CATEGORIES } from '../utils/constants';
 import { MonarchEntity, MonarchAssociationResponse } from '../types/monarch';
 
 /**
  * Fetches disease entity data from Monarch Initiative.
- *
- * Example: fetchDiseaseEntity('MONDO:0004976') returns ALS info
- * including description, phenotypes, genes, hierarchy, and association counts.
- *
- * Endpoint: GET /v3/api/entity/{id}
  */
-export async function fetchDiseaseEntity(id: string): Promise<MonarchEntity> {
-	const url = `${MONARCH_API_BASE_URL}/entity/${id}`;
+export async function fetchDiseaseEntity(entityId: string): Promise<MonarchEntity> {
+	const url = `${MONARCH_API_BASE_URL}/entity/${entityId}`;
 	const response = await fetch(url);
 
 	if (!response.ok) {
-		throw new Error(`Monarch API error: ${response.status} ${response.statusText} for entity ${id}`);
+		throw new Error(`Monarch API error: ${response.status} ${response.statusText} for entity ${entityId}`);
 	}
 
 	return response.json();
@@ -25,14 +17,6 @@ export async function fetchDiseaseEntity(id: string): Promise<MonarchEntity> {
 
 /**
  * Fetches disease associations from Monarch Initiative.
- *
- * The "object" parameter is the disease ID — associations point TO this disease.
- * For example, genes that CAUSE ALS: the gene is the subject, ALS is the object.
- *
- * For phenotype associations, the disease is the "subject" (disease HAS phenotype),
- * so we use the "subject" parameter instead.
- *
- * Endpoint: GET /v3/api/association
  */
 export async function fetchDiseaseAssociations(
 	diseaseId: string,
@@ -40,17 +24,19 @@ export async function fetchDiseaseAssociations(
 	limit: number = 20,
 	offset: number = 0,
 ): Promise<MonarchAssociationResponse> {
-	// Phenotype associations use subject (disease → phenotype)
-	// Gene associations use object (gene → disease)
-	const isPhenotype = category.includes('DiseaseToPhenotypicFeature');
-	const entityParam = isPhenotype ? 'subject' : 'object';
-
-	const params = new URLSearchParams({
-		[entityParam]: diseaseId,
-		category,
-		limit: String(limit),
-		offset: String(offset),
-	});
+	// The query parameter depends on the direction of the association:
+	// - PHENOTYPE: disease is the subject (disease → phenotype)
+	// - GENE_TO_PHENOTYPE: uses 'entity' for indirect resolution (gene–phenotype links for disease-associated genes)
+	// - All other categories (CAUSAL_GENE, CORRELATED_GENE, DISEASE_MODEL): disease is the object (gene/genotype → disease)
+	let params: URLSearchParams;
+	if (category === MONARCH_ASSOCIATION_CATEGORIES.PHENOTYPE) {
+		params = new URLSearchParams({ subject: diseaseId, category, limit: String(limit), offset: String(offset) });
+	} else if (category === MONARCH_ASSOCIATION_CATEGORIES.GENE_TO_PHENOTYPE) {
+		params = new URLSearchParams({ entity: diseaseId, category, limit: String(limit), offset: String(offset) });
+	} else {
+		// CAUSAL_GENE, CORRELATED_GENE, DISEASE_MODEL — disease is the object
+		params = new URLSearchParams({ object: diseaseId, category, limit: String(limit), offset: String(offset) });
+	}
 
 	const url = `${MONARCH_API_BASE_URL}/association?${params}`;
 	const response = await fetch(url);

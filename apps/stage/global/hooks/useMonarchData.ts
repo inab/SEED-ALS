@@ -1,6 +1,3 @@
-// Hook for fetching Monarch Initiative data in React components
-// Usage: const { entity, loading, error, fetchAssociations } = useMonarchData('MONDO:0004976');
-
 import { useCallback, useEffect, useState } from 'react';
 
 import { fetchDiseaseEntity, fetchDiseaseAssociations } from '../services/monarchApi';
@@ -20,10 +17,6 @@ interface UseMonarchDataResult {
 /**
  * Hook that fetches disease entity data on mount and provides
  * a function to fetch associations on demand.
- *
- * - `entity` loads automatically when the component mounts
- * - `fetchAssociations` is called manually when you need association data
- *   (e.g. when a user clicks a tab or scrolls to a section)
  */
 export function useMonarchData(mondoId: string): UseMonarchDataResult {
 	const [entity, setEntity] = useState<MonarchEntity | null>(null);
@@ -32,7 +25,7 @@ export function useMonarchData(mondoId: string): UseMonarchDataResult {
 
 	// Fetch entity data on mount
 	useEffect(() => {
-		let cancelled = false;
+		let isMounted = true;
 
 		async function loadEntity() {
 			setLoading(true);
@@ -40,15 +33,15 @@ export function useMonarchData(mondoId: string): UseMonarchDataResult {
 
 			try {
 				const data = await fetchDiseaseEntity(mondoId);
-				if (!cancelled) {
+				if (isMounted) {
 					setEntity(data);
 				}
 			} catch (err) {
-				if (!cancelled) {
+				if (isMounted) {
 					setError(err instanceof Error ? err.message : 'Failed to fetch disease data');
 				}
 			} finally {
-				if (!cancelled) {
+				if (isMounted) {
 					setLoading(false);
 				}
 			}
@@ -56,10 +49,8 @@ export function useMonarchData(mondoId: string): UseMonarchDataResult {
 
 		loadEntity();
 
-		// Cleanup: if the component unmounts before the fetch finishes,
-		// we mark it as cancelled so we don't update state on an unmounted component
 		return () => {
-			cancelled = true;
+			isMounted = false;
 		};
 	}, [mondoId]);
 

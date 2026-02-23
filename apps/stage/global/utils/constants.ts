@@ -102,5 +102,7 @@ export enum MONARCH_ASSOCIATION_CATEGORIES {
 	CAUSAL_GENE = 'biolink:CausalGeneToDiseaseAssociation',
 	CORRELATED_GENE = 'biolink:CorrelatedGeneToDiseaseAssociation',
 	PHENOTYPE = 'biolink:DiseaseToPhenotypicFeatureAssociation',
+	GENE_TO_PHENOTYPE = 'biolink:GeneToPhenotypicFeatureAssociation',
+	DISEASE_MODEL = 'biolink:GenotypeToDiseaseAssociation',
 	DISEASE = 'biolink:DiseaseOrPhenotypicFeatureToGeneticInheritanceAssociation',
 }
