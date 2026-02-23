@@ -5,6 +5,7 @@ import { MONARCH_ASSOCIATION_CATEGORIES } from '../../../global/utils/constants'
 import defaultTheme from '../../theme';
 
 const PAGE_SIZE = 10;
+const GENE_PH_BATCH = 500;
 
 const RELATIONSHIP_LABELS: Record<string, string> = {
 	[MONARCH_ASSOCIATION_CATEGORIES.CAUSAL_GENE]: 'Causal',
@@ -32,16 +33,23 @@ const GenesTable = ({ fetchAssociations }: GenesTableProps): ReactElement => {
 	const [deselectedTypes, setDeselectedTypes] = useState<Set<string>>(new Set());
 	const [page, setPage] = useState(1);
 
+	// Gene → phenotype map (loaded in parallel)
+	const [genePhMap, setGenePhMap] = useState<Record<string, string[]>>({});
+	const [genePhLoading, setGenePhLoading] = useState(true);
+
+	// Modal state
+	const [selectedGene, setSelectedGene] = useState<string | null>(null);
+
 	useEffect(() => {
-		async function loadAll() {
+		async function loadGenes() {
 			try {
 				const [causal, correlated] = await Promise.all([
 					fetchAssociations(MONARCH_ASSOCIATION_CATEGORIES.CAUSAL_GENE, 100, 0),
 					fetchAssociations(MONARCH_ASSOCIATION_CATEGORIES.CORRELATED_GENE, 100, 0),
 				]);
 
-				const tag = (items: MonarchAssociation[], type: string): TaggedAssociation[] =>
-					items.map((item) => ({ ...item, _relationshipType: type }));
+				const tag = (assocs: MonarchAssociation[], type: string): TaggedAssociation[] =>
+					assocs.map((item) => ({ ...item, _relationshipType: type }));
 
 				const merged = [
 					...tag(causal.items, MONARCH_ASSOCIATION_CATEGORIES.CAUSAL_GENE),
@@ -60,7 +68,40 @@ const GenesTable = ({ fetchAssociations }: GenesTableProps): ReactElement => {
 			}
 		}
 
-		loadAll();
+		async function loadGenePhenotypes() {
+			try {
+				const first = await fetchAssociations(MONARCH_ASSOCIATION_CATEGORIES.GENE_TO_PHENOTYPE, GENE_PH_BATCH, 0);
+				let all = first.items;
+				let offset = GENE_PH_BATCH;
+				while (offset < first.total) {
+					const next = await fetchAssociations(
+						MONARCH_ASSOCIATION_CATEGORIES.GENE_TO_PHENOTYPE,
+						GENE_PH_BATCH,
+						offset,
+					);
+					all = [...all, ...next.items];
+					offset += GENE_PH_BATCH;
+				}
+
+				const map: Record<string, string[]> = {};
+				all.forEach((item) => {
+					const gene = item.subject_label ?? 'Unknown';
+					if (!map[gene]) map[gene] = [];
+					if (item.object_label && !map[gene].includes(item.object_label)) {
+						map[gene].push(item.object_label);
+					}
+				});
+				Object.keys(map).forEach((g) => map[g].sort((a, b) => a.localeCompare(b)));
+
+				setGenePhMap(map);
+				setGenePhLoading(false);
+			} catch {
+				setGenePhLoading(false);
+			}
+		}
+
+		loadGenes();
+		loadGenePhenotypes();
 	}, [fetchAssociations]);
 
 	const totalAll = Object.values(totals).reduce((a, b) => a + b, 0);
@@ -106,288 +147,501 @@ const GenesTable = ({ fetchAssociations }: GenesTableProps): ReactElement => {
 		}
 	`;
 
+	const selectedPhenotypes = selectedGene ? (genePhMap[selectedGene] ?? []) : [];
+
 	return (
-		<section
-			id="genes"
-			css={css`
-				margin-bottom: 48px;
-				scroll-margin-top: 80px;
-			`}
-		>
-			{/* Section header */}
-			<div css={css`display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px;`}>
-				<h2
-					css={css`
-						font-family: 'Geomanist', sans-serif;
-						font-size: 1.15rem;
-						font-weight: 700;
-						color: ${theme.colors.primary};
-						margin: 0;
-					`}
-				>
-					Genes
-				</h2>
-				{totalAll > 0 && (
-					<span
+		<>
+			<section
+				id="genes"
+				css={css`
+					margin-bottom: 48px;
+					scroll-margin-top: 80px;
+				`}
+			>
+				{/* Section header */}
+				<div css={css`display: flex; align-items: baseline; gap: 10px; margin-bottom: 6px;`}>
+					<h2
 						css={css`
 							font-family: 'Geomanist', sans-serif;
-							font-size: 0.75rem;
+							font-size: 1.15rem;
 							font-weight: 700;
-							background: ${theme.colors.primary_pale};
 							color: ${theme.colors.primary};
-							padding: 2px 8px;
-							border-radius: 10px;
+							margin: 0;
 						`}
 					>
-						{totalAll.toLocaleString()}
-					</span>
-				)}
-			</div>
-			<p
-				css={css`
-					font-family: 'Geomanist', sans-serif;
-					font-size: 0.85rem;
-					color: ${theme.colors.grey_5};
-					margin: 6px 0 0;
-					line-height: 1.5;
-				`}
-			>
-				Genes causally linked to or statistically correlated with ALS.
-			</p>
+						Genes
+					</h2>
+					{totalAll > 0 && (
+						<span
+							css={css`
+								font-family: 'Geomanist', sans-serif;
+								font-size: 0.75rem;
+								font-weight: 700;
+								background: ${theme.colors.primary_pale};
+								color: ${theme.colors.primary};
+								padding: 2px 8px;
+								border-radius: 10px;
+							`}
+						>
+							{totalAll.toLocaleString()}
+						</span>
+					)}
+				</div>
+				<p
+					css={css`
+						font-family: 'Geomanist', sans-serif;
+						font-size: 0.85rem;
+						color: ${theme.colors.grey_5};
+						margin: 6px 0 0;
+						line-height: 1.5;
+					`}
+				>
+					Genes causally linked to or statistically correlated with ALS. Click the phenotype count to see associated phenotypes.
+				</p>
 
-			<div
-				css={css`
-					border-top: 1px solid ${theme.colors.grey_2};
-					margin-top: 16px;
-					padding-top: 24px;
-				`}
-			>
-				{loading && (
-					<p css={css`font-family: 'Geomanist', sans-serif; font-size: 0.875rem; color: ${theme.colors.grey_3};`}>
-						Loading genes…
-					</p>
-				)}
-				{error && (
-					<p css={css`font-family: 'Geomanist', sans-serif; font-size: 0.875rem; color: ${theme.colors.error};`}>
-						Error: {error}
-					</p>
-				)}
+				<div
+					css={css`
+						border-top: 1px solid ${theme.colors.grey_2};
+						margin-top: 16px;
+						padding-top: 24px;
+					`}
+				>
+					{loading && (
+						<p css={css`font-family: 'Geomanist', sans-serif; font-size: 0.875rem; color: ${theme.colors.grey_3};`}>
+							Loading genes…
+						</p>
+					)}
+					{error && (
+						<p css={css`font-family: 'Geomanist', sans-serif; font-size: 0.875rem; color: ${theme.colors.error};`}>
+							Error: {error}
+						</p>
+					)}
 
-				{!loading && !error && (
-					<>
-						{/* Relationship type filter */}
+					{!loading && !error && (
+						<>
+							{/* Relationship type filter */}
+							<div
+								css={css`
+									display: flex;
+									flex-wrap: wrap;
+									align-items: center;
+									gap: 8px 16px;
+									margin-bottom: 12px;
+								`}
+							>
+								{Object.entries(RELATIONSHIP_LABELS).map(([type, label]) => (
+									<label
+										key={type}
+										css={css`
+											display: flex;
+											align-items: center;
+											gap: 6px;
+											font-family: 'Geomanist', sans-serif;
+											font-size: 0.8rem;
+											color: ${theme.colors.grey_5};
+											cursor: pointer;
+											user-select: none;
+										`}
+									>
+										<input
+											type="checkbox"
+											checked={!deselectedTypes.has(type)}
+											onChange={() => toggleType(type)}
+											css={css`accent-color: ${theme.colors.primary}; cursor: pointer;`}
+										/>
+										{label}
+										{totals[type] !== undefined && (
+											<span css={css`color: ${theme.colors.grey_3}; font-size: 0.75rem;`}>
+												({totals[type]})
+											</span>
+										)}
+									</label>
+								))}
+								{deselectedTypes.size > 0 && (
+									<button
+										onClick={() => { setDeselectedTypes(new Set()); setPage(1); }}
+										css={css`
+											font-family: 'Geomanist', sans-serif;
+											font-size: 0.75rem;
+											padding: 3px 10px;
+											border: 1px solid ${theme.colors.grey_2};
+											border-radius: 6px;
+											background: ${theme.colors.white};
+											color: ${theme.colors.grey_3};
+											cursor: pointer;
+											margin-left: 4px;
+											&:hover { color: ${theme.colors.primary}; border-color: ${theme.colors.primary_pale}; }
+										`}
+									>
+										Reset filters
+									</button>
+								)}
+							</div>
+
+							{/* Search */}
+							<input
+								type="text"
+								placeholder="Search genes…"
+								value={search}
+								onChange={(e) => handleSearch(e.target.value)}
+								css={css`
+									font-family: 'Geomanist', sans-serif;
+									font-size: 0.875rem;
+									width: 100%;
+									box-sizing: border-box;
+									padding: 8px 12px;
+									border: 1px solid ${theme.colors.grey_2};
+									border-radius: 6px;
+									outline: none;
+									margin-bottom: 12px;
+									color: ${theme.colors.black};
+									&:focus { border-color: ${theme.colors.primary_pale}; }
+								`}
+							/>
+
+							{filtered.length > 0 ? (
+								<>
+									<table css={css`width: 100%; border-collapse: collapse; table-layout: fixed;`}>
+										<thead>
+											<tr>
+												{[
+													{ label: 'Gene', width: '18%' },
+													{ label: 'Relationship', width: '22%' },
+													{ label: 'Disease', width: '38%' },
+													{ label: 'Phenotypes', width: '22%' },
+												].map((col) => (
+													<th
+														key={col.label}
+														css={css`
+															width: ${col.width};
+															text-align: left;
+															font-family: 'Geomanist', sans-serif;
+															font-size: 0.72rem;
+															font-weight: 700;
+															text-transform: uppercase;
+															letter-spacing: 0.5px;
+															color: ${theme.colors.grey_3};
+															padding: 8px 12px;
+															border-bottom: 2px solid ${theme.colors.grey_2};
+														`}
+													>
+														{col.label}
+													</th>
+												))}
+											</tr>
+										</thead>
+										<tbody>
+											{paginated.map((item) => {
+												const phenotypes = genePhMap[item.subject_label ?? ''] ?? [];
+												const count = phenotypes.length;
+												return (
+													<tr
+														key={item.id}
+														css={css`
+															border-bottom: 1px solid ${theme.colors.grey_1};
+															&:hover { background: ${theme.colors.grey_1}; }
+														`}
+													>
+														<td
+															css={css`
+																font-family: 'Geomanist', sans-serif;
+																font-size: 0.875rem;
+																font-weight: 700;
+																color: ${theme.colors.primary};
+																padding: 9px 12px;
+															`}
+														>
+															{item.subject_label ?? '—'}
+														</td>
+														<td
+															css={css`
+																font-family: 'Geomanist', sans-serif;
+																font-size: 0.8rem;
+																color: ${theme.colors.grey_5};
+																padding: 9px 12px;
+															`}
+														>
+															{cleanPredicate(item.predicate)}
+														</td>
+														<td
+															css={css`
+																font-family: 'Geomanist', sans-serif;
+																font-size: 0.8rem;
+																color: ${theme.colors.grey_5};
+																padding: 9px 12px;
+															`}
+														>
+															{item.object_label ?? '—'}
+														</td>
+														<td css={css`padding: 9px 12px;`}>
+															{genePhLoading ? (
+																<span
+																	css={css`
+																		font-family: 'Geomanist', sans-serif;
+																		font-size: 0.75rem;
+																		color: ${theme.colors.grey_3};
+																	`}
+																>
+																	…
+																</span>
+															) : count > 0 ? (
+																<button
+																	onClick={() => setSelectedGene(item.subject_label ?? null)}
+																	css={css`
+																		display: inline-flex;
+																		align-items: center;
+																		gap: 5px;
+																		font-family: 'Geomanist', sans-serif;
+																		font-size: 0.78rem;
+																		font-weight: 700;
+																		color: ${theme.colors.primary};
+																		background: ${theme.colors.primary_pale};
+																		border: none;
+																		border-radius: 20px;
+																		padding: 3px 10px;
+																		cursor: pointer;
+																		transition: background 0.15s ease;
+																		&:hover { background: ${theme.colors.primary_pale}; filter: brightness(0.93); }
+																	`}
+																>
+																	{count}
+																	<span css={css`font-size: 0.7rem; opacity: 0.7;`}>↗</span>
+																</button>
+															) : (
+																<span
+																	css={css`
+																		font-family: 'Geomanist', sans-serif;
+																		font-size: 0.8rem;
+																		color: ${theme.colors.grey_3};
+																	`}
+																>
+																	—
+																</span>
+															)}
+														</td>
+													</tr>
+												);
+											})}
+										</tbody>
+									</table>
+
+									{/* Pagination */}
+									<div
+										css={css`
+											display: flex;
+											align-items: center;
+											justify-content: space-between;
+											margin-top: 16px;
+										`}
+									>
+										<span
+											css={css`
+												font-family: 'Geomanist', sans-serif;
+												font-size: 0.8rem;
+												color: ${theme.colors.grey_3};
+											`}
+										>
+											{(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, filtered.length)} of{' '}
+											{filtered.length}
+										</span>
+										<div css={css`display: flex; gap: 8px;`}>
+											{[
+												{ label: '«', action: () => setPage(1), disabled: page === 1, title: 'First page' },
+												{ label: 'Previous', action: () => setPage((p) => p - 1), disabled: page === 1, title: 'Previous page' },
+												{ label: 'Next', action: () => setPage((p) => p + 1), disabled: page === totalPages, title: 'Next page' },
+												{ label: '»', action: () => setPage(totalPages), disabled: page === totalPages, title: 'Last page' },
+											].map((btn) => (
+												<button
+													key={btn.label}
+													onClick={btn.action}
+													disabled={btn.disabled}
+													title={btn.title}
+													css={btnCss}
+												>
+													{btn.label}
+												</button>
+											))}
+										</div>
+									</div>
+								</>
+							) : (
+								<p
+									css={css`
+										font-family: 'Geomanist', sans-serif;
+										font-size: 0.85rem;
+										color: ${theme.colors.grey_3};
+										text-align: center;
+										padding: 24px 0;
+									`}
+								>
+									{search
+										? `No genes match "${search}" with the selected filters.`
+										: 'No genes match the selected filters.'}
+								</p>
+							)}
+						</>
+					)}
+				</div>
+			</section>
+
+			{/* Phenotype modal */}
+			{selectedGene && (
+				<div
+					onClick={() => setSelectedGene(null)}
+					css={css`
+						position: fixed;
+						inset: 0;
+						background: rgba(0, 0, 0, 0.45);
+						z-index: 1000;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						padding: 24px;
+					`}
+				>
+					<div
+						onClick={(e) => e.stopPropagation()}
+						css={css`
+							background: ${theme.colors.white};
+							border-radius: 10px;
+							width: 100%;
+							max-width: 520px;
+							max-height: 72vh;
+							display: flex;
+							flex-direction: column;
+							box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+						`}
+					>
+						{/* Modal header */}
 						<div
 							css={css`
 								display: flex;
-								flex-wrap: wrap;
-								align-items: center;
-								gap: 8px 16px;
-								margin-bottom: 12px;
+								align-items: flex-start;
+								justify-content: space-between;
+								padding: 20px 24px 16px;
+								border-bottom: 1px solid ${theme.colors.grey_2};
+								flex-shrink: 0;
 							`}
 						>
-							{Object.entries(RELATIONSHIP_LABELS).map(([type, label]) => (
-								<label
-									key={type}
+							<div>
+								<p
 									css={css`
-										display: flex;
-										align-items: center;
-										gap: 6px;
+										font-family: 'Geomanist', sans-serif;
+										font-size: 0.72rem;
+										font-weight: 700;
+										text-transform: uppercase;
+										letter-spacing: 0.6px;
+										color: ${theme.colors.grey_3};
+										margin: 0 0 4px;
+									`}
+								>
+									Associated phenotypes
+								</p>
+								<h3
+									css={css`
+										font-family: 'Geomanist', sans-serif;
+										font-size: 1.1rem;
+										font-weight: 700;
+										color: ${theme.colors.primary};
+										margin: 0;
+									`}
+								>
+									{selectedGene}
+								</h3>
+								<p
+									css={css`
 										font-family: 'Geomanist', sans-serif;
 										font-size: 0.8rem;
-										color: ${theme.colors.grey_5};
-										cursor: pointer;
-										user-select: none;
-									`}
-								>
-									<input
-										type="checkbox"
-										checked={!deselectedTypes.has(type)}
-										onChange={() => toggleType(type)}
-										css={css`accent-color: ${theme.colors.primary}; cursor: pointer;`}
-									/>
-									{label}
-									{totals[type] !== undefined && (
-										<span css={css`color: ${theme.colors.grey_3}; font-size: 0.75rem;`}>
-											({totals[type]})
-										</span>
-									)}
-								</label>
-							))}
-							{deselectedTypes.size > 0 && (
-								<button
-									onClick={() => { setDeselectedTypes(new Set()); setPage(1); }}
-									css={css`
-										font-family: 'Geomanist', sans-serif;
-										font-size: 0.75rem;
-										padding: 3px 10px;
-										border: 1px solid ${theme.colors.grey_2};
-										border-radius: 6px;
-										background: ${theme.colors.white};
 										color: ${theme.colors.grey_3};
-										cursor: pointer;
-										margin-left: 4px;
-										&:hover { color: ${theme.colors.primary}; border-color: ${theme.colors.primary_pale}; }
+										margin: 4px 0 0;
 									`}
 								>
-									Reset filters
-								</button>
-							)}
-						</div>
-
-						{/* Search */}
-						<input
-							type="text"
-							placeholder="Search genes…"
-							value={search}
-							onChange={(e) => handleSearch(e.target.value)}
-							css={css`
-								font-family: 'Geomanist', sans-serif;
-								font-size: 0.875rem;
-								width: 100%;
-								box-sizing: border-box;
-								padding: 8px 12px;
-								border: 1px solid ${theme.colors.grey_2};
-								border-radius: 6px;
-								outline: none;
-								margin-bottom: 12px;
-								color: ${theme.colors.black};
-								&:focus { border-color: ${theme.colors.primary_pale}; }
-							`}
-						/>
-
-						{filtered.length > 0 ? (
-							<>
-								<table css={css`width: 100%; border-collapse: collapse; table-layout: fixed;`}>
-									<thead>
-										<tr>
-											{[
-												{ label: 'Gene', width: '20%' },
-												{ label: 'Relationship', width: '30%' },
-												{ label: 'Disease', width: '50%' },
-											].map((col) => (
-												<th
-													key={col.label}
-													css={css`
-														width: ${col.width};
-														text-align: left;
-														font-family: 'Geomanist', sans-serif;
-														font-size: 0.72rem;
-														font-weight: 700;
-														text-transform: uppercase;
-														letter-spacing: 0.5px;
-														color: ${theme.colors.grey_3};
-														padding: 8px 12px;
-														border-bottom: 2px solid ${theme.colors.grey_2};
-													`}
-												>
-													{col.label}
-												</th>
-											))}
-										</tr>
-									</thead>
-									<tbody>
-										{paginated.map((item) => (
-											<tr
-												key={item.id}
-												css={css`
-													border-bottom: 1px solid ${theme.colors.grey_1};
-													&:hover { background: ${theme.colors.grey_1}; }
-												`}
-											>
-												<td
-													css={css`
-														font-family: 'Geomanist', sans-serif;
-														font-size: 0.875rem;
-														font-weight: 700;
-														color: ${theme.colors.primary};
-														padding: 9px 12px;
-													`}
-												>
-													{item.subject_label ?? '—'}
-												</td>
-												<td
-													css={css`
-														font-family: 'Geomanist', sans-serif;
-														font-size: 0.8rem;
-														color: ${theme.colors.grey_5};
-														padding: 9px 12px;
-													`}
-												>
-													{cleanPredicate(item.predicate)}
-												</td>
-												<td
-													css={css`
-														font-family: 'Geomanist', sans-serif;
-														font-size: 0.8rem;
-														color: ${theme.colors.grey_5};
-														padding: 9px 12px;
-													`}
-												>
-													{item.object_label ?? '—'}
-												</td>
-											</tr>
-										))}
-									</tbody>
-								</table>
-
-								{/* Pagination */}
-								<div
-									css={css`
-										display: flex;
-										align-items: center;
-										justify-content: space-between;
-										margin-top: 16px;
-									`}
-								>
-									<span
-										css={css`
-											font-family: 'Geomanist', sans-serif;
-											font-size: 0.8rem;
-											color: ${theme.colors.grey_3};
-										`}
-									>
-										{(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, filtered.length)} of{' '}
-										{filtered.length}
-									</span>
-									<div css={css`display: flex; gap: 8px;`}>
-										{[
-											{ label: '«', action: () => setPage(1), disabled: page === 1, title: 'First page' },
-											{ label: 'Previous', action: () => setPage((p) => p - 1), disabled: page === 1, title: 'Previous page' },
-											{ label: 'Next', action: () => setPage((p) => p + 1), disabled: page === totalPages, title: 'Next page' },
-											{ label: '»', action: () => setPage(totalPages), disabled: page === totalPages, title: 'Last page' },
-										].map((btn) => (
-											<button
-												key={btn.label}
-												onClick={btn.action}
-												disabled={btn.disabled}
-												title={btn.title}
-												css={btnCss}
-											>
-												{btn.label}
-											</button>
-										))}
-									</div>
-								</div>
-							</>
-						) : (
-							<p
+									{selectedPhenotypes.length} phenotype{selectedPhenotypes.length !== 1 ? 's' : ''}
+								</p>
+							</div>
+							<button
+								onClick={() => setSelectedGene(null)}
 								css={css`
 									font-family: 'Geomanist', sans-serif;
-									font-size: 0.85rem;
+									font-size: 1rem;
 									color: ${theme.colors.grey_3};
-									text-align: center;
-									padding: 24px 0;
+									background: none;
+									border: none;
+									cursor: pointer;
+									padding: 4px 8px;
+									border-radius: 4px;
+									line-height: 1;
+									margin-left: 16px;
+									flex-shrink: 0;
+									&:hover { background: ${theme.colors.grey_1}; color: ${theme.colors.grey_5}; }
 								`}
 							>
-								{search
-									? `No genes match "${search}" with the selected filters.`
-									: 'No genes match the selected filters.'}
-							</p>
-						)}
-					</>
-				)}
-			</div>
-		</section>
+								✕
+							</button>
+						</div>
+
+						{/* Modal body — scrollable */}
+						<div
+							css={css`
+								overflow-y: auto;
+								padding: 16px 24px 24px;
+							`}
+						>
+							{selectedPhenotypes.length > 0 ? (
+								<ul css={css`list-style: none; margin: 0; padding: 0;`}>
+									{selectedPhenotypes.map((ph) => (
+										<li
+											key={ph}
+											css={css`
+												display: flex;
+												align-items: baseline;
+												gap: 10px;
+												padding: 7px 0;
+												border-bottom: 1px solid ${theme.colors.grey_1};
+												&:last-child { border-bottom: none; }
+											`}
+										>
+											<span
+												css={css`
+													width: 6px;
+													height: 6px;
+													border-radius: 50%;
+													background: ${theme.colors.primary_pale};
+													flex-shrink: 0;
+													margin-top: 5px;
+												`}
+											/>
+											<span
+												css={css`
+													font-family: 'Geomanist', sans-serif;
+													font-size: 0.875rem;
+													color: ${theme.colors.black};
+													line-height: 1.4;
+												`}
+											>
+												{ph}
+											</span>
+										</li>
+									))}
+								</ul>
+							) : (
+								<p
+									css={css`
+										font-family: 'Geomanist', sans-serif;
+										font-size: 0.85rem;
+										color: ${theme.colors.grey_3};
+										text-align: center;
+										padding: 24px 0;
+									`}
+								>
+									No phenotype data available for this gene.
+								</p>
+							)}
+						</div>
+					</div>
+				</div>
+			)}
+		</>
 	);
 };
 

@@ -8,7 +8,6 @@ const NAV_ITEMS = [
 	{ id: 'overview', label: 'Disease Overview' },
 	{ id: 'phenotypes', label: 'Phenotypes' },
 	{ id: 'genes', label: 'Genes' },
-	{ id: 'gene-phenotype', label: 'Gene–Phenotype' },
 	{ id: 'disease-models', label: 'Disease Models' },
 	{ id: 'hierarchy', label: 'Disease Hierarchy' },
 ];
@@ -47,9 +46,8 @@ const SideNav = (): ReactElement => {
 				position: sticky;
 				top: ${NAV_HEIGHT}px;
 				align-self: flex-start;
-				box-shadow: 3px 0 16px rgba(0, 0, 0, 0.07);
 				padding: 32px 0;
-				background: ${theme.colors.white};
+				background: transparent;
 			`}
 		>
 			<p
@@ -77,13 +75,13 @@ const SideNav = (): ReactElement => {
 				))}
 
 				{/* Separator + footer link */}
-				<li
-					css={css`
-						margin-top: 16px;
-						padding-top: 16px;
-						border-top: 1px solid ${theme.colors.grey_2};
-					`}
-				>
+				<li css={css`margin-top: 8px;`}>
+					<div
+						css={css`
+							margin: 0 20px 8px;
+							border-top: 1px solid ${theme.colors.grey_2};
+						`}
+					/>
 					<a href="#page-footer" onClick={scrollTo('page-footer')} css={linkCss}>
 						Funding & Credits
 					</a>
