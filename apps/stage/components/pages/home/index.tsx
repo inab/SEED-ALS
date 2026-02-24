@@ -1,11 +1,12 @@
 import { ReactElement } from 'react';
-import PageLayout from '../../PageLayout';
+import PageHead from '../../Head';
 import HomeContent from './HomeContent';
 
 const Home = (): ReactElement => (
-	<PageLayout>
+	<>
+		<PageHead />
 		<HomeContent />
-	</PageLayout>
+	</>
 );
 
 export default Home;

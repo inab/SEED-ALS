@@ -20,7 +20,7 @@ const DiseaseHeader = ({ entity }: DiseaseHeaderProps): ReactElement => {
 				scroll-margin-top: 80px;
 			`}
 		>
-			<div css={css`max-width: 860px; margin: 0 auto;`}>
+			<div css={css`max-width: 1400px; margin: 0 auto;`}>
 				<a
 					href={`https://monarchinitiative.org/disease/${entity.id}`}
 					target="_blank"
@@ -70,7 +70,7 @@ const DiseaseHeader = ({ entity }: DiseaseHeaderProps): ReactElement => {
 							font-weight: 300;
 							opacity: 0.9;
 							line-height: 1.7;
-							max-width: 760px;
+							max-width: 960px;
 							margin: 0 0 28px;
 						`}
 					>
