@@ -5,7 +5,7 @@ import defaultTheme from '../../theme';
 import { useMonarchData } from '../../../global/hooks/useMonarchData';
 import { ALS_MONDO_ID } from '../../../global/utils/constants';
 import DiseaseHeader from './DiseaseHeader';
-// import SideNav from './SideNav';                          // pending
+import SideNav from './SideNav';
 // import SummaryCards from './SummaryCards';                // pending
 // import PhenotypeOverview from './PhenotypeOverview';      // pending
 // import GenesTable from './GenesTable';                    // pending
@@ -53,9 +53,32 @@ const AlsOverview = (): ReactElement => {
 				</div>
 			)}
 
-			{/* Main content */}
 			{entity && (
-				<DiseaseHeader entity={entity} />
+				<>
+					{/* Full-width gradient header */}
+					<DiseaseHeader entity={entity} />
+
+					{/* Two-column layout: sidebar fixed left + content */}
+					<div
+						css={css`
+							display: flex;
+							width: 100%;
+							align-items: flex-start;
+						`}
+					>
+						<SideNav />
+
+						<main
+							css={css`
+								flex: 1;
+								min-width: 0;
+								padding: 40px 48px 72px;
+							`}
+						>
+							{/* sections will be added here as issues are completed */}
+						</main>
+					</div>
+				</>
 			)}
 		</PageLayout>
 	);

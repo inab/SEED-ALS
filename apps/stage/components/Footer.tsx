@@ -4,6 +4,7 @@ import defaultTheme from './theme';
 const Footer = () => {
 	return (
 		<div
+			id="page-footer"
 			css={(theme: typeof defaultTheme) => css`
 				background-color: ${theme.colors.white};
 				box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.08);
