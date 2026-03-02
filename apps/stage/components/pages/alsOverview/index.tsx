@@ -10,7 +10,7 @@ import SummaryCards from './SummaryCards';
 import PhenotypeOverview from './PhenotypeOverview';
 import GenesTable from './GenesTable';
 import DiseaseModels from './DiseaseModels';
-// import DiseaseHierarchy from './DiseaseHierarchy';        // pending
+import DiseaseHierarchy from './DiseaseHierarchy';
 
 const AlsOverview = (): ReactElement => {
 	const theme: typeof defaultTheme = useTheme();
@@ -96,6 +96,14 @@ const AlsOverview = (): ReactElement => {
 
 							<div css={sectionCardCss}>
 								<DiseaseModels fetchAssociations={fetchAssociations} />
+							</div>
+
+							<div css={sectionCardCss}>
+								<DiseaseHierarchy
+									hierarchy={entity.node_hierarchy}
+									diseaseName={entity.name}
+									diseaseId={entity.id}
+								/>
 							</div>
 						</main>
 					</div>
