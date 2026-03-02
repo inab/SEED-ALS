@@ -1,4 +1,4 @@
-import { MONARCH_API_BASE_URL, MONARCH_ASSOCIATION_CATEGORIES } from '../utils/constants';
+import { MONARCH_API_BASE_URL, ALS_ASSOCIATION_CATEGORIES } from '../utils/constants';
 import { MonarchEntity, MonarchAssociationResponse } from '../types/monarch';
 
 /**
@@ -25,16 +25,16 @@ export async function fetchDiseaseAssociations(
 	offset: number = 0,
 ): Promise<MonarchAssociationResponse> {
 	// The query parameter depends on the direction of the association:
-	// - PHENOTYPE: disease is the subject (disease → phenotype)
+	// - DISEASE_TO_PHENOTYPE: disease is the subject (disease → phenotype)
 	// - GENE_TO_PHENOTYPE: uses 'entity' for indirect resolution (gene–phenotype links for disease-associated genes)
-	// - All other categories (CAUSAL_GENE, CORRELATED_GENE, DISEASE_MODEL): disease is the object (gene/genotype → disease)
+	// - All other categories (CAUSAL_GENE_TO_DISEASE, CORRELATED_GENE_TO_DISEASE, GENOTYPE_TO_DISEASE): disease is the object (gene/genotype → disease)
 	let params: URLSearchParams;
-	if (category === MONARCH_ASSOCIATION_CATEGORIES.PHENOTYPE) {
+	if (category === ALS_ASSOCIATION_CATEGORIES.DISEASE_TO_PHENOTYPE) {
 		params = new URLSearchParams({ subject: diseaseId, category, limit: String(limit), offset: String(offset) });
-	} else if (category === MONARCH_ASSOCIATION_CATEGORIES.GENE_TO_PHENOTYPE) {
+	} else if (category === ALS_ASSOCIATION_CATEGORIES.GENE_TO_PHENOTYPE) {
 		params = new URLSearchParams({ entity: diseaseId, category, limit: String(limit), offset: String(offset) });
 	} else {
-		// CAUSAL_GENE, CORRELATED_GENE, DISEASE_MODEL — disease is the object
+		// CAUSAL_GENE_TO_DISEASE, CORRELATED_GENE_TO_DISEASE, GENOTYPE_TO_DISEASE — disease is the object
 		params = new URLSearchParams({ object: diseaseId, category, limit: String(limit), offset: String(offset) });
 	}
 
