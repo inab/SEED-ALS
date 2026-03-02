@@ -6,7 +6,7 @@ import { useMonarchData } from '../../../global/hooks/useMonarchData';
 import { ALS_MONDO_ID } from '../../../global/utils/constants';
 import DiseaseHeader from './DiseaseHeader';
 import SideNav from './SideNav';
-// import SummaryCards from './SummaryCards';                // pending
+import SummaryCards from './SummaryCards';
 // import PhenotypeOverview from './PhenotypeOverview';      // pending
 // import GenesTable from './GenesTable';                    // pending
 // import GeneToPhenotype from './GeneToPhenotype';          // pending
@@ -55,10 +55,8 @@ const AlsOverview = (): ReactElement => {
 
 			{entity && (
 				<>
-					{/* Full-width gradient header */}
 					<DiseaseHeader entity={entity} />
 
-					{/* Two-column layout: sidebar fixed left + content */}
 					<div
 						css={css`
 							display: flex;
@@ -75,7 +73,7 @@ const AlsOverview = (): ReactElement => {
 								padding: 40px 48px 72px;
 							`}
 						>
-							{/* sections will be added here as issues are completed */}
+							<SummaryCards associationCounts={entity.association_counts} />
 						</main>
 					</div>
 				</>
