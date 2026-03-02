@@ -9,13 +9,23 @@ import SideNav from './SideNav';
 import SummaryCards from './SummaryCards';
 import PhenotypeOverview from './PhenotypeOverview';
 import GenesTable from './GenesTable';
-// import GeneToPhenotype from './GeneToPhenotype';          // pending
 // import DiseaseModels from './DiseaseModels';              // pending
 // import DiseaseHierarchy from './DiseaseHierarchy';        // pending
 
 const AlsOverview = (): ReactElement => {
 	const theme: typeof defaultTheme = useTheme();
 	const { entity, loading, error, fetchAssociations } = useMonarchData(ALS_MONDO_ID);
+
+	const sectionCardCss = css`
+		background: ${theme.colors.white};
+		border-radius: 8px;
+		padding: 32px 40px 40px;
+		margin-bottom: 20px;
+		box-shadow: 0 3px 16px rgba(0, 0, 0, 0.07);
+		& > section {
+			margin-bottom: 0;
+		}
+	`;
 
 	return (
 		<PageLayout subtitle="ALS Overview">
@@ -70,12 +80,19 @@ const AlsOverview = (): ReactElement => {
 							css={css`
 								flex: 1;
 								min-width: 0;
-								padding: 40px 48px 72px;
+								padding: 32px 40px 72px;
+								background: ${theme.colors.grey_1};
 							`}
 						>
 							<SummaryCards associationCounts={entity.association_counts} />
-							<PhenotypeOverview fetchAssociations={fetchAssociations} />
-							<GenesTable fetchAssociations={fetchAssociations} />
+
+							<div css={sectionCardCss}>
+								<PhenotypeOverview fetchAssociations={fetchAssociations} />
+							</div>
+
+							<div css={sectionCardCss}>
+								<GenesTable fetchAssociations={fetchAssociations} />
+							</div>
 						</main>
 					</div>
 				</>
