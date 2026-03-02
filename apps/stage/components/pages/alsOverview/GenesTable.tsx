@@ -70,12 +70,12 @@ const GenesTable = ({ fetchAssociations }: GenesTableProps): ReactElement => {
 
 		async function loadGenePhenotypes() {
 			try {
-				const first = await fetchAssociations(MONARCH_ASSOCIATION_CATEGORIES.GENE_TO_PHENOTYPE, GENE_PH_BATCH, 0);
+				const first = await fetchAssociations(ALS_ASSOCIATION_CATEGORIES.GENE_TO_PHENOTYPE, GENE_PH_BATCH, 0);
 				let all = first.items;
 				let offset = GENE_PH_BATCH;
 				while (offset < first.total) {
 					const next = await fetchAssociations(
-						MONARCH_ASSOCIATION_CATEGORIES.GENE_TO_PHENOTYPE,
+						ALS_ASSOCIATION_CATEGORIES.GENE_TO_PHENOTYPE,
 						GENE_PH_BATCH,
 						offset,
 					);
