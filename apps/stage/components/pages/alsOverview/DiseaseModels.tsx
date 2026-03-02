@@ -1,7 +1,7 @@
 import { css, useTheme } from '@emotion/react';
 import { useState, useEffect, ReactElement } from 'react';
 import { MonarchAssociation, MonarchAssociationResponse } from '../../../global/types/monarch';
-import { MONARCH_ASSOCIATION_CATEGORIES } from '../../../global/utils/constants';
+import { ALS_ASSOCIATION_CATEGORIES } from '../../../global/utils/constants';
 import defaultTheme from '../../theme';
 
 const PAGE_SIZE = 10;
@@ -20,7 +20,7 @@ const DiseaseModels = ({ fetchAssociations }: DiseaseModelsProps): ReactElement 
 	const [page, setPage] = useState(1);
 
 	useEffect(() => {
-		fetchAssociations(MONARCH_ASSOCIATION_CATEGORIES.DISEASE_MODEL, 500, 0)
+		fetchAssociations(ALS_ASSOCIATION_CATEGORIES.GENOTYPE_TO_DISEASE, 500, 0)
 			.then((res) => {
 				setItems(res.items);
 				setLoading(false);
