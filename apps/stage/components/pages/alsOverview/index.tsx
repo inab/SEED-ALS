@@ -8,7 +8,7 @@ import DiseaseHeader from './DiseaseHeader';
 import SideNav from './SideNav';
 import SummaryCards from './SummaryCards';
 import PhenotypeOverview from './PhenotypeOverview';
-// import GenesTable from './GenesTable';                    // pending
+import GenesTable from './GenesTable';
 // import GeneToPhenotype from './GeneToPhenotype';          // pending
 // import DiseaseModels from './DiseaseModels';              // pending
 // import DiseaseHierarchy from './DiseaseHierarchy';        // pending
@@ -75,6 +75,7 @@ const AlsOverview = (): ReactElement => {
 						>
 							<SummaryCards associationCounts={entity.association_counts} />
 							<PhenotypeOverview fetchAssociations={fetchAssociations} />
+							<GenesTable fetchAssociations={fetchAssociations} />
 						</main>
 					</div>
 				</>
