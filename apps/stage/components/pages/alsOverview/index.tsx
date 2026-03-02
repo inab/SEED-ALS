@@ -9,7 +9,7 @@ import SideNav from './SideNav';
 import SummaryCards from './SummaryCards';
 import PhenotypeOverview from './PhenotypeOverview';
 import GenesTable from './GenesTable';
-// import DiseaseModels from './DiseaseModels';              // pending
+import DiseaseModels from './DiseaseModels';
 // import DiseaseHierarchy from './DiseaseHierarchy';        // pending
 
 const AlsOverview = (): ReactElement => {
@@ -92,6 +92,10 @@ const AlsOverview = (): ReactElement => {
 
 							<div css={sectionCardCss}>
 								<GenesTable fetchAssociations={fetchAssociations} />
+							</div>
+
+							<div css={sectionCardCss}>
+								<DiseaseModels fetchAssociations={fetchAssociations} />
 							</div>
 						</main>
 					</div>
