@@ -1,7 +1,7 @@
 import { css, useTheme } from '@emotion/react';
 import { useState, useEffect, ReactElement } from 'react';
 import { MonarchAssociation, MonarchAssociationResponse } from '../../../global/types/monarch';
-import { MONARCH_ASSOCIATION_CATEGORIES } from '../../../global/utils/constants';
+import { ALS_ASSOCIATION_CATEGORIES } from '../../../global/utils/constants';
 import defaultTheme from '../../theme';
 
 const FREQ_RANK: Record<string, number> = {
@@ -35,12 +35,12 @@ const PhenotypeOverview = ({ fetchAssociations }: PhenotypeOverviewProps): React
 
 		async function loadAll() {
 			try {
-				const first = await fetchAssociations(MONARCH_ASSOCIATION_CATEGORIES.PHENOTYPE, BATCH, 0);
+				const first = await fetchAssociations(ALS_ASSOCIATION_CATEGORIES.DISEASE_TO_PHENOTYPE, BATCH, 0);
 				let all = first.items;
 
 				let offset = BATCH;
 				while (offset < first.total) {
-					const next = await fetchAssociations(MONARCH_ASSOCIATION_CATEGORIES.PHENOTYPE, BATCH, offset);
+					const next = await fetchAssociations(ALS_ASSOCIATION_CATEGORIES.DISEASE_TO_PHENOTYPE, BATCH, offset);
 					all = [...all, ...next.items];
 					offset += BATCH;
 				}
