@@ -1,14 +1,14 @@
 import { css, useTheme } from '@emotion/react';
 import { useState, useEffect, ReactElement } from 'react';
 import { MonarchAssociation, MonarchAssociationResponse } from '../../../global/types/monarch';
-import { MONARCH_ASSOCIATION_CATEGORIES } from '../../../global/utils/constants';
+import { ALS_ASSOCIATION_CATEGORIES } from '../../../global/utils/constants';
 import defaultTheme from '../../theme';
 
 const PAGE_SIZE = 10;
 
 const RELATIONSHIP_LABELS: Record<string, string> = {
-	[MONARCH_ASSOCIATION_CATEGORIES.CAUSAL_GENE]: 'Causal',
-	[MONARCH_ASSOCIATION_CATEGORIES.CORRELATED_GENE]: 'Correlated',
+	[ALS_ASSOCIATION_CATEGORIES.CAUSAL_GENE_TO_DISEASE]: 'Causal',
+	[ALS_ASSOCIATION_CATEGORIES.CORRELATED_GENE_TO_DISEASE]: 'Correlated',
 };
 
 const cleanPredicate = (predicate: string) =>
@@ -36,22 +36,22 @@ const GenesTable = ({ fetchAssociations }: GenesTableProps): ReactElement => {
 		async function loadAll() {
 			try {
 				const [causal, correlated] = await Promise.all([
-					fetchAssociations(MONARCH_ASSOCIATION_CATEGORIES.CAUSAL_GENE, 100, 0),
-					fetchAssociations(MONARCH_ASSOCIATION_CATEGORIES.CORRELATED_GENE, 100, 0),
+					fetchAssociations(ALS_ASSOCIATION_CATEGORIES.CAUSAL_GENE_TO_DISEASE, 100, 0),
+					fetchAssociations(ALS_ASSOCIATION_CATEGORIES.CORRELATED_GENE_TO_DISEASE, 100, 0),
 				]);
 
 				const tag = (items: MonarchAssociation[], type: string): TaggedAssociation[] =>
 					items.map((item) => ({ ...item, _relationshipType: type }));
 
 				const merged = [
-					...tag(causal.items, MONARCH_ASSOCIATION_CATEGORIES.CAUSAL_GENE),
-					...tag(correlated.items, MONARCH_ASSOCIATION_CATEGORIES.CORRELATED_GENE),
+					...tag(causal.items, ALS_ASSOCIATION_CATEGORIES.CAUSAL_GENE_TO_DISEASE),
+					...tag(correlated.items, ALS_ASSOCIATION_CATEGORIES.CORRELATED_GENE_TO_DISEASE),
 				].sort((a, b) => (a.subject_label ?? '').localeCompare(b.subject_label ?? ''));
 
 				setItems(merged);
 				setTotals({
-					[MONARCH_ASSOCIATION_CATEGORIES.CAUSAL_GENE]: causal.total,
-					[MONARCH_ASSOCIATION_CATEGORIES.CORRELATED_GENE]: correlated.total,
+					[ALS_ASSOCIATION_CATEGORIES.CAUSAL_GENE_TO_DISEASE]: causal.total,
+					[ALS_ASSOCIATION_CATEGORIES.CORRELATED_GENE_TO_DISEASE]: correlated.total,
 				});
 				setLoading(false);
 			} catch (err) {
