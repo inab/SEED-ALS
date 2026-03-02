@@ -98,11 +98,11 @@ export const INTERNAL_API_PROXY = {
 export const MONARCH_API_BASE_URL = 'https://api-v3.monarchinitiative.org/v3/api';
 export const ALS_MONDO_ID = 'MONDO:0004976';
 
-export enum MONARCH_ASSOCIATION_CATEGORIES {
-	CAUSAL_GENE = 'biolink:CausalGeneToDiseaseAssociation',
-	CORRELATED_GENE = 'biolink:CorrelatedGeneToDiseaseAssociation',
-	PHENOTYPE = 'biolink:DiseaseToPhenotypicFeatureAssociation',
+export enum ALS_ASSOCIATION_CATEGORIES {
+	CAUSAL_GENE_TO_DISEASE = 'biolink:CausalGeneToDiseaseAssociation',
+	CORRELATED_GENE_TO_DISEASE = 'biolink:CorrelatedGeneToDiseaseAssociation',
+	DISEASE_TO_PHENOTYPE = 'biolink:DiseaseToPhenotypicFeatureAssociation',
 	GENE_TO_PHENOTYPE = 'biolink:GeneToPhenotypicFeatureAssociation',
-	DISEASE_MODEL = 'biolink:GenotypeToDiseaseAssociation',
-	DISEASE = 'biolink:DiseaseOrPhenotypicFeatureToGeneticInheritanceAssociation',
+	GENOTYPE_TO_DISEASE = 'biolink:GenotypeToDiseaseAssociation',
+	DISEASE_TO_GENETIC_INHERITANCE = 'biolink:DiseaseOrPhenotypicFeatureToGeneticInheritanceAssociation',
 }

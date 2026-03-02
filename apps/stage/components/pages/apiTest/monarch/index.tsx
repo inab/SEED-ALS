@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import { useEffect, useState, ReactElement } from 'react';
 import PageLayout from '../../../PageLayout';
 import { useMonarchData } from '../../../../global/hooks/useMonarchData';
-import { ALS_MONDO_ID, MONARCH_ASSOCIATION_CATEGORIES } from '../../../../global/utils/constants';
+import { ALS_MONDO_ID, ALS_ASSOCIATION_CATEGORIES } from '../../../../global/utils/constants';
 import { MonarchAssociationResponse } from '../../../../global/types/monarch';
 
 // ─── helpers ────────────────────────────────────────────────────────────────
@@ -180,27 +180,27 @@ const MonarchTest = (): ReactElement => {
 					<>
 						<AssocBlock
 							label={`GET /association — category: DiseaseToPhenotypicFeature`}
-							category={MONARCH_ASSOCIATION_CATEGORIES.PHENOTYPE}
+							category={ALS_ASSOCIATION_CATEGORIES.DISEASE_TO_PHENOTYPE}
 							fetchAssociations={fetchAssociations}
 						/>
 						<AssocBlock
 							label={`GET /association — category: CausalGeneToDiseaseAssociation`}
-							category={MONARCH_ASSOCIATION_CATEGORIES.CAUSAL_GENE}
+							category={ALS_ASSOCIATION_CATEGORIES.CAUSAL_GENE_TO_DISEASE}
 							fetchAssociations={fetchAssociations}
 						/>
 						<AssocBlock
 							label={`GET /association — category: CorrelatedGeneToDiseaseAssociation`}
-							category={MONARCH_ASSOCIATION_CATEGORIES.CORRELATED_GENE}
+							category={ALS_ASSOCIATION_CATEGORIES.CORRELATED_GENE_TO_DISEASE}
 							fetchAssociations={fetchAssociations}
 						/>
 						<AssocBlock
 							label={`GET /association — category: GeneToPhenotypicFeatureAssociation`}
-							category={MONARCH_ASSOCIATION_CATEGORIES.GENE_TO_PHENOTYPE}
+							category={ALS_ASSOCIATION_CATEGORIES.GENE_TO_PHENOTYPE}
 							fetchAssociations={fetchAssociations}
 						/>
 						<AssocBlock
 							label={`GET /association — category: GenotypeToDiseaseAssociation (Disease Models)`}
-							category={MONARCH_ASSOCIATION_CATEGORIES.DISEASE_MODEL}
+							category={ALS_ASSOCIATION_CATEGORIES.GENOTYPE_TO_DISEASE}
 							fetchAssociations={fetchAssociations}
 						/>
 					</>
