@@ -14,7 +14,6 @@ const API_TESTS = [
 		label: 'EGA Metadata API',
 		description: 'Studies and datasets metadata endpoints',
 		href: '/api-test/ega',
-		disabled: true,
 	},
 ];
 
@@ -39,7 +38,7 @@ const ApiTestIndex = (): ReactElement => (
 				{API_TESTS.map((test) => (
 					<a
 						key={test.key}
-						href={test.disabled ? undefined : test.href}
+						href={test.href}
 						css={css`
 							display: block;
 							padding: 20px 24px;
@@ -48,8 +47,6 @@ const ApiTestIndex = (): ReactElement => (
 							border-radius: 8px;
 							text-decoration: none;
 							color: inherit;
-							opacity: ${test.disabled ? 0.45 : 1};
-							pointer-events: ${test.disabled ? 'none' : 'auto'};
 							transition: border-color 0.15s ease, background 0.15s ease;
 
 							&:hover {
@@ -60,11 +57,6 @@ const ApiTestIndex = (): ReactElement => (
 					>
 						<p css={css`font-family: monospace; font-size: 0.95rem; font-weight: 700; margin: 0 0 4px;`}>
 							{test.label}
-							{test.disabled && (
-								<span css={css`font-size: 0.72rem; font-weight: 400; margin-left: 8px; color: #6c757d;`}>
-									(pending)
-								</span>
-							)}
 						</p>
 						<p css={css`font-family: monospace; font-size: 0.8rem; color: #6c757d; margin: 0;`}>
 							{test.description}
