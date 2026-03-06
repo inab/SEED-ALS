@@ -47,7 +47,8 @@ const SideNav = (): ReactElement => {
 				top: ${NAV_HEIGHT}px;
 				align-self: flex-start;
 				padding: 32px 0;
-				background: transparent;
+				background: ${theme.colors.white};
+			box-shadow: 2px 0 8px rgba(0, 0, 0, 0.07);
 			`}
 		>
 			<p
