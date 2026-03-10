@@ -18,9 +18,10 @@ const PAGE_SIZE = 10;
 
 interface PhenotypeOverviewProps {
 	fetchAssociations: (cat: string, limit?: number, offset?: number) => Promise<MonarchAssociationResponse>;
+	onLoaded?: () => void;
 }
 
-const PhenotypeOverview = ({ fetchAssociations }: PhenotypeOverviewProps): ReactElement => {
+const PhenotypeOverview = ({ fetchAssociations, onLoaded }: PhenotypeOverviewProps): ReactElement => {
 	const theme: typeof defaultTheme = useTheme();
 	const [items, setItems] = useState<MonarchAssociation[]>([]);
 	const [total, setTotal] = useState(0);
@@ -48,9 +49,11 @@ const PhenotypeOverview = ({ fetchAssociations }: PhenotypeOverviewProps): React
 				setItems(all);
 				setTotal(first.total);
 				setLoading(false);
+				onLoaded?.();
 			} catch (err) {
 				setError(err instanceof Error ? err.message : 'Failed to load phenotypes');
 				setLoading(false);
+				onLoaded?.();
 			}
 		}
 
@@ -183,17 +186,6 @@ const PhenotypeOverview = ({ fetchAssociations }: PhenotypeOverviewProps): React
 					padding-top: 24px;
 				`}
 			>
-				{loading && (
-					<p
-						css={css`
-							font-family: 'Geomanist', sans-serif;
-							font-size: 0.875rem;
-							color: ${theme.colors.grey_3};
-						`}
-					>
-						Loading phenotypes…
-					</p>
-				)}
 				{error && (
 					<p
 						css={css`

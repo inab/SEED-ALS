@@ -20,29 +20,88 @@
  */
 
 import { css } from '@emotion/react';
+import { ReactElement } from 'react';
 
-// TODO: this is a placeholder Loader
-const Loader = () => {
+interface LoaderProps {
+	message?: string;
+}
+
+const Loader = ({ message }: LoaderProps): ReactElement => {
 	return (
 		<div
-			css={(theme) => css`
-				border: 10px solid ${theme.colors.grey_3};
-				border-top: 10px solid ${theme.colors.secondary_dark};
-				border-radius: 50%;
-				width: 60px;
-				height: 60px;
-				animation: spin 2s linear infinite;
-
-				@keyframes spin {
-					0% {
-						transform: rotate(0deg);
-					}
-					100% {
-						transform: rotate(360deg);
-					}
-				}
+			css={css`
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 20px;
 			`}
-		/>
+		>
+			<div
+				css={css`
+					position: relative;
+					width: 64px;
+					height: 64px;
+				`}
+			>
+				{/* Outer ring — clockwise */}
+				<div
+					css={css`
+						position: absolute;
+						inset: 0;
+						border-radius: 50%;
+						border: 5px solid transparent;
+						border-top-color: #003b75;
+						border-right-color: #003b75;
+						animation: spinCW 1.2s linear infinite;
+
+						@keyframes spinCW {
+							0% {
+								transform: rotate(0deg);
+							}
+							100% {
+								transform: rotate(360deg);
+							}
+						}
+					`}
+				/>
+				{/* Inner ring — counter-clockwise */}
+				<div
+					css={css`
+						position: absolute;
+						inset: 10px;
+						border-radius: 50%;
+						border: 4px solid transparent;
+						border-top-color: #109ed9;
+						border-left-color: #109ed9;
+						animation: spinCCW 1.8s linear infinite;
+
+						@keyframes spinCCW {
+							0% {
+								transform: rotate(0deg);
+							}
+							100% {
+								transform: rotate(-360deg);
+							}
+						}
+					`}
+				/>
+			</div>
+
+			{message && (
+				<p
+					css={css`
+						font-family: 'Geomanist', sans-serif;
+						font-size: 0.95rem;
+						font-weight: 700;
+						color: #003b75;
+						margin: 0;
+						letter-spacing: 0.2px;
+					`}
+				>
+					{message}
+				</p>
+			)}
+		</div>
 	);
 };
 
