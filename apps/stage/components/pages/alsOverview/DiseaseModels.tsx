@@ -6,6 +6,8 @@ import defaultTheme from '../../theme';
 
 const PAGE_SIZE = 10;
 
+type SortKey = 'model' | 'organism' | 'subtype';
+
 interface DiseaseModelsProps {
 	fetchAssociations: (cat: string, limit?: number, offset?: number) => Promise<MonarchAssociationResponse>;
 	onLoaded?: () => void;
@@ -19,6 +21,8 @@ const DiseaseModels = ({ fetchAssociations, onLoaded }: DiseaseModelsProps): Rea
 	const [search, setSearch] = useState('');
 	const [deselectedOrgs, setDeselectedOrgs] = useState<Set<string>>(new Set());
 	const [page, setPage] = useState(1);
+	const [sortKey, setSortKey] = useState<SortKey>('model');
+	const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
 
 	useEffect(() => {
 		fetchAssociations(ALS_ASSOCIATION_CATEGORIES.GENOTYPE_TO_DISEASE, 500, 0)
@@ -51,7 +55,26 @@ const DiseaseModels = ({ fetchAssociations, onLoaded }: DiseaseModelsProps): Rea
 		setPage(1);
 	};
 
-	const filtered = items.filter(
+	const toggleSort = (key: SortKey) => {
+		if (sortKey === key) {
+			setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'));
+		} else {
+			setSortKey(key);
+			setSortDir('asc');
+		}
+		setPage(1);
+	};
+
+	const sorted = [...items].sort((a, b) => {
+		let va: string, vb: string;
+		if (sortKey === 'model') { va = a.subject_label ?? ''; vb = b.subject_label ?? ''; }
+		else if (sortKey === 'organism') { va = a.subject_taxon_label ?? ''; vb = b.subject_taxon_label ?? ''; }
+		else { va = a.object_label ?? ''; vb = b.object_label ?? ''; }
+		const cmp = va.localeCompare(vb);
+		return sortDir === 'asc' ? cmp : -cmp;
+	});
+
+	const filtered = sorted.filter(
 		(item) =>
 			(item.subject_label ?? '').toLowerCase().includes(search.toLowerCase()) &&
 			!deselectedOrgs.has(item.subject_taxon_label ?? 'Unknown'),
@@ -82,6 +105,12 @@ const DiseaseModels = ({ fetchAssociations, onLoaded }: DiseaseModelsProps): Rea
 			cursor: default;
 		}
 	`;
+
+	const columns: { label: string; width: string; sk: SortKey }[] = [
+		{ label: 'Model', width: '70%', sk: 'model' },
+		{ label: 'Organism', width: '10%', sk: 'organism' },
+		{ label: 'ALS subtype', width: '20%', sk: 'subtype' },
+	];
 
 	return (
 		<section
@@ -280,29 +309,42 @@ const DiseaseModels = ({ fetchAssociations, onLoaded }: DiseaseModelsProps): Rea
 								<table css={css`width: 100%; border-collapse: collapse; table-layout: fixed;`}>
 									<thead>
 										<tr>
-											{[
-												{ label: 'Model', width: '70%' },
-												{ label: 'Organism', width: '10%' },
-												{ label: 'ALS subtype', width: '20%' },
-											].map((col) => (
-												<th
-													key={col.label}
-													css={css`
-														width: ${col.width};
-														text-align: left;
-														font-family: 'Geomanist', sans-serif;
-														font-size: 0.72rem;
-														font-weight: 700;
-														text-transform: uppercase;
-														letter-spacing: 0.5px;
-														color: ${theme.colors.grey_3};
-														padding: 8px 12px;
-														border-bottom: 2px solid ${theme.colors.grey_2};
-													`}
-												>
-													{col.label}
-												</th>
-											))}
+											{columns.map((col) => {
+												const isActive = sortKey === col.sk;
+												return (
+													<th
+														key={col.label}
+														onClick={() => toggleSort(col.sk)}
+														css={css`
+															width: ${col.width};
+															text-align: left;
+															font-family: 'Geomanist', sans-serif;
+															font-size: 0.72rem;
+															font-weight: 700;
+															text-transform: uppercase;
+															letter-spacing: 0.5px;
+															color: ${isActive ? theme.colors.primary : theme.colors.grey_3};
+															padding: 8px 12px;
+															border-bottom: 2px solid ${theme.colors.grey_2};
+															cursor: pointer;
+															user-select: none;
+															&:hover { color: ${theme.colors.primary}; }
+														`}
+													>
+														<span css={css`display: inline-flex; align-items: center; gap: 4px;`}>
+															{col.label}
+															<span
+																css={css`
+																	font-size: 0.6rem;
+																	opacity: ${isActive ? 1 : 0.35};
+																`}
+															>
+																{isActive ? (sortDir === 'asc' ? '▲' : '▼') : '⇅'}
+															</span>
+														</span>
+													</th>
+												);
+											})}
 										</tr>
 									</thead>
 									<tbody>
