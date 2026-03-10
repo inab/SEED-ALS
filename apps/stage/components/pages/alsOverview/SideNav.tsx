@@ -43,51 +43,42 @@ const SideNav = (): ReactElement => {
 			css={css`
 				width: 220px;
 				flex-shrink: 0;
-				position: sticky;
-				top: ${NAV_HEIGHT}px;
-				align-self: flex-start;
-				padding: 32px 0;
 				background: ${theme.colors.white};
-			box-shadow: 2px 0 8px rgba(0, 0, 0, 0.07);
+				box-shadow: 2px 0 8px rgba(0, 0, 0, 0.8);
 			`}
 		>
-			<p
+			<div
 				css={css`
-					font-family: 'Geomanist', sans-serif;
-					font-size: 0.8rem;
-					font-weight: 700;
-					text-transform: uppercase;
-					letter-spacing: 0.8px;
-					color: ${theme.colors.grey_5};
-					margin: 0 0 8px;
-					padding: 0 20px;
+					position: sticky;
+					top: ${NAV_HEIGHT}px;
+					padding: 32px 0;
 				`}
 			>
-				Contents
-			</p>
+				<p
+					css={css`
+						font-family: 'Geomanist', sans-serif;
+						font-size: 0.8rem;
+						font-weight: 700;
+						text-transform: uppercase;
+						letter-spacing: 0.8px;
+						color: ${theme.colors.grey_5};
+						margin: 0 0 8px;
+						padding: 0 20px;
+					`}
+				>
+					Contents
+				</p>
 
-			<ul css={css`list-style: none; margin: 0; padding: 0;`}>
-				{NAV_ITEMS.map((item) => (
-					<li key={item.id}>
-						<a href={`#${item.id}`} onClick={scrollTo(item.id)} css={linkCss}>
-							{item.label}
-						</a>
-					</li>
-				))}
-
-				{/* Separator + footer link */}
-				<li css={css`margin-top: 8px;`}>
-					<div
-						css={css`
-							margin: 0 20px 8px;
-							border-top: 1px solid ${theme.colors.grey_2};
-						`}
-					/>
-					<a href="#page-footer" onClick={scrollTo('page-footer')} css={linkCss}>
-						Funding & Credits
-					</a>
-				</li>
-			</ul>
+				<ul css={css`list-style: none; margin: 0; padding: 0;`}>
+					{NAV_ITEMS.map((item) => (
+						<li key={item.id}>
+							<a href={`#${item.id}`} onClick={scrollTo(item.id)} css={linkCss}>
+								{item.label}
+							</a>
+						</li>
+					))}
+				</ul>
+			</div>
 		</nav>
 	);
 };
