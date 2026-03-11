@@ -27,7 +27,7 @@ const EgaExplorer = (): ReactElement => {
 
 	// Filter state
 	const [searchText, setSearchText] = useState('');
-	const [selectedStudyTypes, setSelectedStudyTypes] = useState<string[]>([]);
+	const [deselectedStudyTypes, setDeselectedStudyTypes] = useState<Set<string>>(new Set());
 
 	// Pagination
 	const [page, setPage] = useState(1);
@@ -72,7 +72,7 @@ const EgaExplorer = (): ReactElement => {
 	// Reset to page 1 when filters or sort change
 	useEffect(() => {
 		setPage(1);
-	}, [searchText, selectedStudyTypes, sortKey, sortDir]);
+	}, [searchText, deselectedStudyTypes, sortKey, sortDir]);
 
 	// Derived filter values
 	const allStudyTypes = Array.from(
@@ -88,14 +88,14 @@ const EgaExplorer = (): ReactElement => {
 				.toLowerCase();
 			if (!haystack.includes(q)) return false;
 		}
-		if (selectedStudyTypes.length > 0) {
-			if (!selectedStudyTypes.includes(study.study_type ?? '')) return false;
+		if (deselectedStudyTypes.size > 0) {
+			if (deselectedStudyTypes.has(study.study_type ?? '')) return false;
 		}
 		return true;
 	});
 
 	const studyTypeCount = allStudyTypes.length;
-	const hasActiveFilters = searchText !== '' || selectedStudyTypes.length > 0;
+	const hasActiveFilters = searchText !== '' || deselectedStudyTypes.size > 0;
 
 	const selectedStudy = studies.find((s) => s.accession_id === selectedStudyId) ?? null;
 	const selectedDatasets = selectedStudyId ? (datasetsMap[selectedStudyId] ?? null) : null;
@@ -139,14 +139,16 @@ const EgaExplorer = (): ReactElement => {
 	const paginated = sortedStudies.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
 	const toggleStudyType = (type: string) => {
-		setSelectedStudyTypes((prev) =>
-			prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type],
-		);
+		setDeselectedStudyTypes((prev) => {
+			const next = new Set(prev);
+			next.has(type) ? next.delete(type) : next.add(type);
+			return next;
+		});
 	};
 
 	const clearFilters = () => {
 		setSearchText('');
-		setSelectedStudyTypes([]);
+		setDeselectedStudyTypes(new Set());
 	};
 
 	const toggleSort = (key: SortKey) => {
@@ -346,7 +348,7 @@ const EgaExplorer = (): ReactElement => {
 													>
 														<input
 															type="checkbox"
-															checked={selectedStudyTypes.includes(type)}
+															checked={!deselectedStudyTypes.has(type)}
 															onChange={() => toggleStudyType(type)}
 															css={css`cursor: pointer; accent-color: ${theme.colors.primary};`}
 														/>
@@ -383,7 +385,40 @@ const EgaExplorer = (): ReactElement => {
 										</div>
 									</>
 								)}
+							<div
+								css={css`
+									margin-top: 40px;
+									padding: 20px 20px 0;
+									border-top: 1px solid ${theme.colors.grey_2};
+								`}
+							>
+								<p
+									css={css`
+										font-family: 'Geomanist', sans-serif;
+										font-size: 0.72rem;
+										color: ${theme.colors.grey_4};
+										margin: 0 0 10px;
+										line-height: 1.4;
+									`}
+								>
+									Data sourced from
+								</p>
+								<a href="https://ega-archive.org" target="_blank" rel="noopener noreferrer">
+									<img
+										src="/seed-als/logos/ega.png"
+										alt="EGA Archive"
+										css={css`
+											width: 50%;
+											max-width: 140px;
+											display: block;
+											opacity: 0.85;
+											transition: opacity 0.15s ease;
+											&:hover { opacity: 1; }
+										`}
+									/>
+								</a>
 							</div>
+						</div>
 						</aside>
 
 						{/* Main content */}
