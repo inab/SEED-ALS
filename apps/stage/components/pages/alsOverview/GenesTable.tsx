@@ -176,9 +176,9 @@ const GenesTable = ({ fetchAssociations, onLoaded }: GenesTableProps): ReactElem
 	const selectedPhenotypes = selectedGene ? (genePhMap[selectedGene] ?? []) : [];
 
 	const columns: { label: string; width: string; sk: SortKey }[] = [
-		{ label: 'Gene', width: '18%', sk: 'gene' },
-		{ label: 'Relationship', width: '22%', sk: 'relationship' },
-		{ label: 'Disease', width: '38%', sk: 'disease' },
+		{ label: 'Gene', width: '30%', sk: 'gene' },
+		{ label: 'Relationship', width: '30%', sk: 'relationship' },
+		{ label: 'Disease', width: '40%', sk: 'disease' },
 	];
 
 	return (
@@ -228,7 +228,7 @@ const GenesTable = ({ fetchAssociations, onLoaded }: GenesTableProps): ReactElem
 						line-height: 1.5;
 					`}
 				>
-					Genes causally linked to or statistically correlated with ALS. Click the phenotype count to see associated phenotypes.
+					Genes causally linked to or statistically correlated with ALS. Click a gene name to see its associated phenotypes.
 				</p>
 
 				<div
@@ -367,29 +367,12 @@ const GenesTable = ({ fetchAssociations, onLoaded }: GenesTableProps): ReactElem
 														</th>
 													);
 												})}
-												{/* Phenotypes column — not sortable */}
-												<th
-													css={css`
-														width: 22%;
-														text-align: left;
-														font-family: 'Geomanist', sans-serif;
-														font-size: 0.72rem;
-														font-weight: 700;
-														text-transform: uppercase;
-														letter-spacing: 0.5px;
-														color: ${theme.colors.grey_3};
-														padding: 8px 12px;
-														border-bottom: 2px solid ${theme.colors.grey_2};
-													`}
-												>
-													Phenotypes
-												</th>
 											</tr>
 										</thead>
 										<tbody>
 											{paginated.map((item) => {
-												const phenotypes = genePhMap[item.subject_label ?? ''] ?? [];
-												const count = phenotypes.length;
+												const geneName = item.subject_label ?? null;
+												const hasPhenotypes = !genePhLoading && geneName !== null && (genePhMap[geneName]?.length ?? 0) > 0;
 												return (
 													<tr
 														key={item.id}
@@ -398,16 +381,41 @@ const GenesTable = ({ fetchAssociations, onLoaded }: GenesTableProps): ReactElem
 															&:hover { background: ${theme.colors.grey_1}; }
 														`}
 													>
-														<td
-															css={css`
-																font-family: 'Geomanist', sans-serif;
-																font-size: 0.875rem;
-																font-weight: 700;
-																color: ${theme.colors.primary};
-																padding: 9px 12px;
-															`}
-														>
-															{item.subject_label ?? '—'}
+														<td css={css`padding: 9px 12px;`}>
+															{hasPhenotypes ? (
+																<button
+																	onClick={() => setSelectedGene(geneName)}
+																	css={css`
+																		font-family: 'Geomanist', sans-serif;
+																		font-size: 0.875rem;
+																		font-weight: 700;
+																		color: ${theme.colors.primary};
+																		background: none;
+																		border: none;
+																		padding: 0;
+																		cursor: pointer;
+																		text-align: left;
+																		display: inline-flex;
+																		align-items: center;
+																		gap: 4px;
+																		&:hover { text-decoration: underline; }
+																	`}
+																>
+																	{geneName}
+																	<span css={css`font-size: 0.65rem; opacity: 0.6;`}>↗</span>
+																</button>
+															) : (
+																<span
+																	css={css`
+																		font-family: 'Geomanist', sans-serif;
+																		font-size: 0.875rem;
+																		font-weight: 700;
+																		color: ${theme.colors.primary};
+																	`}
+																>
+																	{geneName ?? '—'}
+																</span>
+															)}
 														</td>
 														<td
 															css={css`
@@ -428,52 +436,6 @@ const GenesTable = ({ fetchAssociations, onLoaded }: GenesTableProps): ReactElem
 															`}
 														>
 															{item.object_label ?? '—'}
-														</td>
-														<td css={css`padding: 9px 12px;`}>
-															{genePhLoading ? (
-																<span
-																	css={css`
-																		font-family: 'Geomanist', sans-serif;
-																		font-size: 0.75rem;
-																		color: ${theme.colors.grey_3};
-																	`}
-																>
-																	…
-																</span>
-															) : count > 0 ? (
-																<button
-																	onClick={() => setSelectedGene(item.subject_label ?? null)}
-																	css={css`
-																		display: inline-flex;
-																		align-items: center;
-																		gap: 5px;
-																		font-family: 'Geomanist', sans-serif;
-																		font-size: 0.78rem;
-																		font-weight: 700;
-																		color: ${theme.colors.primary};
-																		background: ${theme.colors.primary_pale};
-																		border: none;
-																		border-radius: 20px;
-																		padding: 3px 10px;
-																		cursor: pointer;
-																		transition: background 0.15s ease;
-																		&:hover { background: ${theme.colors.primary_pale}; filter: brightness(0.93); }
-																	`}
-																>
-																	{count}
-																	<span css={css`font-size: 0.7rem; opacity: 0.7;`}>↗</span>
-																</button>
-															) : (
-																<span
-																	css={css`
-																		font-family: 'Geomanist', sans-serif;
-																		font-size: 0.8rem;
-																		color: ${theme.colors.grey_3};
-																	`}
-																>
-																	—
-																</span>
-															)}
 														</td>
 													</tr>
 												);
