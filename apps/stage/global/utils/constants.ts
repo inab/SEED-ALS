@@ -98,6 +98,10 @@ export const INTERNAL_API_PROXY = {
 export const MONARCH_API_BASE_URL = 'https://api-v3.monarchinitiative.org/v3/api';
 export const ALS_MONDO_ID = 'MONDO:0004976';
 
+// EGA Metadata API
+export const EGA_API_BASE_URL = 'https://metadata.ega-archive.org';
+export const ALS_EGA_KEYWORDS = ['als', 'amyotrophic', 'motor neuron disease'];
+
 export enum ALS_ASSOCIATION_CATEGORIES {
 	CAUSAL_GENE_TO_DISEASE = 'biolink:CausalGeneToDiseaseAssociation',
 	CORRELATED_GENE_TO_DISEASE = 'biolink:CorrelatedGeneToDiseaseAssociation',
