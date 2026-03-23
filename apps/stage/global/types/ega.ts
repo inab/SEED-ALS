@@ -1,5 +1,4 @@
 
-// Studies
 export interface EgaStudy {
 	accession_id: string;
 	title: string | null;
@@ -13,7 +12,6 @@ export interface EgaStudy {
 	is_deprecated: boolean;
 }
 
-// Datasets
 export interface EgaDataset {
 	accession_id: string;
 	title: string | null;

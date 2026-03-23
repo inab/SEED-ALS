@@ -5,12 +5,23 @@ const PAGE_SIZE = 500;
 
 export default async function handler(_req: NextApiRequest, res: NextApiResponse) {
 	try {
-		const allStudies: unknown[] = [];
-		let offset = 0;
+		// Get the total number of studies from the HEAD request
+		const headResponse = await fetch(`${EGA_API_BASE_URL}/studies`, { method: 'HEAD' });
 
-		while (true) {
+		if (!headResponse.ok) {
+			return res
+				.status(headResponse.status)
+				.json({ error: `EGA API error: ${headResponse.statusText}` });
+		}
+
+		const totalCount = parseInt(headResponse.headers.get('ega-api-total-count') ?? '0', 10);
+		const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+
+		const allStudies: unknown[] = [];
+
+		for (let page = 0; page < totalPages; page++) {
 			const response = await fetch(
-				`${EGA_API_BASE_URL}/studies?limit=${PAGE_SIZE}&offset=${offset}`,
+				`${EGA_API_BASE_URL}/studies?limit=${PAGE_SIZE}&offset=${page * PAGE_SIZE}`,
 			);
 
 			if (!response.ok) {
@@ -19,15 +30,11 @@ export default async function handler(_req: NextApiRequest, res: NextApiResponse
 					.json({ error: `EGA API error: ${response.statusText}` });
 			}
 
-			const page: unknown[] = await response.json();
+			const pageData: unknown[] = await response.json();
 
-			if (!Array.isArray(page) || page.length === 0) break;
+			if (!Array.isArray(pageData)) break;
 
-			allStudies.push(...page);
-			offset += page.length;
-
-			// If we got fewer than PAGE_SIZE we've reached the end
-			if (page.length < PAGE_SIZE) break;
+			allStudies.push(...pageData);
 		}
 
 		return res.status(200).json(allStudies);
