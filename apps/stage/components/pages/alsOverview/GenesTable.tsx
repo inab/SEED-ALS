@@ -19,6 +19,8 @@ interface TaggedAssociation extends MonarchAssociation {
 	_relationshipType: string;
 }
 
+type SortKey = 'gene' | 'relationship' | 'disease';
+
 interface GenesTableProps {
 	fetchAssociations: (cat: string, limit?: number, offset?: number) => Promise<MonarchAssociationResponse>;
 	onLoaded?: () => void;
@@ -33,6 +35,8 @@ const GenesTable = ({ fetchAssociations, onLoaded }: GenesTableProps): ReactElem
 	const [search, setSearch] = useState('');
 	const [deselectedTypes, setDeselectedTypes] = useState<Set<string>>(new Set());
 	const [page, setPage] = useState(1);
+	const [sortKey, setSortKey] = useState<SortKey>('gene');
+	const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
 
 	// Gene → phenotype map (loaded in parallel)
 	const [genePhMap, setGenePhMap] = useState<Record<string, string[]>>({});
@@ -55,7 +59,7 @@ const GenesTable = ({ fetchAssociations, onLoaded }: GenesTableProps): ReactElem
 				const merged = [
 					...tag(causal.items, ALS_ASSOCIATION_CATEGORIES.CAUSAL_GENE_TO_DISEASE),
 					...tag(correlated.items, ALS_ASSOCIATION_CATEGORIES.CORRELATED_GENE_TO_DISEASE),
-				].sort((a, b) => (a.subject_label ?? '').localeCompare(b.subject_label ?? ''));
+				];
 
 				setItems(merged);
 				setTotals({
@@ -109,7 +113,26 @@ const GenesTable = ({ fetchAssociations, onLoaded }: GenesTableProps): ReactElem
 
 	const totalAll = Object.values(totals).reduce((a, b) => a + b, 0);
 
-	const filtered = items.filter(
+	const toggleSort = (key: SortKey) => {
+		if (sortKey === key) {
+			setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'));
+		} else {
+			setSortKey(key);
+			setSortDir('asc');
+		}
+		setPage(1);
+	};
+
+	const sorted = [...items].sort((a, b) => {
+		let va: string, vb: string;
+		if (sortKey === 'gene') { va = a.subject_label ?? ''; vb = b.subject_label ?? ''; }
+		else if (sortKey === 'relationship') { va = cleanPredicate(a.predicate); vb = cleanPredicate(b.predicate); }
+		else { va = a.object_label ?? ''; vb = b.object_label ?? ''; }
+		const cmp = va.localeCompare(vb);
+		return sortDir === 'asc' ? cmp : -cmp;
+	});
+
+	const filtered = sorted.filter(
 		(item) =>
 			item.subject_label?.toLowerCase().includes(search.toLowerCase()) &&
 			!deselectedTypes.has(item._relationshipType),
@@ -151,6 +174,12 @@ const GenesTable = ({ fetchAssociations, onLoaded }: GenesTableProps): ReactElem
 	`;
 
 	const selectedPhenotypes = selectedGene ? (genePhMap[selectedGene] ?? []) : [];
+
+	const columns: { label: string; width: string; sk: SortKey }[] = [
+		{ label: 'Gene', width: '18%', sk: 'gene' },
+		{ label: 'Relationship', width: '22%', sk: 'relationship' },
+		{ label: 'Disease', width: '38%', sk: 'disease' },
+	];
 
 	return (
 		<>
@@ -302,30 +331,59 @@ const GenesTable = ({ fetchAssociations, onLoaded }: GenesTableProps): ReactElem
 									<table css={css`width: 100%; border-collapse: collapse; table-layout: fixed;`}>
 										<thead>
 											<tr>
-												{[
-													{ label: 'Gene', width: '18%' },
-													{ label: 'Relationship', width: '22%' },
-													{ label: 'Disease', width: '38%' },
-													{ label: 'Phenotypes', width: '22%' },
-												].map((col) => (
-													<th
-														key={col.label}
-														css={css`
-															width: ${col.width};
-															text-align: left;
-															font-family: 'Geomanist', sans-serif;
-															font-size: 0.72rem;
-															font-weight: 700;
-															text-transform: uppercase;
-															letter-spacing: 0.5px;
-															color: ${theme.colors.grey_3};
-															padding: 8px 12px;
-															border-bottom: 2px solid ${theme.colors.grey_2};
-														`}
-													>
-														{col.label}
-													</th>
-												))}
+												{columns.map((col) => {
+													const isActive = sortKey === col.sk;
+													return (
+														<th
+															key={col.label}
+															onClick={() => toggleSort(col.sk)}
+															css={css`
+																width: ${col.width};
+																text-align: left;
+																font-family: 'Geomanist', sans-serif;
+																font-size: 0.72rem;
+																font-weight: 700;
+																text-transform: uppercase;
+																letter-spacing: 0.5px;
+																color: ${isActive ? theme.colors.primary : theme.colors.grey_3};
+																padding: 8px 12px;
+																border-bottom: 2px solid ${theme.colors.grey_2};
+																cursor: pointer;
+																user-select: none;
+																&:hover { color: ${theme.colors.primary}; }
+															`}
+														>
+															<span css={css`display: inline-flex; align-items: center; gap: 4px;`}>
+																{col.label}
+																<span
+																	css={css`
+																		font-size: 0.6rem;
+																		opacity: ${isActive ? 1 : 0.35};
+																	`}
+																>
+																	{isActive ? (sortDir === 'asc' ? '▲' : '▼') : '⇅'}
+																</span>
+															</span>
+														</th>
+													);
+												})}
+												{/* Phenotypes column — not sortable */}
+												<th
+													css={css`
+														width: 22%;
+														text-align: left;
+														font-family: 'Geomanist', sans-serif;
+														font-size: 0.72rem;
+														font-weight: 700;
+														text-transform: uppercase;
+														letter-spacing: 0.5px;
+														color: ${theme.colors.grey_3};
+														padding: 8px 12px;
+														border-bottom: 2px solid ${theme.colors.grey_2};
+													`}
+												>
+													Phenotypes
+												</th>
 											</tr>
 										</thead>
 										<tbody>

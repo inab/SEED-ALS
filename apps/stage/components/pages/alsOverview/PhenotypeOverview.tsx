@@ -16,6 +16,8 @@ const FREQ_RANK: Record<string, number> = {
 const NOT_REPORTED = 'Not reported';
 const PAGE_SIZE = 10;
 
+type SortKey = 'phenotype' | 'frequency';
+
 interface PhenotypeOverviewProps {
 	fetchAssociations: (cat: string, limit?: number, offset?: number) => Promise<MonarchAssociationResponse>;
 	onLoaded?: () => void;
@@ -30,6 +32,8 @@ const PhenotypeOverview = ({ fetchAssociations, onLoaded }: PhenotypeOverviewPro
 	const [search, setSearch] = useState('');
 	const [deselectedFreqs, setDeselectedFreqs] = useState<Set<string>>(new Set());
 	const [page, setPage] = useState(1);
+	const [sortKey, setSortKey] = useState<SortKey>('phenotype');
+	const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
 
 	useEffect(() => {
 		const BATCH = 500;
@@ -88,10 +92,18 @@ const PhenotypeOverview = ({ fetchAssociations, onLoaded }: PhenotypeOverviewPro
 		}
 	});
 
-	// Alphabetical sort
-	const uniquePhenotypes = Object.values(uniqueMap).sort((a, b) =>
-		(a.object_label ?? '').localeCompare(b.object_label ?? ''),
-	);
+	// Sort by selected key
+	const uniquePhenotypes = Object.values(uniqueMap).sort((a, b) => {
+		if (sortKey === 'phenotype') {
+			const cmp = (a.object_label ?? '').localeCompare(b.object_label ?? '');
+			return sortDir === 'asc' ? cmp : -cmp;
+		} else {
+			const ra = FREQ_RANK[a.frequency_qualifier_label ?? ''] ?? 0;
+			const rb = FREQ_RANK[b.frequency_qualifier_label ?? ''] ?? 0;
+			const cmp = ra - rb;
+			return sortDir === 'asc' ? cmp : -cmp;
+		}
+	});
 
 	// Derive available frequency labels from actual data
 	const availableFreqs: string[] = [
@@ -103,7 +115,6 @@ const PhenotypeOverview = ({ fetchAssociations, onLoaded }: PhenotypeOverviewPro
 
 	const freqLabel = (item: MonarchAssociation) => item.frequency_qualifier_label ?? NOT_REPORTED;
 
-	// Reset page on filter/search change
 	const handleSearch = (value: string) => {
 		setSearch(value);
 		setPage(1);
@@ -115,6 +126,16 @@ const PhenotypeOverview = ({ fetchAssociations, onLoaded }: PhenotypeOverviewPro
 			next.has(label) ? next.delete(label) : next.add(label);
 			return next;
 		});
+		setPage(1);
+	};
+
+	const toggleSort = (key: SortKey) => {
+		if (sortKey === key) {
+			setSortDir((d) => (d === 'asc' ? 'desc' : 'asc'));
+		} else {
+			setSortKey(key);
+			setSortDir('asc');
+		}
 		setPage(1);
 	};
 
@@ -142,6 +163,11 @@ const PhenotypeOverview = ({ fetchAssociations, onLoaded }: PhenotypeOverviewPro
 		margin: 6px 0 0;
 		line-height: 1.5;
 	`;
+
+	const columns: { label: string; sk: SortKey }[] = [
+		{ label: 'Phenotype', sk: 'phenotype' },
+		{ label: 'Frequency', sk: 'frequency' },
+	];
 
 	return (
 		<section
@@ -359,24 +385,41 @@ const PhenotypeOverview = ({ fetchAssociations, onLoaded }: PhenotypeOverviewPro
 								<table css={css`width: 100%; border-collapse: collapse; table-layout: fixed;`}>
 									<thead>
 										<tr>
-											{['Phenotype', 'Frequency'].map((h) => (
-												<th
-													key={h}
-													css={css`
-														text-align: left;
-														font-family: 'Geomanist', sans-serif;
-														font-size: 0.72rem;
-														font-weight: 700;
-														text-transform: uppercase;
-														letter-spacing: 0.5px;
-														color: ${theme.colors.grey_3};
-														padding: 8px 12px;
-														border-bottom: 2px solid ${theme.colors.grey_2};
-													`}
-												>
-													{h}
-												</th>
-											))}
+											{columns.map((col) => {
+												const isActive = sortKey === col.sk;
+												return (
+													<th
+														key={col.label}
+														onClick={() => toggleSort(col.sk)}
+														css={css`
+															text-align: left;
+															font-family: 'Geomanist', sans-serif;
+															font-size: 0.72rem;
+															font-weight: 700;
+															text-transform: uppercase;
+															letter-spacing: 0.5px;
+															color: ${isActive ? theme.colors.primary : theme.colors.grey_3};
+															padding: 8px 12px;
+															border-bottom: 2px solid ${theme.colors.grey_2};
+															cursor: pointer;
+															user-select: none;
+															&:hover { color: ${theme.colors.primary}; }
+														`}
+													>
+														<span css={css`display: inline-flex; align-items: center; gap: 4px;`}>
+															{col.label}
+															<span
+																css={css`
+																	font-size: 0.6rem;
+																	opacity: ${isActive ? 1 : 0.35};
+																`}
+															>
+																{isActive ? (sortDir === 'asc' ? '▲' : '▼') : '⇅'}
+															</span>
+														</span>
+													</th>
+												);
+											})}
 										</tr>
 									</thead>
 									<tbody>
