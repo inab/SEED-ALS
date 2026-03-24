@@ -78,7 +78,7 @@ const AlsOverview = (): ReactElement => {
 						css={css`
 							display: flex;
 							width: 100%;
-							align-items: flex-start;
+							align-items: stretch;
 						`}
 					>
 						<SideNav />

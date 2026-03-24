@@ -275,111 +275,115 @@ const EgaExplorer = (): ReactElement => {
 					</section>
 
 					{/* Two-column layout */}
-					<div css={css`display: flex; width: 100%; align-items: flex-start;`}>
+					<div css={css`display: flex; width: 100%; align-items: stretch;`}>
 
 						{/* Left filter panel */}
 						<aside
 							css={css`
 								width: 220px;
 								flex-shrink: 0;
-								position: sticky;
-								top: ${NAV_HEIGHT}px;
-								align-self: flex-start;
-								padding: 32px 0;
 								background: ${theme.colors.white};
-								box-shadow: 2px 0 8px rgba(0, 0, 0, 0.07);
+								box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
 							`}
 						>
-							{/* Search */}
-							<p css={sectionLabelCss}>Search</p>
-							<div css={css`padding: 0 12px; margin-bottom: 24px;`}>
-								<input
-									type="text"
-									value={searchText}
-									onChange={(e) => setSearchText(e.target.value)}
-									placeholder="Title, accession…"
-									css={css`
-										width: 100%;
-										box-sizing: border-box;
-										font-family: 'Geomanist', sans-serif;
-										font-size: 0.825rem;
-										color: ${theme.colors.grey_6};
-										padding: 7px 10px;
-										border: 1px solid ${theme.colors.grey_2};
-										border-radius: 6px;
-										outline: none;
-										&:focus { border-color: ${theme.colors.primary}; }
-										&::placeholder { color: ${theme.colors.grey_3}; }
-									`}
-								/>
+							<div
+								css={css`
+									position: sticky;
+									top: ${NAV_HEIGHT}px;
+									padding: 32px 0;
+								`}
+							>
+								{/* Search */}
+								<p css={sectionLabelCss}>Search</p>
+								<div css={css`padding: 0 12px; margin-bottom: 24px;`}>
+									<input
+										type="text"
+										value={searchText}
+										onChange={(e) => setSearchText(e.target.value)}
+										placeholder="Title, accession…"
+										css={css`
+											width: 100%;
+											box-sizing: border-box;
+											font-family: 'Geomanist', sans-serif;
+											font-size: 0.825rem;
+											color: ${theme.colors.grey_6};
+											padding: 7px 10px;
+											border: 1px solid ${theme.colors.grey_2};
+											border-radius: 6px;
+											outline: none;
+											&:focus { border-color: ${theme.colors.primary}; }
+											&::placeholder { color: ${theme.colors.grey_3}; }
+										`}
+									/>
+								</div>
+
+								{/* Study Type */}
+								{allStudyTypes.length > 0 && (
+									<>
+										<p css={sectionLabelCss}>Study Type</p>
+										<ul css={css`list-style: none; margin: 0 0 24px; padding: 0;`}>
+											{allStudyTypes.map((type) => (
+												<li key={type}>
+													<label
+														css={css`
+															display: flex;
+															align-items: center;
+															gap: 8px;
+															padding: 8px 20px;
+															font-family: 'Geomanist', sans-serif;
+															font-size: 0.825rem;
+															font-weight: 300;
+															color: ${theme.colors.grey_6};
+															cursor: pointer;
+															border-left: 2px solid transparent;
+															transition: background 0.15s ease, border-color 0.15s ease;
+															&:hover {
+																color: ${theme.colors.primary};
+																border-left-color: ${theme.colors.primary_pale};
+																background: ${theme.colors.primary_palest};
+															}
+														`}
+													>
+														<input
+															type="checkbox"
+															checked={selectedStudyTypes.includes(type)}
+															onChange={() => toggleStudyType(type)}
+															css={css`cursor: pointer; accent-color: ${theme.colors.primary};`}
+														/>
+														{type}
+													</label>
+												</li>
+											))}
+										</ul>
+									</>
+								)}
+
+								{/* Clear filters */}
+								{hasActiveFilters && (
+									<>
+										<div css={css`margin: 0 20px 8px; border-top: 1px solid ${theme.colors.grey_2};`} />
+										<div css={css`padding: 8px 20px;`}>
+											<button
+												onClick={clearFilters}
+												css={css`
+													font-family: 'Geomanist', sans-serif;
+													font-size: 0.8rem;
+													color: ${theme.colors.grey_5};
+													background: none;
+													border: 1px solid ${theme.colors.grey_2};
+													border-radius: 6px;
+													padding: 6px 12px;
+													cursor: pointer;
+													width: 100%;
+													&:hover { color: ${theme.colors.primary}; border-color: ${theme.colors.primary}; }
+												`}
+											>
+												Reset filters
+											</button>
+										</div>
+									</>
+								)}
 							</div>
-
-							{/* Study Type */}
-							{allStudyTypes.length > 0 && (
-								<>
-									<p css={sectionLabelCss}>Study Type</p>
-									<ul css={css`list-style: none; margin: 0 0 24px; padding: 0;`}>
-										{allStudyTypes.map((type) => (
-											<li key={type}>
-												<label
-													css={css`
-														display: flex;
-														align-items: center;
-														gap: 8px;
-														padding: 8px 20px;
-														font-family: 'Geomanist', sans-serif;
-														font-size: 0.825rem;
-														font-weight: 300;
-														color: ${theme.colors.grey_6};
-														cursor: pointer;
-														border-left: 2px solid transparent;
-														transition: background 0.15s ease, border-color 0.15s ease;
-														&:hover {
-															color: ${theme.colors.primary};
-															border-left-color: ${theme.colors.primary_pale};
-															background: ${theme.colors.primary_palest};
-														}
-													`}
-												>
-													<input
-														type="checkbox"
-														checked={selectedStudyTypes.includes(type)}
-														onChange={() => toggleStudyType(type)}
-														css={css`cursor: pointer; accent-color: ${theme.colors.primary};`}
-													/>
-													{type}
-												</label>
-											</li>
-										))}
-									</ul>
-								</>
-							)}
-
-							{/* Clear filters */}
-							{hasActiveFilters && (
-								<>
-									<div css={css`margin: 0 20px 8px; border-top: 1px solid ${theme.colors.grey_2};`} />
-									<div css={css`padding: 8px 20px;`}>
-										<button
-											onClick={clearFilters}
-											css={css`
-												font-family: 'Geomanist', sans-serif;
-												font-size: 0.8rem;
-												color: ${theme.colors.grey_5};
-												background: none;
-												border: 1px solid ${theme.colors.grey_2};
-												border-radius: 6px;
-												padding: 6px 12px;
-												cursor: pointer;
-												width: 100%;
-												&:hover { color: ${theme.colors.primary}; border-color: ${theme.colors.primary}; }
-											`}
-										>
-											Reset filters
-										</button>
-									</div>
-								</>
-							)}
 						</aside>
 
 						{/* Main content */}
