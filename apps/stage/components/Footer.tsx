@@ -45,6 +45,33 @@ const Footer = () => {
 						`}
 					/>
 				</a>
+				<a
+					href="https://github.com/inab/SEED-ALS/tree/TechBioLab"
+					target="_blank"
+					rel="noopener noreferrer"
+					css={(theme: typeof defaultTheme) => css`
+						display: flex;
+						align-items: center;
+						gap: 8px;
+						text-decoration: none;
+						color: ${theme.colors.grey_5};
+						font-family: 'Geomanist', sans-serif;
+						font-size: 13px;
+						opacity: 0.75;
+						transition: opacity 0.15s ease;
+						&:hover { opacity: 1; }
+					`}
+				>
+					<img
+						src="/seed-als/logos/github.svg"
+						alt="GitHub"
+						css={css`
+							height: 50px;
+							width: auto;
+						`}
+					/>
+					SEED-ALS
+				</a>
 			</div>
 
 			{/* Row 2: Financing acknowledgement */}
