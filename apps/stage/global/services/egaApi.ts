@@ -31,7 +31,9 @@ export function filterAlsStudies(studies: EgaStudy[]): EgaStudy[] {
 			.join(' ')
 			.toLowerCase();
 
-		return ALS_EGA_KEYWORDS.some((kw) => alsSearchText.includes(kw));
+		return ALS_EGA_KEYWORDS.some((kw) =>
+		kw === 'als' ? /\bals\b/i.test(alsSearchText) : alsSearchText.includes(kw),
+	);
 	});
 }
 
