@@ -21,9 +21,10 @@ interface TaggedAssociation extends MonarchAssociation {
 
 interface GenesTableProps {
 	fetchAssociations: (cat: string, limit?: number, offset?: number) => Promise<MonarchAssociationResponse>;
+	onLoaded?: () => void;
 }
 
-const GenesTable = ({ fetchAssociations }: GenesTableProps): ReactElement => {
+const GenesTable = ({ fetchAssociations, onLoaded }: GenesTableProps): ReactElement => {
 	const theme: typeof defaultTheme = useTheme();
 	const [items, setItems] = useState<TaggedAssociation[]>([]);
 	const [totals, setTotals] = useState<Record<string, number>>({});
@@ -62,9 +63,11 @@ const GenesTable = ({ fetchAssociations }: GenesTableProps): ReactElement => {
 					[ALS_ASSOCIATION_CATEGORIES.CORRELATED_GENE_TO_DISEASE]: correlated.total,
 				});
 				setLoading(false);
+				onLoaded?.();
 			} catch (err) {
 				setError(err instanceof Error ? err.message : 'Failed to load genes');
 				setLoading(false);
+				onLoaded?.();
 			}
 		}
 
@@ -206,11 +209,6 @@ const GenesTable = ({ fetchAssociations }: GenesTableProps): ReactElement => {
 						padding-top: 24px;
 					`}
 				>
-					{loading && (
-						<p css={css`font-family: 'Geomanist', sans-serif; font-size: 0.875rem; color: ${theme.colors.grey_3};`}>
-							Loading genes…
-						</p>
-					)}
 					{error && (
 						<p css={css`font-family: 'Geomanist', sans-serif; font-size: 0.875rem; color: ${theme.colors.error};`}>
 							Error: {error}

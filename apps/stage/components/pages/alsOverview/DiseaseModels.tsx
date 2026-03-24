@@ -8,9 +8,10 @@ const PAGE_SIZE = 10;
 
 interface DiseaseModelsProps {
 	fetchAssociations: (cat: string, limit?: number, offset?: number) => Promise<MonarchAssociationResponse>;
+	onLoaded?: () => void;
 }
 
-const DiseaseModels = ({ fetchAssociations }: DiseaseModelsProps): ReactElement => {
+const DiseaseModels = ({ fetchAssociations, onLoaded }: DiseaseModelsProps): ReactElement => {
 	const theme: typeof defaultTheme = useTheme();
 	const [items, setItems] = useState<MonarchAssociation[]>([]);
 	const [loading, setLoading] = useState(true);
@@ -24,10 +25,12 @@ const DiseaseModels = ({ fetchAssociations }: DiseaseModelsProps): ReactElement 
 			.then((res) => {
 				setItems(res.items);
 				setLoading(false);
+				onLoaded?.();
 			})
 			.catch((err) => {
 				setError(err instanceof Error ? err.message : 'Failed to load disease models');
 				setLoading(false);
+				onLoaded?.();
 			});
 	}, [fetchAssociations]);
 
@@ -136,11 +139,6 @@ const DiseaseModels = ({ fetchAssociations }: DiseaseModelsProps): ReactElement 
 					padding-top: 24px;
 				`}
 			>
-				{loading && (
-					<p css={css`font-family: 'Geomanist', sans-serif; font-size: 0.875rem; color: ${theme.colors.grey_3};`}>
-						Loading disease models…
-					</p>
-				)}
 				{error && (
 					<p css={css`font-family: 'Geomanist', sans-serif; font-size: 0.875rem; color: ${theme.colors.error};`}>
 						Error: {error}

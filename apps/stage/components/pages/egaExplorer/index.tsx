@@ -3,6 +3,7 @@ import { useState, useEffect, ReactElement } from 'react';
 import { EgaDataset } from '../../../global/types/ega';
 import { useEgaData } from '../../../global/hooks/useEgaData';
 import PageLayout from '../../PageLayout';
+import Loader from '../../Loader';
 import defaultTheme from '../../theme';
 
 const EGA_STUDY_URL = (id: string) => `https://ega-archive.org/studies/${id}`;
@@ -208,54 +209,19 @@ const EgaExplorer = (): ReactElement => {
 
 	return (
 		<PageLayout subtitle="EGA Explorer">
-			{/* Page header */}
-			<section
-				css={css`
-					background: linear-gradient(135deg, ${theme.colors.primary_dark} 0%, ${theme.colors.primary} 100%);
-					color: ${theme.colors.white};
-					padding: 56px 24px;
-					text-align: center;
-				`}
-			>
-				<h1
-					css={css`
-						font-family: 'Geomanist', sans-serif;
-						font-size: 2rem;
-						font-weight: 700;
-						margin: 0 0 16px;
-					`}
-				>
-					EGA Metadata Explorer
-				</h1>
-				<p
-					css={css`
-						font-family: 'Geomanist', sans-serif;
-						font-size: 1.05rem;
-						font-weight: 300;
-						opacity: 0.88;
-						max-width: 640px;
-						margin: 0 auto;
-						line-height: 1.6;
-					`}
-				>
-					Public metadata from ALS-related studies and datasets available in the European
-					Genome-phenome Archive.
-				</p>
-			</section>
-
-			{/* Loading / Error states */}
+			{/* Loading state */}
 			{loading && (
-				<p
+				<div
 					css={css`
-						font-family: 'Geomanist', sans-serif;
-						font-size: 0.875rem;
-						color: ${theme.colors.grey_3};
-						text-align: center;
-						padding: 48px 0;
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						min-height: 60vh;
+						padding: 120px 24px;
 					`}
 				>
-					Loading EGA studies…
-				</p>
+					<Loader message="Loading EGA studies…" />
+				</div>
 			)}
 			{error && (
 				<p
@@ -271,424 +237,461 @@ const EgaExplorer = (): ReactElement => {
 				</p>
 			)}
 
-			{/* Two-column layout */}
 			{!loading && !error && (
-				<div css={css`display: flex; width: 100%; align-items: flex-start;`}>
-
-					{/* Left filter panel */}
-					<aside
+				<>
+					{/* Page header */}
+					<section
 						css={css`
-							width: 220px;
-							flex-shrink: 0;
-							position: sticky;
-							top: ${NAV_HEIGHT}px;
-							align-self: flex-start;
-							padding: 32px 0;
-							background: ${theme.colors.white};
-						box-shadow: 2px 0 8px rgba(0, 0, 0, 0.07);
+							background: linear-gradient(135deg, ${theme.colors.primary_dark} 0%, ${theme.colors.primary} 100%);
+							color: ${theme.colors.white};
+							padding: 56px 24px;
+							text-align: center;
 						`}
 					>
-						{/* Search */}
-						<p css={sectionLabelCss}>Search</p>
-						<div css={css`padding: 0 12px; margin-bottom: 24px;`}>
-							<input
-								type="text"
-								value={searchText}
-								onChange={(e) => setSearchText(e.target.value)}
-								placeholder="Title, accession…"
-								css={css`
-									width: 100%;
-									box-sizing: border-box;
-									font-family: 'Geomanist', sans-serif;
-									font-size: 0.825rem;
-									color: ${theme.colors.grey_6};
-									padding: 7px 10px;
-									border: 1px solid ${theme.colors.grey_2};
-									border-radius: 6px;
-									outline: none;
-									&:focus { border-color: ${theme.colors.primary}; }
-									&::placeholder { color: ${theme.colors.grey_3}; }
-								`}
-							/>
-						</div>
-
-						{/* Study Type */}
-						{allStudyTypes.length > 0 && (
-							<>
-								<p css={sectionLabelCss}>Study Type</p>
-								<ul css={css`list-style: none; margin: 0 0 24px; padding: 0;`}>
-									{allStudyTypes.map((type) => (
-										<li key={type}>
-											<label
-												css={css`
-													display: flex;
-													align-items: center;
-													gap: 8px;
-													padding: 8px 20px;
-													font-family: 'Geomanist', sans-serif;
-													font-size: 0.825rem;
-													font-weight: 300;
-													color: ${theme.colors.grey_6};
-													cursor: pointer;
-													border-left: 2px solid transparent;
-													transition: background 0.15s ease, border-color 0.15s ease;
-													&:hover {
-														color: ${theme.colors.primary};
-														border-left-color: ${theme.colors.primary_pale};
-														background: ${theme.colors.primary_palest};
-													}
-												`}
-											>
-												<input
-													type="checkbox"
-													checked={selectedStudyTypes.includes(type)}
-													onChange={() => toggleStudyType(type)}
-													css={css`cursor: pointer; accent-color: ${theme.colors.primary};`}
-												/>
-												{type}
-											</label>
-										</li>
-									))}
-								</ul>
-							</>
-						)}
-
-						{/* Clear filters */}
-						{hasActiveFilters && (
-							<>
-								<div css={css`margin: 0 20px 8px; border-top: 1px solid ${theme.colors.grey_2};`} />
-								<div css={css`padding: 8px 20px;`}>
-									<button
-										onClick={clearFilters}
-										css={css`
-											font-family: 'Geomanist', sans-serif;
-											font-size: 0.8rem;
-											color: ${theme.colors.grey_5};
-											background: none;
-											border: 1px solid ${theme.colors.grey_2};
-											border-radius: 6px;
-											padding: 6px 12px;
-											cursor: pointer;
-											width: 100%;
-											&:hover { color: ${theme.colors.primary}; border-color: ${theme.colors.primary}; }
-										`}
-									>
-										Reset filters
-									</button>
-								</div>
-							</>
-						)}
-					</aside>
-
-					{/* Main content */}
-					<main
-						css={css`
-							flex: 1;
-							min-width: 0;
-							padding: 32px 40px 72px;
-							background: ${theme.colors.grey_1};
-						`}
-					>
-						{/* Summary cards */}
-						<div
+						<h1
 							css={css`
-								display: flex;
-								flex-wrap: wrap;
-								gap: 16px;
-								margin-bottom: 40px;
+								font-family: 'Geomanist', sans-serif;
+								font-size: 2rem;
+								font-weight: 700;
+								margin: 0 0 16px;
 							`}
 						>
-							{[
-								{ value: studies.length.toLocaleString(), label: 'ALS Studies', loading: false },
-								{ value: studyTypeCount.toLocaleString(), label: 'Study Types', loading: false },
-								{
-									value: datasetsAllLoading ? '…' : totalDatasets.toLocaleString(),
-									label: 'ALS Datasets',
-									loading: datasetsAllLoading,
-								},
-								{
-									value: datasetsAllLoading ? '…' : totalSamples.toLocaleString(),
-									label: 'ALS Samples',
-									loading: datasetsAllLoading,
-								},
-							].map((card) => (
-								<div
-									key={card.label}
+							EGA Metadata Explorer
+						</h1>
+						<p
+							css={css`
+								font-family: 'Geomanist', sans-serif;
+								font-size: 1.05rem;
+								font-weight: 300;
+								opacity: 0.88;
+								max-width: 640px;
+								margin: 0 auto;
+								line-height: 1.6;
+							`}
+						>
+							Public metadata from ALS-related studies and datasets available in the European
+							Genome-phenome Archive.
+						</p>
+					</section>
+
+					{/* Two-column layout */}
+					<div css={css`display: flex; width: 100%; align-items: flex-start;`}>
+
+						{/* Left filter panel */}
+						<aside
+							css={css`
+								width: 220px;
+								flex-shrink: 0;
+								position: sticky;
+								top: ${NAV_HEIGHT}px;
+								align-self: flex-start;
+								padding: 32px 0;
+								background: ${theme.colors.white};
+								box-shadow: 2px 0 8px rgba(0, 0, 0, 0.07);
+							`}
+						>
+							{/* Search */}
+							<p css={sectionLabelCss}>Search</p>
+							<div css={css`padding: 0 12px; margin-bottom: 24px;`}>
+								<input
+									type="text"
+									value={searchText}
+									onChange={(e) => setSearchText(e.target.value)}
+									placeholder="Title, accession…"
 									css={css`
-										background: ${theme.colors.white};
+										width: 100%;
+										box-sizing: border-box;
+										font-family: 'Geomanist', sans-serif;
+										font-size: 0.825rem;
+										color: ${theme.colors.grey_6};
+										padding: 7px 10px;
 										border: 1px solid ${theme.colors.grey_2};
-										border-radius: 10px;
-										padding: 20px 24px;
-										min-width: 130px;
-										flex: 1;
+										border-radius: 6px;
+										outline: none;
+										&:focus { border-color: ${theme.colors.primary}; }
+										&::placeholder { color: ${theme.colors.grey_3}; }
 									`}
-								>
-									<p
-										css={css`
-											font-family: 'Geomanist', sans-serif;
-											font-size: 1.9rem;
-											font-weight: 700;
-											color: ${card.loading ? theme.colors.grey_3 : theme.colors.primary};
-											margin: 0 0 4px;
-											line-height: 1;
-										`}
-									>
-										{card.value}
-									</p>
-									<p
-										css={css`
-											font-family: 'Geomanist', sans-serif;
-											font-size: 0.75rem;
-											font-weight: 700;
-											text-transform: uppercase;
-											letter-spacing: 0.5px;
-											color: ${theme.colors.grey_3};
-											margin: 0;
-										`}
-									>
-										{card.label}
-									</p>
-								</div>
-							))}
-						</div>
+								/>
+							</div>
 
-						{/* Studies table */}
-						{sortedStudies.length > 0 ? (
-							<div
-								css={css`
-									background: ${theme.colors.white};
-									border-radius: 8px;
-									padding: 32px 40px 40px;
-									box-shadow: 0 3px 16px rgba(0, 0, 0, 0.07);
-								`}
-							>
-								{/* Filter result info */}
-								{hasActiveFilters && (
-									<p
-										css={css`
-											font-family: 'Geomanist', sans-serif;
-											font-size: 0.8rem;
-											color: ${theme.colors.grey_3};
-											margin: 0 0 16px;
-										`}
-									>
-										Showing {filteredStudies.length} of {studies.length} studies
-									</p>
-								)}
-
-								<table css={css`width: 100%; border-collapse: collapse; table-layout: fixed;`}>
-									<thead>
-										<tr>
-											{columns.map((col) => {
-												const isActive = col.sk !== null && sortKey === col.sk;
-												return (
-													<th
-														key={col.label}
-														onClick={col.sk !== null ? () => toggleSort(col.sk!) : undefined}
-														css={css`
-															width: ${col.width};
-															text-align: left;
-															font-family: 'Geomanist', sans-serif;
-															font-size: 0.72rem;
-															font-weight: 700;
-															text-transform: uppercase;
-															letter-spacing: 0.5px;
-															color: ${isActive ? theme.colors.primary : theme.colors.grey_3};
-															padding: 8px 12px;
-															border-bottom: 2px solid ${theme.colors.grey_2};
-															${col.sk !== null ? 'cursor: pointer; user-select: none;' : ''}
-															${col.sk !== null ? `&:hover { color: ${theme.colors.primary}; }` : ''}
-														`}
-													>
-														<span css={css`display: inline-flex; align-items: center; gap: 4px;`}>
-															{col.label}
-															{col.sk !== null && (
-																<span
-																	css={css`
-																		font-size: 0.6rem;
-																		opacity: ${isActive ? 1 : 0.35};
-																	`}
-																>
-																	{isActive ? (sortDir === 'asc' ? '▲' : '▼') : '⇅'}
-																</span>
-															)}
-														</span>
-													</th>
-												);
-											})}
-										</tr>
-									</thead>
-									<tbody>
-										{paginated.map((study) => {
-											const sampleTotal = studySampleTotal(study.accession_id);
-											return (
-												<tr
-													key={study.accession_id}
+							{/* Study Type */}
+							{allStudyTypes.length > 0 && (
+								<>
+									<p css={sectionLabelCss}>Study Type</p>
+									<ul css={css`list-style: none; margin: 0 0 24px; padding: 0;`}>
+										{allStudyTypes.map((type) => (
+											<li key={type}>
+												<label
 													css={css`
-														border-bottom: 1px solid ${theme.colors.grey_1};
-														&:hover { background: ${theme.colors.grey_1}; }
+														display: flex;
+														align-items: center;
+														gap: 8px;
+														padding: 8px 20px;
+														font-family: 'Geomanist', sans-serif;
+														font-size: 0.825rem;
+														font-weight: 300;
+														color: ${theme.colors.grey_6};
+														cursor: pointer;
+														border-left: 2px solid transparent;
+														transition: background 0.15s ease, border-color 0.15s ease;
+														&:hover {
+															color: ${theme.colors.primary};
+															border-left-color: ${theme.colors.primary_pale};
+															background: ${theme.colors.primary_palest};
+														}
 													`}
 												>
-													<td css={css`padding: 9px 12px;`}>
-														<a
-															href={EGA_STUDY_URL(study.accession_id)}
-															target="_blank"
-															rel="noopener noreferrer"
-															css={css`
-																font-family: 'Geomanist', sans-serif;
-																font-size: 0.8rem;
-																font-weight: 700;
-																color: ${theme.colors.primary};
-																text-decoration: none;
-																display: inline-flex;
-																align-items: center;
-																gap: 3px;
-																&:hover { text-decoration: underline; opacity: 0.8; }
-															`}
-														>
-															{study.accession_id}
-															<span css={css`font-size: 0.65rem; opacity: 0.55;`}>↗</span>
-														</a>
-													</td>
-													<td
-														title={study.title ?? undefined}
-														css={css`
-															font-family: 'Geomanist', sans-serif;
-															font-size: 0.825rem;
-															color: ${theme.colors.black};
-															padding: 9px 12px;
-															overflow: hidden;
-															text-overflow: ellipsis;
-															white-space: nowrap;
-														`}
-													>
-														{study.title ?? '—'}
-													</td>
-													<td
-														css={css`
-															font-family: 'Geomanist', sans-serif;
-															font-size: 0.8rem;
-															color: ${theme.colors.grey_5};
-															padding: 9px 12px;
-															overflow: hidden;
-															text-overflow: ellipsis;
-															white-space: nowrap;
-														`}
-													>
-														{study.study_type ?? '—'}
-													</td>
-													<td
-														css={css`
-															font-family: 'Geomanist', sans-serif;
-															font-size: 0.8rem;
-															color: ${theme.colors.grey_5};
-															padding: 9px 12px;
-														`}
-													>
-														{study.released_date ? study.released_date.substring(0, 10) : '—'}
-													</td>
-													<td
-														css={css`
-															font-family: 'Geomanist', sans-serif;
-															font-size: 0.8rem;
-															color: ${datasetsAllLoading ? theme.colors.grey_3 : theme.colors.grey_5};
-															padding: 9px 12px;
-														`}
-													>
-														{datasetsAllLoading
-															? '…'
-															: sampleTotal !== null
-																? sampleTotal.toLocaleString()
-																: '—'}
-													</td>
-													<td css={css`padding: 9px 12px;`}>
-														<button
-															onClick={() => openModal(study.accession_id)}
-															css={css`
-																display: inline-flex;
-																align-items: center;
-																gap: 4px;
-																font-family: 'Geomanist', sans-serif;
-																font-size: 0.75rem;
-																font-weight: 700;
-																color: ${theme.colors.primary};
-																background: ${theme.colors.primary_pale};
-																border: none;
-																border-radius: 20px;
-																padding: 4px 11px;
-																cursor: pointer;
-																transition: filter 0.15s ease;
-																&:hover { filter: brightness(0.93); }
-															`}
-														>
-															Details
-															<span css={css`font-size: 0.65rem; opacity: 0.65;`}>↗</span>
-														</button>
-													</td>
-												</tr>
-											);
-										})}
-									</tbody>
-								</table>
+													<input
+														type="checkbox"
+														checked={selectedStudyTypes.includes(type)}
+														onChange={() => toggleStudyType(type)}
+														css={css`cursor: pointer; accent-color: ${theme.colors.primary};`}
+													/>
+													{type}
+												</label>
+											</li>
+										))}
+									</ul>
+								</>
+							)}
 
-								{/* Pagination */}
-								{totalPages > 1 && (
+							{/* Clear filters */}
+							{hasActiveFilters && (
+								<>
+									<div css={css`margin: 0 20px 8px; border-top: 1px solid ${theme.colors.grey_2};`} />
+									<div css={css`padding: 8px 20px;`}>
+										<button
+											onClick={clearFilters}
+											css={css`
+												font-family: 'Geomanist', sans-serif;
+												font-size: 0.8rem;
+												color: ${theme.colors.grey_5};
+												background: none;
+												border: 1px solid ${theme.colors.grey_2};
+												border-radius: 6px;
+												padding: 6px 12px;
+												cursor: pointer;
+												width: 100%;
+												&:hover { color: ${theme.colors.primary}; border-color: ${theme.colors.primary}; }
+											`}
+										>
+											Reset filters
+										</button>
+									</div>
+								</>
+							)}
+						</aside>
+
+						{/* Main content */}
+						<main
+							css={css`
+								flex: 1;
+								min-width: 0;
+								padding: 32px 40px 72px;
+								background: ${theme.colors.grey_1};
+							`}
+						>
+							{/* Summary cards */}
+							<div
+								css={css`
+									display: flex;
+									flex-wrap: wrap;
+									gap: 16px;
+									margin-bottom: 40px;
+								`}
+							>
+								{[
+									{ value: studies.length.toLocaleString(), label: 'ALS Studies', loading: false },
+									{ value: studyTypeCount.toLocaleString(), label: 'Study Types', loading: false },
+									{
+										value: datasetsAllLoading ? '…' : totalDatasets.toLocaleString(),
+										label: 'ALS Datasets',
+										loading: datasetsAllLoading,
+									},
+									{
+										value: datasetsAllLoading ? '…' : totalSamples.toLocaleString(),
+										label: 'ALS Samples',
+										loading: datasetsAllLoading,
+									},
+								].map((card) => (
 									<div
+										key={card.label}
 										css={css`
-											display: flex;
-											align-items: center;
-											justify-content: space-between;
-											margin-top: 16px;
+											background: ${theme.colors.white};
+											border: 1px solid ${theme.colors.grey_2};
+											border-radius: 10px;
+											padding: 20px 24px;
+											min-width: 130px;
+											flex: 1;
 										`}
 									>
-										<span
+										<p
+											css={css`
+												font-family: 'Geomanist', sans-serif;
+												font-size: 1.9rem;
+												font-weight: 700;
+												color: ${card.loading ? theme.colors.grey_3 : theme.colors.primary};
+												margin: 0 0 4px;
+												line-height: 1;
+											`}
+										>
+											{card.value}
+										</p>
+										<p
+											css={css`
+												font-family: 'Geomanist', sans-serif;
+												font-size: 0.75rem;
+												font-weight: 700;
+												text-transform: uppercase;
+												letter-spacing: 0.5px;
+												color: ${theme.colors.grey_3};
+												margin: 0;
+											`}
+										>
+											{card.label}
+										</p>
+									</div>
+								))}
+							</div>
+
+							{/* Studies table */}
+							{sortedStudies.length > 0 ? (
+								<div
+									css={css`
+										background: ${theme.colors.white};
+										border-radius: 8px;
+										padding: 32px 40px 40px;
+										box-shadow: 0 3px 16px rgba(0, 0, 0, 0.07);
+									`}
+								>
+									{/* Filter result info */}
+									{hasActiveFilters && (
+										<p
 											css={css`
 												font-family: 'Geomanist', sans-serif;
 												font-size: 0.8rem;
 												color: ${theme.colors.grey_3};
+												margin: 0 0 16px;
 											`}
 										>
-											{(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, sortedStudies.length)} of{' '}
-											{sortedStudies.length}
-										</span>
-										<div css={css`display: flex; gap: 8px;`}>
-											{[
-												{ label: '«', action: () => setPage(1), disabled: page === 1, title: 'First page' },
-												{ label: 'Previous', action: () => setPage((p) => p - 1), disabled: page === 1, title: 'Previous page' },
-												{ label: 'Next', action: () => setPage((p) => p + 1), disabled: page === totalPages, title: 'Next page' },
-												{ label: '»', action: () => setPage(totalPages), disabled: page === totalPages, title: 'Last page' },
-											].map((btn) => (
-												<button
-													key={btn.label}
-													onClick={btn.action}
-													disabled={btn.disabled}
-													title={btn.title}
-													css={btnCss}
-												>
-													{btn.label}
-												</button>
-											))}
+											Showing {filteredStudies.length} of {studies.length} studies
+										</p>
+									)}
+
+									<table css={css`width: 100%; border-collapse: collapse; table-layout: fixed;`}>
+										<thead>
+											<tr>
+												{columns.map((col) => {
+													const isActive = col.sk !== null && sortKey === col.sk;
+													return (
+														<th
+															key={col.label}
+															onClick={col.sk !== null ? () => toggleSort(col.sk!) : undefined}
+															css={css`
+																width: ${col.width};
+																text-align: left;
+																font-family: 'Geomanist', sans-serif;
+																font-size: 0.72rem;
+																font-weight: 700;
+																text-transform: uppercase;
+																letter-spacing: 0.5px;
+																color: ${isActive ? theme.colors.primary : theme.colors.grey_3};
+																padding: 8px 12px;
+																border-bottom: 2px solid ${theme.colors.grey_2};
+																${col.sk !== null ? 'cursor: pointer; user-select: none;' : ''}
+																${col.sk !== null ? `&:hover { color: ${theme.colors.primary}; }` : ''}
+															`}
+														>
+															<span css={css`display: inline-flex; align-items: center; gap: 4px;`}>
+																{col.label}
+																{col.sk !== null && (
+																	<span
+																		css={css`
+																			font-size: 0.6rem;
+																			opacity: ${isActive ? 1 : 0.35};
+																		`}
+																	>
+																		{isActive ? (sortDir === 'asc' ? '▲' : '▼') : '⇅'}
+																	</span>
+																)}
+															</span>
+														</th>
+													);
+												})}
+											</tr>
+										</thead>
+										<tbody>
+											{paginated.map((study) => {
+												const sampleTotal = studySampleTotal(study.accession_id);
+												return (
+													<tr
+														key={study.accession_id}
+														css={css`
+															border-bottom: 1px solid ${theme.colors.grey_1};
+															&:hover { background: ${theme.colors.grey_1}; }
+														`}
+													>
+														<td css={css`padding: 9px 12px;`}>
+															<a
+																href={EGA_STUDY_URL(study.accession_id)}
+																target="_blank"
+																rel="noopener noreferrer"
+																css={css`
+																	font-family: 'Geomanist', sans-serif;
+																	font-size: 0.8rem;
+																	font-weight: 700;
+																	color: ${theme.colors.primary};
+																	text-decoration: none;
+																	display: inline-flex;
+																	align-items: center;
+																	gap: 3px;
+																	&:hover { text-decoration: underline; opacity: 0.8; }
+																`}
+															>
+																{study.accession_id}
+																<span css={css`font-size: 0.65rem; opacity: 0.55;`}>↗</span>
+															</a>
+														</td>
+														<td
+															title={study.title ?? undefined}
+															css={css`
+																font-family: 'Geomanist', sans-serif;
+																font-size: 0.825rem;
+																color: ${theme.colors.black};
+																padding: 9px 12px;
+																overflow: hidden;
+																text-overflow: ellipsis;
+																white-space: nowrap;
+															`}
+														>
+															{study.title ?? '—'}
+														</td>
+														<td
+															css={css`
+																font-family: 'Geomanist', sans-serif;
+																font-size: 0.8rem;
+																color: ${theme.colors.grey_5};
+																padding: 9px 12px;
+																overflow: hidden;
+																text-overflow: ellipsis;
+																white-space: nowrap;
+															`}
+														>
+															{study.study_type ?? '—'}
+														</td>
+														<td
+															css={css`
+																font-family: 'Geomanist', sans-serif;
+																font-size: 0.8rem;
+																color: ${theme.colors.grey_5};
+																padding: 9px 12px;
+															`}
+														>
+															{study.released_date ? study.released_date.substring(0, 10) : '—'}
+														</td>
+														<td
+															css={css`
+																font-family: 'Geomanist', sans-serif;
+																font-size: 0.8rem;
+																color: ${datasetsAllLoading ? theme.colors.grey_3 : theme.colors.grey_5};
+																padding: 9px 12px;
+															`}
+														>
+															{datasetsAllLoading
+																? '…'
+																: sampleTotal !== null
+																	? sampleTotal.toLocaleString()
+																	: '—'}
+														</td>
+														<td css={css`padding: 9px 12px;`}>
+															<button
+																onClick={() => openModal(study.accession_id)}
+																css={css`
+																	display: inline-flex;
+																	align-items: center;
+																	gap: 4px;
+																	font-family: 'Geomanist', sans-serif;
+																	font-size: 0.75rem;
+																	font-weight: 700;
+																	color: ${theme.colors.primary};
+																	background: ${theme.colors.primary_pale};
+																	border: none;
+																	border-radius: 20px;
+																	padding: 4px 11px;
+																	cursor: pointer;
+																	transition: filter 0.15s ease;
+																	&:hover { filter: brightness(0.93); }
+																`}
+															>
+																Details
+																<span css={css`font-size: 0.65rem; opacity: 0.65;`}>↗</span>
+															</button>
+														</td>
+													</tr>
+												);
+											})}
+										</tbody>
+									</table>
+
+									{/* Pagination */}
+									{totalPages > 1 && (
+										<div
+											css={css`
+												display: flex;
+												align-items: center;
+												justify-content: space-between;
+												margin-top: 16px;
+											`}
+										>
+											<span
+												css={css`
+													font-family: 'Geomanist', sans-serif;
+													font-size: 0.8rem;
+													color: ${theme.colors.grey_3};
+												`}
+											>
+												{(page - 1) * PAGE_SIZE + 1}–{Math.min(page * PAGE_SIZE, sortedStudies.length)} of{' '}
+												{sortedStudies.length}
+											</span>
+											<div css={css`display: flex; gap: 8px;`}>
+												{[
+													{ label: '«', action: () => setPage(1), disabled: page === 1, title: 'First page' },
+													{ label: 'Previous', action: () => setPage((p) => p - 1), disabled: page === 1, title: 'Previous page' },
+													{ label: 'Next', action: () => setPage((p) => p + 1), disabled: page === totalPages, title: 'Next page' },
+													{ label: '»', action: () => setPage(totalPages), disabled: page === totalPages, title: 'Last page' },
+												].map((btn) => (
+													<button
+														key={btn.label}
+														onClick={btn.action}
+														disabled={btn.disabled}
+														title={btn.title}
+														css={btnCss}
+													>
+														{btn.label}
+													</button>
+												))}
+											</div>
 										</div>
-									</div>
-								)}
-							</div>
-						) : (
-							<p
-								css={css`
-									font-family: 'Geomanist', sans-serif;
-									font-size: 0.85rem;
-									color: ${theme.colors.grey_3};
-									text-align: center;
-									padding: 24px 0;
-								`}
-							>
-								{hasActiveFilters
-									? 'No studies match the current filters.'
-									: 'No ALS-related studies found.'}
-							</p>
-						)}
-					</main>
-				</div>
+									)}
+								</div>
+							) : (
+								<p
+									css={css`
+										font-family: 'Geomanist', sans-serif;
+										font-size: 0.85rem;
+										color: ${theme.colors.grey_3};
+										text-align: center;
+										padding: 24px 0;
+									`}
+								>
+									{hasActiveFilters
+										? 'No studies match the current filters.'
+										: 'No ALS-related studies found.'}
+								</p>
+							)}
+						</main>
+					</div>
+				</>
 			)}
 
 			{/* Datasets modal */}

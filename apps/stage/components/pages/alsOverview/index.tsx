@@ -1,6 +1,7 @@
 import { css, useTheme } from '@emotion/react';
-import { ReactElement } from 'react';
+import { ReactElement, useState, useCallback } from 'react';
 import PageLayout from '../../PageLayout';
+import Loader from '../../Loader';
 import defaultTheme from '../../theme';
 import { useMonarchData } from '../../../global/hooks/useMonarchData';
 import { ALS_MONDO_ID } from '../../../global/utils/constants';
@@ -12,9 +13,17 @@ import GenesTable from './GenesTable';
 import DiseaseModels from './DiseaseModels';
 import DiseaseHierarchy from './DiseaseHierarchy';
 
+const SECTION_COUNT = 3;
+
 const AlsOverview = (): ReactElement => {
 	const theme: typeof defaultTheme = useTheme();
 	const { entity, loading, error, fetchAssociations } = useMonarchData(ALS_MONDO_ID);
+	const [sectionsLoaded, setSectionsLoaded] = useState(0);
+	const allSectionsLoaded = sectionsLoaded >= SECTION_COUNT;
+
+	const handleSectionLoaded = useCallback(() => {
+		setSectionsLoaded((n) => n + 1);
+	}, []);
 
 	const sectionCardCss = css`
 		background: ${theme.colors.white};
@@ -29,20 +38,18 @@ const AlsOverview = (): ReactElement => {
 
 	return (
 		<PageLayout subtitle="ALS Overview">
-			{/* Loading state */}
-			{loading && (
+			{/* Unified loading state — entity fetch + all sections */}
+			{(loading || (entity && !allSectionsLoaded)) && !error && (
 				<div
 					css={css`
 						display: flex;
 						justify-content: center;
 						align-items: center;
+						min-height: 60vh;
 						padding: 120px 24px;
-						font-family: 'Geomanist', sans-serif;
-						font-size: 0.9rem;
-						color: ${theme.colors.grey_3};
 					`}
 				>
-					Loading ALS data…
+					<Loader message="Loading ALS data…" />
 				</div>
 			)}
 
@@ -64,7 +71,7 @@ const AlsOverview = (): ReactElement => {
 			)}
 
 			{entity && (
-				<>
+				<div css={css`display: ${allSectionsLoaded ? 'block' : 'none'};`}>
 					<DiseaseHeader entity={entity} />
 
 					<div
@@ -87,15 +94,15 @@ const AlsOverview = (): ReactElement => {
 							<SummaryCards associationCounts={entity.association_counts} />
 
 							<div css={sectionCardCss}>
-								<PhenotypeOverview fetchAssociations={fetchAssociations} />
+								<PhenotypeOverview fetchAssociations={fetchAssociations} onLoaded={handleSectionLoaded} />
 							</div>
 
 							<div css={sectionCardCss}>
-								<GenesTable fetchAssociations={fetchAssociations} />
+								<GenesTable fetchAssociations={fetchAssociations} onLoaded={handleSectionLoaded} />
 							</div>
 
 							<div css={sectionCardCss}>
-								<DiseaseModels fetchAssociations={fetchAssociations} />
+								<DiseaseModels fetchAssociations={fetchAssociations} onLoaded={handleSectionLoaded} />
 							</div>
 
 							<div css={sectionCardCss}>
@@ -107,7 +114,7 @@ const AlsOverview = (): ReactElement => {
 							</div>
 						</main>
 					</div>
-				</>
+				</div>
 			)}
 		</PageLayout>
 	);
