@@ -6,6 +6,12 @@ import defaultTheme from '../../theme';
 
 const PAGE_SIZE = 10;
 
+const ORGANISM_EMOJI: Record<string, string> = {
+	'Mus musculus': '🐭',
+	'Danio rerio': '🐟',
+	'Rattus norvegicus': '🐀',
+};
+
 type SortKey = 'model' | 'organism' | 'subtype';
 
 interface DiseaseModelsProps {
@@ -65,20 +71,25 @@ const DiseaseModels = ({ fetchAssociations, onLoaded }: DiseaseModelsProps): Rea
 		setPage(1);
 	};
 
+	// Strip HTML tags for plain-text comparisons (sort, search, title)
+	const stripHtml = (html: string) => html.replace(/<[^>]*>/g, '');
+
 	const sorted = [...items].sort((a, b) => {
 		let va: string, vb: string;
-		if (sortKey === 'model') { va = a.subject_label ?? ''; vb = b.subject_label ?? ''; }
+		if (sortKey === 'model') { va = stripHtml(a.subject_label ?? ''); vb = stripHtml(b.subject_label ?? ''); }
 		else if (sortKey === 'organism') { va = a.subject_taxon_label ?? ''; vb = b.subject_taxon_label ?? ''; }
 		else { va = a.object_label ?? ''; vb = b.object_label ?? ''; }
 		const cmp = va.localeCompare(vb);
 		return sortDir === 'asc' ? cmp : -cmp;
 	});
 
-	const filtered = sorted.filter(
-		(item) =>
-			(item.subject_label ?? '').toLowerCase().includes(search.toLowerCase()) &&
-			!deselectedOrgs.has(item.subject_taxon_label ?? 'Unknown'),
-	);
+	const filtered = sorted.filter((item) => {
+		const q = search.toLowerCase();
+		const matchesSearch =
+			stripHtml(item.subject_label ?? '').toLowerCase().includes(q) ||
+			(item.object_label ?? '').toLowerCase().includes(q);
+		return matchesSearch && !deselectedOrgs.has(item.subject_taxon_label ?? 'Unknown');
+	});
 
 	const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
 	const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
@@ -205,7 +216,10 @@ const DiseaseModels = ({ fetchAssociations, onLoaded }: DiseaseModelsProps): Rea
 											color: ${theme.colors.grey_6};
 										`}
 									>
-										{org}
+										{ORGANISM_EMOJI[org] && (
+										<span css={css`font-style: normal; margin-right: 5px;`}>{ORGANISM_EMOJI[org]}</span>
+									)}
+									{org}
 									</span>
 									<span
 										css={css`
@@ -256,10 +270,10 @@ const DiseaseModels = ({ fetchAssociations, onLoaded }: DiseaseModelsProps): Rea
 										onChange={() => toggleOrg(org)}
 										css={css`accent-color: ${theme.colors.primary}; cursor: pointer;`}
 									/>
+									{ORGANISM_EMOJI[org] && (
+										<span css={css`font-style: normal;`}>{ORGANISM_EMOJI[org]}</span>
+									)}
 									{org}
-									<span css={css`color: ${theme.colors.grey_3}; font-size: 0.75rem; font-style: normal;`}>
-										({orgCounts[org]})
-									</span>
 								</label>
 							))}
 							{deselectedOrgs.size > 0 && (
@@ -286,7 +300,7 @@ const DiseaseModels = ({ fetchAssociations, onLoaded }: DiseaseModelsProps): Rea
 						{/* Search */}
 						<input
 							type="text"
-							placeholder="Search models…"
+							placeholder="Search by model or ALS subtype…"
 							value={search}
 							onChange={(e) => handleSearch(e.target.value)}
 							css={css`
@@ -357,7 +371,7 @@ const DiseaseModels = ({ fetchAssociations, onLoaded }: DiseaseModelsProps): Rea
 												`}
 											>
 												<td
-													title={item.subject_label ?? undefined}
+													title={item.subject_label ? stripHtml(item.subject_label) : undefined}
 													css={css`
 														font-family: 'Geomanist', sans-serif;
 														font-size: 0.825rem;
@@ -368,7 +382,17 @@ const DiseaseModels = ({ fetchAssociations, onLoaded }: DiseaseModelsProps): Rea
 														white-space: nowrap;
 													`}
 												>
-													{item.subject_label ?? '—'}
+													<a
+														href={`https://monarchinitiative.org/${item.subject}`}
+														target="_blank"
+														rel="noopener noreferrer"
+														css={css`
+															color: ${theme.colors.primary};
+															text-decoration: none;
+															&:hover { text-decoration: underline; }
+														`}
+														dangerouslySetInnerHTML={{ __html: item.subject_label ?? '—' }}
+													/>
 												</td>
 												<td
 													css={css`
@@ -379,6 +403,11 @@ const DiseaseModels = ({ fetchAssociations, onLoaded }: DiseaseModelsProps): Rea
 														padding: 9px 12px;
 													`}
 												>
+													{ORGANISM_EMOJI[item.subject_taxon_label ?? ''] && (
+														<span css={css`font-style: normal; margin-right: 5px;`}>
+															{ORGANISM_EMOJI[item.subject_taxon_label ?? '']}
+														</span>
+													)}
 													{item.subject_taxon_label ?? '—'}
 												</td>
 												<td

@@ -78,6 +78,43 @@ const SideNav = (): ReactElement => {
 						</li>
 					))}
 				</ul>
+
+				<div
+					css={css`
+						margin-top: 40px;
+						padding: 0 20px;
+						border-top: 1px solid ${theme.colors.grey_2};
+						padding-top: 20px;
+					`}
+				>
+					<p
+						css={css`
+							font-family: 'Geomanist', sans-serif;
+							font-size: 0.72rem;
+							color: ${theme.colors.grey_4};
+							margin: 0 0 10px;
+							line-height: 1.4;
+						`}
+					>
+						Data sourced from
+					</p>
+					<a href="https://monarchinitiative.org" target="_blank" rel="noopener noreferrer">
+						<img
+							src="/seed-als/logos/monarch-iniciative.png"
+							alt="Monarch Initiative"
+							css={css`
+								width: 50%;
+								max-width: 140px;
+								display: block;
+								opacity: 0.85;
+								transition: opacity 0.15s ease;
+								&:hover {
+									opacity: 1;
+								}
+							`}
+						/>
+					</a>
+				</div>
 			</div>
 		</nav>
 	);
