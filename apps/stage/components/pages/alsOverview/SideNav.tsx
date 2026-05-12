@@ -30,7 +30,6 @@ const SideNav = (): ReactElement => {
 		padding: 15px 20px;
 		border-left: 2px solid transparent;
 		transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
-
 		&:hover {
 			color: ${theme.colors.primary};
 			border-left-color: ${theme.colors.primary_pale};
@@ -44,14 +43,23 @@ const SideNav = (): ReactElement => {
 				width: 220px;
 				flex-shrink: 0;
 				background: ${theme.colors.white};
-				box-shadow: 2px 0 8px rgba(0, 0, 0, 0.8);
+				box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+				@media (max-width: 768px) {
+					width: 100%;
+					box-shadow: none;
+					border-bottom: 1px solid ${theme.colors.grey_2};
+				}
 			`}
 		>
+			{/* Desktop: sticky vertical nav */}
 			<div
 				css={css`
 					position: sticky;
 					top: ${NAV_HEIGHT}px;
 					padding: 32px 0;
+					@media (max-width: 768px) {
+						display: none;
+					}
 				`}
 			>
 				<p
@@ -82,9 +90,8 @@ const SideNav = (): ReactElement => {
 				<div
 					css={css`
 						margin-top: 40px;
-						padding: 0 20px;
+						padding: 20px 20px 0;
 						border-top: 1px solid ${theme.colors.grey_2};
-						padding-top: 20px;
 					`}
 				>
 					<p
@@ -108,13 +115,56 @@ const SideNav = (): ReactElement => {
 								display: block;
 								opacity: 0.85;
 								transition: opacity 0.15s ease;
-								&:hover {
-									opacity: 1;
-								}
+								&:hover { opacity: 1; }
 							`}
 						/>
 					</a>
 				</div>
+			</div>
+
+			{/* Mobile: horizontal scrollable pills */}
+			<div
+				css={css`
+					display: none;
+					@media (max-width: 768px) {
+						display: flex;
+						overflow-x: auto;
+						padding: 12px 16px;
+						gap: 8px;
+						-webkit-overflow-scrolling: touch;
+						scrollbar-width: none;
+						&::-webkit-scrollbar { display: none; }
+					}
+				`}
+			>
+				{NAV_ITEMS.map((item) => (
+					<a
+						key={item.id}
+						href={`#${item.id}`}
+						onClick={scrollTo(item.id)}
+						css={css`
+							font-family: 'Geomanist', sans-serif;
+							font-size: 0.8rem;
+							font-weight: 400;
+							color: ${theme.colors.grey_6};
+							text-decoration: none;
+							white-space: nowrap;
+							padding: 6px 14px;
+							border: 1px solid ${theme.colors.grey_2};
+							border-radius: 20px;
+							background: ${theme.colors.white};
+							flex-shrink: 0;
+							transition: color 0.15s, background 0.15s, border-color 0.15s;
+							&:hover {
+								color: ${theme.colors.primary};
+								border-color: ${theme.colors.primary_pale};
+								background: ${theme.colors.primary_palest};
+							}
+						`}
+					>
+						{item.label}
+					</a>
+				))}
 			</div>
 		</nav>
 	);

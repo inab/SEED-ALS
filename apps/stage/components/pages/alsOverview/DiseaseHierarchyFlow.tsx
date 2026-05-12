@@ -141,12 +141,14 @@ export default function DiseaseHierarchyFlow({ hierarchy, diseaseName, diseaseId
 				nodeTypes={nodeTypes}
 				onNodeClick={handleNodeClick}
 				fitView
-				fitViewOptions={{ padding: 0.15 }}
+				fitViewOptions={{ padding: 0.3 }}
+				minZoom={0.2}
 				nodesDraggable={false}
 				nodesConnectable={false}
 				elementsSelectable={false}
 				zoomOnScroll={false}
 				panOnScroll={false}
+				panOnDrag={true}
 				proOptions={{ hideAttribution: true }}
 			/>
 		</div>

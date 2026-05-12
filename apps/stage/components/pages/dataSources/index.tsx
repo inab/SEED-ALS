@@ -106,6 +106,9 @@ const DataSources = (): ReactElement => {
 					@media (max-width: 900px) {
 						grid-template-columns: 1fr;
 					}
+					@media (max-width: 768px) {
+						padding: 32px 16px 48px;
+					}
 				`}
 			>
 				{DATA_SOURCES.map((source) => (

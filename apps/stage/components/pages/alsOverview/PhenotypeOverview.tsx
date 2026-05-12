@@ -382,7 +382,8 @@ const PhenotypeOverview = ({ fetchAssociations, onLoaded }: PhenotypeOverviewPro
 						{/* Table */}
 						{filtered.length > 0 ? (
 							<>
-								<table css={css`width: 100%; border-collapse: collapse; table-layout: fixed;`}>
+								<div css={css`overflow-x: auto;`}>
+								<table css={css`width: 100%; min-width: 400px; border-collapse: collapse; table-layout: fixed;`}>
 									<thead>
 										<tr>
 											{columns.map((col) => {
@@ -460,6 +461,7 @@ const PhenotypeOverview = ({ fetchAssociations, onLoaded }: PhenotypeOverviewPro
 										))}
 									</tbody>
 								</table>
+								</div>
 
 								{/* Pagination */}
 								<div
@@ -503,6 +505,10 @@ const PhenotypeOverview = ({ fetchAssociations, onLoaded }: PhenotypeOverviewPro
 													cursor: pointer;
 													&:hover:not(:disabled) {
 														background: ${theme.colors.grey_1};
+													}
+													@media (max-width: 576px) {
+														padding: 5px 8px;
+														font-size: 0.75rem;
 													}
 													&:disabled {
 														opacity: 0.4;

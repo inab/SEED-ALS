@@ -18,6 +18,9 @@ const HomeHeader = (): ReactElement => (
 			align-items: center;
 			justify-content: center;
 			flex-shrink: 0;
+			@media (max-width: 768px) {
+				display: none;
+			}
 		`}
 	>
 		<nav
@@ -41,7 +44,6 @@ const HomeHeader = (): ReactElement => (
 						text-decoration: none;
 						border-radius: 6px;
 						transition: color 0.2s ease, background 0.2s ease;
-
 						&:hover {
 							color: rgba(255, 255, 255, 0.95);
 							background: rgba(255, 255, 255, 0.08);

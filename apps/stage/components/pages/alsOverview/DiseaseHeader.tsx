@@ -18,6 +18,9 @@ const DiseaseHeader = ({ entity }: DiseaseHeaderProps): ReactElement => {
 				color: ${theme.colors.white};
 				padding: 56px 40px;
 				scroll-margin-top: 80px;
+				@media (max-width: 768px) {
+					padding: 32px 20px;
+				}
 			`}
 		>
 			<div css={css`max-width: 1400px; margin: 0 auto;`}>
@@ -51,7 +54,7 @@ const DiseaseHeader = ({ entity }: DiseaseHeaderProps): ReactElement => {
 				<h1
 					css={css`
 						font-family: 'Geomanist', sans-serif;
-						font-size: 2.2rem;
+						font-size: clamp(1.5rem, 4vw, 2.2rem);
 						font-weight: 700;
 						margin: 0 0 20px;
 						text-transform: capitalize;

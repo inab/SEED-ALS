@@ -171,6 +171,10 @@ const EgaExplorer = (): ReactElement => {
 		cursor: pointer;
 		&:hover:not(:disabled) { background: ${theme.colors.grey_1}; }
 		&:disabled { opacity: 0.4; cursor: default; }
+		@media (max-width: 576px) {
+			padding: 5px 8px;
+			font-size: 0.75rem;
+		}
 	`;
 
 	const accessBadgeCss = (accessType: string) => css`
@@ -201,8 +205,8 @@ const EgaExplorer = (): ReactElement => {
 	`;
 
 	const columns: { label: string; width: string; sk: SortKey | null }[] = [
-		{ label: 'Accession', width: '13%', sk: 'accession_id' },
-		{ label: 'Title', width: '37%', sk: 'title' },
+		{ label: 'Accession', width: '20%', sk: 'accession_id' },
+		{ label: 'Title', width: '30%', sk: 'title' },
 		{ label: 'Study Type', width: '15%', sk: 'study_type' },
 		{ label: 'Released', width: '10%', sk: 'released_date' },
 		{ label: 'Samples', width: '11%', sk: 'samples' },
@@ -248,6 +252,9 @@ const EgaExplorer = (): ReactElement => {
 							color: ${theme.colors.white};
 							padding: 56px 24px;
 							text-align: center;
+							@media (max-width: 768px) {
+								padding: 32px 20px;
+							}
 						`}
 					>
 						<h1
@@ -277,7 +284,16 @@ const EgaExplorer = (): ReactElement => {
 					</section>
 
 					{/* Two-column layout */}
-					<div css={css`display: flex; width: 100%; align-items: stretch;`}>
+					<div
+						css={css`
+							display: flex;
+							width: 100%;
+							align-items: stretch;
+							@media (max-width: 768px) {
+								flex-direction: column;
+							}
+						`}
+					>
 
 						{/* Left filter panel */}
 						<aside
@@ -286,6 +302,11 @@ const EgaExplorer = (): ReactElement => {
 								flex-shrink: 0;
 								background: ${theme.colors.white};
 								box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+								@media (max-width: 768px) {
+									width: 100%;
+									box-shadow: none;
+									border-bottom: 1px solid ${theme.colors.grey_2};
+								}
 							`}
 						>
 							<div
@@ -293,6 +314,10 @@ const EgaExplorer = (): ReactElement => {
 									position: sticky;
 									top: ${NAV_HEIGHT}px;
 									padding: 32px 0;
+									@media (max-width: 768px) {
+										position: static;
+										padding: 16px 0;
+									}
 								`}
 							>
 								{/* Search */}
@@ -428,6 +453,9 @@ const EgaExplorer = (): ReactElement => {
 								min-width: 0;
 								padding: 32px 40px 72px;
 								background: ${theme.colors.grey_1};
+								@media (max-width: 768px) {
+									padding: 24px 16px 48px;
+								}
 							`}
 						>
 							{/* Summary cards */}
@@ -517,7 +545,18 @@ const EgaExplorer = (): ReactElement => {
 										</p>
 									)}
 
-									<table css={css`width: 100%; border-collapse: collapse; table-layout: fixed;`}>
+									<div css={css`overflow-x: auto;`}>
+									<table
+								css={css`
+									width: 100%;
+									min-width: 600px;
+									border-collapse: collapse;
+									table-layout: fixed;
+									@media (max-width: 1024px) {
+										table-layout: auto;
+									}
+								`}
+							>
 										<thead>
 											<tr>
 												{columns.map((col) => {
@@ -570,7 +609,7 @@ const EgaExplorer = (): ReactElement => {
 															&:hover { background: ${theme.colors.grey_1}; }
 														`}
 													>
-														<td css={css`padding: 9px 12px;`}>
+														<td css={css`padding: 9px 12px; white-space: nowrap;`}>
 															<a
 																href={EGA_STUDY_URL(study.accession_id)}
 																target="_blank"
@@ -671,6 +710,7 @@ const EgaExplorer = (): ReactElement => {
 											})}
 										</tbody>
 									</table>
+									</div>
 
 									{/* Pagination */}
 									{totalPages > 1 && (
@@ -754,7 +794,7 @@ const EgaExplorer = (): ReactElement => {
 							background: ${theme.colors.white};
 							border-radius: 10px;
 							width: 100%;
-							max-width: 960px;
+							max-width: min(960px, 95vw);
 							max-height: 80vh;
 							display: flex;
 							flex-direction: column;
@@ -1011,9 +1051,11 @@ const EgaExplorer = (): ReactElement => {
 									</p>
 								)}
 								{selectedDatasets && selectedDatasets.length > 0 && (
+									<div css={css`overflow-x: auto;`}>
 									<table
 										css={css`
 											width: 100%;
+											min-width: 480px;
 											border-collapse: collapse;
 										`}
 									>
@@ -1118,6 +1160,7 @@ const EgaExplorer = (): ReactElement => {
 											))}
 										</tbody>
 									</table>
+									</div>
 								)}
 							</div>
 						</div>

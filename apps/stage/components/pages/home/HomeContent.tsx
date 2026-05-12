@@ -31,8 +31,7 @@ const HomeContent = (): ReactElement => {
 	return (
 		<main
 			css={css`
-				height: 100vh;
-				overflow: hidden;
+				min-height: 100vh;
 				font-family: 'Geomanist', sans-serif;
 				background: linear-gradient(
 					135deg,
@@ -53,15 +52,14 @@ const HomeContent = (): ReactElement => {
 					flex-direction: column;
 					align-items: center;
 					justify-content: center;
-					padding: 0 24px;
-					overflow: hidden;
+					padding: 32px 24px 48px;
 				`}
 			>
 				<img
 					src="/seed-als/logos/SEED-ALS PNG/logo SEED-ALS_Blanco.png"
 					alt="SEED-ALS"
 					css={css`
-						width: 400px;
+						width: min(400px, 80vw);
 						height: auto;
 						margin-bottom: 36px;
 					`}
@@ -69,7 +67,7 @@ const HomeContent = (): ReactElement => {
 
 				<h1
 					css={css`
-						font-size: 2.4rem;
+						font-size: clamp(1.6rem, 4vw, 2.4rem);
 						font-weight: 300;
 						color: ${theme.colors.white};
 						margin: 0 0 18px 0;
@@ -83,7 +81,7 @@ const HomeContent = (): ReactElement => {
 
 				<p
 					css={css`
-						font-size: 1.15rem;
+						font-size: clamp(0.95rem, 2vw, 1.15rem);
 						font-weight: 300;
 						color: ${theme.colors.white};
 						opacity: 0.82;
@@ -104,6 +102,17 @@ const HomeContent = (): ReactElement => {
 						gap: 24px;
 						max-width: 1400px;
 						width: 100%;
+						@media (min-width: 577px) and (max-width: 900px) {
+							grid-template-columns: 1fr 1fr;
+							& > a:last-child:nth-child(odd) {
+								grid-column: 1 / -1;
+								width: calc(50% - 12px);
+								justify-self: center;
+							}
+						}
+						@media (max-width: 576px) {
+							grid-template-columns: 1fr;
+						}
 					`}
 				>
 					{features.map((feature) => (

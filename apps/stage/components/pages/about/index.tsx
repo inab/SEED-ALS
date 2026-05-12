@@ -17,6 +17,9 @@ const About = (): ReactElement => {
 					padding: 80px 64px;
 					display: flex;
 					align-items: center;
+					@media (max-width: 768px) {
+						padding: 40px 20px;
+					}
 				`}
 			>
 				<div
@@ -156,6 +159,9 @@ const About = (): ReactElement => {
 					background-color: ${theme.colors.white};
 					border-top: 1px solid ${theme.colors.grey_2};
 					padding: 64px 64px;
+					@media (max-width: 768px) {
+						padding: 40px 20px;
+					}
 				`}
 			>
 				<div
