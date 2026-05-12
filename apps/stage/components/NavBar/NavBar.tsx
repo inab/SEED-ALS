@@ -1,7 +1,7 @@
 // components/NavBar/NavBar.tsx
 import { css, useTheme } from '@emotion/react';
 import { useRouter } from 'next/router';
-import { createRef, ReactElement } from 'react';
+import { createRef, ReactElement, useState } from 'react';
 
 import { getConfig } from '../../global/config';
 import useAuthContext from '../../global/hooks/useAuthContext';
@@ -25,6 +25,9 @@ const NavBar = (): ReactElement => {
 	const theme: typeof defaultTheme = useTheme();
 	const { user } = useAuthContext();
 	const { NEXT_PUBLIC_AUTH_PROVIDER } = getConfig();
+	const [menuOpen, setMenuOpen] = useState(false);
+
+	const NAV_HEIGHT = theme.dimensions.navbar.height;
 
 	return (
 		<div
@@ -33,7 +36,7 @@ const NavBar = (): ReactElement => {
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				height: ${theme.dimensions.navbar.height}px;
+				height: ${NAV_HEIGHT}px;
 				background: ${theme.colors.white};
 				position: fixed;
 				top: 0;
@@ -46,49 +49,28 @@ const NavBar = (): ReactElement => {
 			`}
 		>
 			{/* Logo */}
-			<div
-				css={css`
-					display: flex;
-					align-items: center;
-					flex-shrink: 0;
-				`}
-			>
+			<div css={css`display: flex; align-items: center; flex-shrink: 0;`}>
 				<InternalLink path={INTERNAL_PATHS.HOME}>
-					<a
-						css={css`
-							display: flex;
-							align-items: center;
-							text-decoration: none;
-						`}
-					>
+					<a css={css`display: flex; align-items: center; text-decoration: none;`}>
 						<img
 							src="/seed-als/logos/SEED-ALS PNG/logo SEED-ALS_Azul.png"
 							alt="SEED-ALS"
-							css={css`
-								height: 70px;
-								width: auto;
-							`}
+							css={css`height: ${NAV_HEIGHT}px; width: auto;`}
 						/>
 					</a>
 				</InternalLink>
 			</div>
 
-			{/* Nav links + Auth */}
-			<div
-				css={css`
-					display: flex;
-					align-items: center;
-					height: 100%;
-					gap: 0;
-				`}
-			>
-				{/* Navigation links */}
+			{/* Right side */}
+			<div css={css`display: flex; align-items: center; height: 100%;`}>
+
+				{/* Desktop nav links */}
 				<nav
 					css={css`
 						display: flex;
 						align-items: center;
 						height: 100%;
-						@media (max-width: 768px) {
+						@media (max-width: ${theme.dimensions.breakpoints.md}px) {
 							display: none;
 						}
 					`}
@@ -102,7 +84,7 @@ const NavBar = (): ReactElement => {
 										display: flex;
 										align-items: center;
 										justify-content: center;
-										height: ${theme.dimensions.navbar.height}px;
+										height: ${NAV_HEIGHT}px;
 										padding: 0 18px;
 										font-family: 'Geomanist', sans-serif;
 										font-size: 14px;
@@ -127,15 +109,9 @@ const NavBar = (): ReactElement => {
 					})}
 				</nav>
 
-				{/* Auth Section — hidden for now, functionality preserved */}
+				{/* Auth — hidden, functionality preserved */}
 				{NEXT_PUBLIC_AUTH_PROVIDER && (
-					<div
-						css={css`
-							display: none;
-							align-items: center;
-							margin-left: 16px;
-						`}
-					>
+					<div css={css`display: none; align-items: center; margin-left: 16px;`}>
 						{user ? (
 							<div
 								css={(theme) => css`
@@ -143,9 +119,7 @@ const NavBar = (): ReactElement => {
 									height: ${theme.dimensions.navbar.height}px;
 									position: relative;
 									display: flex;
-									&:hover {
-										background-color: ${theme.colors.grey_1};
-									}
+									&:hover { background-color: ${theme.colors.grey_1}; }
 								`}
 							>
 								<UserDropdown />
@@ -164,9 +138,7 @@ const NavBar = (): ReactElement => {
 										border: none;
 										cursor: pointer;
 										transition: background-color 0.2s;
-										&:hover {
-											background-color: ${theme.colors.primary_light};
-										}
+										&:hover { background-color: ${theme.colors.primary_light}; }
 									`}
 								>
 									Log in
@@ -175,7 +147,91 @@ const NavBar = (): ReactElement => {
 						)}
 					</div>
 				)}
+
+				{/* Hamburger — hidden on desktop, visible on mobile */}
+				<button
+					onClick={() => setMenuOpen((o) => !o)}
+					aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+					aria-expanded={menuOpen}
+					css={css`
+						display: none;
+						@media (max-width: ${theme.dimensions.breakpoints.md}px) {
+							display: flex;
+							align-items: center;
+							justify-content: center;
+							width: 40px;
+							height: 40px;
+							background: none;
+							border: none;
+							cursor: pointer;
+							border-radius: 6px;
+							color: ${theme.colors.grey_5};
+							font-size: 1.5rem;
+							padding: 0;
+							transition: background 0.15s;
+							&:hover { background: ${theme.colors.grey_1}; }
+						}
+					`}
+				>
+					{menuOpen ? '✕' : '☰'}
+				</button>
 			</div>
+
+			{/* Mobile dropdown */}
+			{menuOpen && (
+				<>
+					<div
+						onClick={() => setMenuOpen(false)}
+						css={css`
+							position: fixed;
+							inset: ${NAV_HEIGHT}px 0 0 0;
+							background: rgba(0, 0, 0, 0.3);
+							z-index: 665;
+						`}
+					/>
+					<nav
+						css={css`
+							position: fixed;
+							top: ${NAV_HEIGHT}px;
+							left: 0;
+							right: 0;
+							background: ${theme.colors.white};
+							box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+							z-index: 666;
+							padding: 8px 0 16px;
+						`}
+					>
+						{navItems.map(({ path, label }) => {
+							const isActive = router.pathname === path;
+							return (
+								<InternalLink key={path} path={path}>
+									<a
+										onClick={() => setMenuOpen(false)}
+										css={css`
+											display: block;
+											padding: 14px 24px;
+											font-family: 'Geomanist', sans-serif;
+											font-size: 15px;
+											font-weight: ${isActive ? '700' : '400'};
+											color: ${isActive ? theme.colors.primary : theme.colors.grey_5};
+											background-color: ${isActive ? theme.colors.primary_palest : 'transparent'};
+											text-decoration: none;
+											border-left: 3px solid ${isActive ? theme.colors.primary : 'transparent'};
+											transition: background 0.15s, color 0.15s;
+											&:hover {
+												color: ${theme.colors.primary};
+												background-color: ${theme.colors.primary_palest};
+											}
+										`}
+									>
+										{label}
+									</a>
+								</InternalLink>
+							);
+						})}
+					</nav>
+				</>
+			)}
 		</div>
 	);
 };
