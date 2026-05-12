@@ -33,6 +33,11 @@ const dimensions = {
 		width: 140,
 		height: 40,
 	},
+	breakpoints: {
+		sm: 576,
+		md: 768,
+		lg: 1024,
+	},
 };
 
 export default dimensions;
