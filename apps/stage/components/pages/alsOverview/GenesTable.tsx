@@ -328,7 +328,8 @@ const GenesTable = ({ fetchAssociations, onLoaded }: GenesTableProps): ReactElem
 
 							{filtered.length > 0 ? (
 								<>
-									<table css={css`width: 100%; border-collapse: collapse; table-layout: fixed;`}>
+									<div css={css`overflow-x: auto;`}>
+									<table css={css`width: 100%; min-width: 480px; border-collapse: collapse; table-layout: fixed;`}>
 										<thead>
 											<tr>
 												{columns.map((col) => {
@@ -442,6 +443,7 @@ const GenesTable = ({ fetchAssociations, onLoaded }: GenesTableProps): ReactElem
 											})}
 										</tbody>
 									</table>
+									</div>
 
 									{/* Pagination */}
 									<div
@@ -523,7 +525,7 @@ const GenesTable = ({ fetchAssociations, onLoaded }: GenesTableProps): ReactElem
 							background: ${theme.colors.white};
 							border-radius: 10px;
 							width: 100%;
-							max-width: 520px;
+							max-width: min(520px, 95vw);
 							max-height: 72vh;
 							display: flex;
 							flex-direction: column;

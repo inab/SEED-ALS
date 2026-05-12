@@ -79,6 +79,9 @@ const AlsOverview = (): ReactElement => {
 							display: flex;
 							width: 100%;
 							align-items: stretch;
+							@media (max-width: 768px) {
+								flex-direction: column;
+							}
 						`}
 					>
 						<SideNav />
@@ -89,6 +92,9 @@ const AlsOverview = (): ReactElement => {
 								min-width: 0;
 								padding: 32px 40px 72px;
 								background: ${theme.colors.grey_1};
+								@media (max-width: 768px) {
+									padding: 24px 16px 48px;
+								}
 							`}
 						>
 							<SummaryCards associationCounts={entity.association_counts} />

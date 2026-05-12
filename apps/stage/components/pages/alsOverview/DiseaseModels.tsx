@@ -118,8 +118,8 @@ const DiseaseModels = ({ fetchAssociations, onLoaded }: DiseaseModelsProps): Rea
 	`;
 
 	const columns: { label: string; width: string; sk: SortKey }[] = [
-		{ label: 'Model', width: '70%', sk: 'model' },
-		{ label: 'Organism', width: '10%', sk: 'organism' },
+		{ label: 'Model', width: '55%', sk: 'model' },
+		{ label: 'Organism', width: '25%', sk: 'organism' },
 		{ label: 'ALS subtype', width: '20%', sk: 'subtype' },
 	];
 
@@ -320,7 +320,8 @@ const DiseaseModels = ({ fetchAssociations, onLoaded }: DiseaseModelsProps): Rea
 
 						{filtered.length > 0 ? (
 							<>
-								<table css={css`width: 100%; border-collapse: collapse; table-layout: fixed;`}>
+								<div css={css`overflow-x: auto;`}>
+								<table css={css`width: 100%; min-width: 480px; border-collapse: collapse; table-layout: fixed;`}>
 									<thead>
 										<tr>
 											{columns.map((col) => {
@@ -416,9 +417,6 @@ const DiseaseModels = ({ fetchAssociations, onLoaded }: DiseaseModelsProps): Rea
 														font-size: 0.8rem;
 														color: ${theme.colors.grey_5};
 														padding: 9px 12px;
-														overflow: hidden;
-														text-overflow: ellipsis;
-														white-space: nowrap;
 													`}
 												>
 													{item.object_label ?? '—'}
@@ -427,6 +425,7 @@ const DiseaseModels = ({ fetchAssociations, onLoaded }: DiseaseModelsProps): Rea
 										))}
 									</tbody>
 								</table>
+								</div>
 
 								{/* Pagination */}
 								<div
