@@ -506,6 +506,10 @@ const PhenotypeOverview = ({ fetchAssociations, onLoaded }: PhenotypeOverviewPro
 													&:hover:not(:disabled) {
 														background: ${theme.colors.grey_1};
 													}
+													@media (max-width: 576px) {
+														padding: 5px 8px;
+														font-size: 0.75rem;
+													}
 													&:disabled {
 														opacity: 0.4;
 														cursor: default;

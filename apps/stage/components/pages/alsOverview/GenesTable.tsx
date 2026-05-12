@@ -171,6 +171,10 @@ const GenesTable = ({ fetchAssociations, onLoaded }: GenesTableProps): ReactElem
 			opacity: 0.4;
 			cursor: default;
 		}
+		@media (max-width: 576px) {
+			padding: 5px 8px;
+			font-size: 0.75rem;
+		}
 	`;
 
 	const selectedPhenotypes = selectedGene ? (genePhMap[selectedGene] ?? []) : [];

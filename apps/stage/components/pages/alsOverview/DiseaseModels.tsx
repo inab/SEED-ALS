@@ -115,6 +115,10 @@ const DiseaseModels = ({ fetchAssociations, onLoaded }: DiseaseModelsProps): Rea
 			opacity: 0.4;
 			cursor: default;
 		}
+		@media (max-width: 576px) {
+			padding: 5px 8px;
+			font-size: 0.75rem;
+		}
 	`;
 
 	const columns: { label: string; width: string; sk: SortKey }[] = [
