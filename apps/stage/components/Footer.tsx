@@ -106,9 +106,7 @@ const Footer = () => {
 						line-height: 1.5;
 					`}
 				>
-					ENTIDAD FINANCIADORA: INSTITUTO DE SALUD CARLOS III (ISCIII). PROYECTO FINANCIADO CON CARGO A FONDOS NEXTGENERATION EU,
-					<br />
-					QUE FINANCIAN LAS ACTUACIONES DEL MRR
+					ENTIDAD FINANCIADORA: INSTITUTO DE SALUD CARLOS III (ISCIII). PROYECTO FINANCIADO CON CARGO A FONDOS NEXTGENERATION EU, QUE FINANCIAN LAS ACTUACIONES DEL MRR
 				</p>
 			</div>
 
@@ -125,6 +123,7 @@ const Footer = () => {
 					css={css`
 						height: 50px;
 						width: auto;
+						max-width: 100%;
 					`}
 				/>
 			</div>
