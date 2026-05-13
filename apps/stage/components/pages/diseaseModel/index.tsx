@@ -11,7 +11,7 @@ const DiseaseModel = (): ReactElement => {
 			{/* Page header */}
 			<section
 				css={css`
-					background: linear-gradient(135deg, ${theme.colors.primary_dark} 0%, ${theme.colors.primary} 100%);
+					background: linear-gradient(135deg, ${theme.colors.primary_darker} 10%, ${theme.colors.primary} 50%, ${theme.colors.primary_lightest} 100%);
 					color: ${theme.colors.white};
 					padding: 56px 24px;
 					text-align: center;
