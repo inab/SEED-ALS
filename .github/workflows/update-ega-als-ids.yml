@@ -1,0 +1,83 @@
+name: Update EGA ALS Accession IDs
+
+on:
+  schedule:
+    - cron: '0 8 1 * *'  # 1st of every month at 08:00 UTC
+  workflow_dispatch:      # allow manual trigger from GitHub UI
+
+jobs:
+  check-new-als-studies:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run EGA ALS ID detection script
+        id: detect
+        run: node .github/scripts/update-ega-als-ids.js
+        continue-on-error: true
+
+      - name: Update constants.ts with new IDs
+        if: steps.detect.outcome == 'failure'
+        run: |
+          NEW_IDS=$(node -e "
+            const fs = require('fs');
+            const newIds = JSON.parse(fs.readFileSync('.github/scripts/new-als-ids.json', 'utf8'));
+            const src = fs.readFileSync('apps/stage/global/utils/constants.ts', 'utf8');
+            const match = src.match(/ALS_EGA_ACCESSION_IDS[^=]*=\s*\[([\s\S]*?)\];/);
+            const current = [...match[1].matchAll(/'(EGAS\w+)'/g)].map(m => m[1]);
+            const merged = [...new Set([...current, ...newIds])].sort();
+            const entries = merged.map(id => \`\t'\${id}',\`).join('\n');
+            const updated = src.replace(
+              /ALS_EGA_ACCESSION_IDS[^=]*=\s*\[([\s\S]*?)\];/,
+              \`ALS_EGA_ACCESSION_IDS: string[] = [\n\${entries}\n];\`
+            );
+            fs.writeFileSync('apps/stage/global/utils/constants.ts', updated);
+            console.log(newIds.join(', '));
+          ")
+          echo "NEW_IDS=$NEW_IDS" >> $GITHUB_ENV
+
+      - name: Commit and push changes
+        if: steps.detect.outcome == 'failure'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b bot/update-ega-als-ids
+          git add apps/stage/global/utils/constants.ts
+          git commit -m "update ALS EGA accession IDs list"
+          git push origin bot/update-ega-als-ids --force
+
+      - name: Open pull request (skip if already exists)
+        if: steps.detect.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          EXISTING=$(gh pr list --head bot/update-ega-als-ids --base TechBioLab --json number --jq '.[0].number')
+          if [ -n "$EXISTING" ]; then
+            echo "PR #$EXISTING already exists, skipping creation."
+          else
+            gh pr create \
+              --title "[Bot] New ALS studies detected in EGA" \
+              --body "## New ALS studies detected
+
+          The monthly EGA scan found new ALS-related studies not present in the current accession ID list.
+
+          **New IDs added:** \`${{ env.NEW_IDS }}\`
+
+          Please review and merge if the studies are relevant.
+
+          ---
+          *Opened automatically by the [Update EGA ALS Accession IDs](.github/workflows/update-ega-als-ids.yml) workflow.*" \
+              --base TechBioLab \
+              --label "automated" \
+              --label "data-update"
+          fi

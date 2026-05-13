@@ -102,6 +102,36 @@ export const ALS_MONDO_ID = 'MONDO:0004976';
 export const EGA_API_BASE_URL = 'https://metadata.ega-archive.org';
 export const ALS_EGA_KEYWORDS = ['als', 'amyotrophic', 'motor neuron disease'];
 
+// Predefined list of ALS-related study accession IDs from EGA.
+// Maintained automatically by the GitHub Actions workflow (.github/workflows/update-ega-als-ids.yml).
+export const ALS_EGA_ACCESSION_IDS: string[] = [
+	'EGAS00001002439',
+	'EGAS00001002462',
+	'EGAS00001002473',
+	'EGAS00001002598',
+	'EGAS00001003295',
+	'EGAS00001003383',
+	'EGAS00001004286',
+	'EGAS00001004587',
+	'EGAS00001005220',
+	'EGAS00001005879',
+	'EGAS00001005880',
+	'EGAS00001005881',
+	'EGAS00001006138',
+	'EGAS00001006675',
+	'EGAS00001006711',
+	'EGAS00001007318',
+	'EGAS00001008053',
+	'EGAS50000000575',
+	'EGAS50000000908',
+	'EGAS50000000909',
+	'EGAS50000001019',
+	'EGAS50000001267',
+	'EGAS50000001562',
+	'EGAS50000001563',
+	'EGAS50000001566',
+];
+
 export enum ALS_ASSOCIATION_CATEGORIES {
 	CAUSAL_GENE_TO_DISEASE = 'biolink:CausalGeneToDiseaseAssociation',
 	CORRELATED_GENE_TO_DISEASE = 'biolink:CorrelatedGeneToDiseaseAssociation',
