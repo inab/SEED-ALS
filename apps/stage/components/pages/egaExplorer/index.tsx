@@ -1,10 +1,102 @@
 import { css, useTheme } from '@emotion/react';
-import { useState, useEffect, ReactElement } from 'react';
+import { useState, useEffect, useRef, ReactElement } from 'react';
 import { EgaDataset } from '../../../global/types/ega';
 import { useEgaData } from '../../../global/hooks/useEgaData';
 import PageLayout from '../../PageLayout';
 import Loader from '../../Loader';
 import defaultTheme from '../../theme';
+
+function useCountUp(target: number | null, duration = 1400) {
+	const [count, setCount] = useState(0);
+	const ref = useRef<HTMLParagraphElement>(null);
+	const animating = useRef(false);
+
+	useEffect(() => {
+		if (target === null) return;
+		if (animating.current) return;
+
+		const el = ref.current;
+		if (!el) return;
+
+		const start = () => {
+			animating.current = true;
+			const startTime = performance.now();
+			const step = (now: number) => {
+				const elapsed = now - startTime;
+				const progress = Math.min(elapsed / duration, 1);
+				const eased = 1 - Math.pow(1 - progress, 3);
+				setCount(Math.round(eased * target));
+				if (progress < 1) requestAnimationFrame(step);
+			};
+			requestAnimationFrame(step);
+		};
+
+		const observer = new IntersectionObserver(
+			([entry]) => {
+				if (entry.isIntersecting) {
+					observer.disconnect();
+					start();
+				}
+			},
+			{ threshold: 0.3 },
+		);
+
+		observer.observe(el);
+		return () => observer.disconnect();
+	}, [target, duration]);
+
+	return { count, ref };
+}
+
+interface EgaSummaryCardProps {
+	value: number | null;
+	label: string;
+	theme: typeof defaultTheme;
+}
+
+function EgaSummaryCard({ value, label, theme }: EgaSummaryCardProps): ReactElement {
+	const { count, ref } = useCountUp(value);
+
+	return (
+		<div
+			css={css`
+				background: ${theme.colors.white};
+				border: 1px solid ${theme.colors.grey_2};
+				border-radius: 10px;
+				padding: 20px 24px;
+				min-width: 130px;
+				flex: 1;
+			`}
+		>
+			<p
+				ref={ref}
+				css={css`
+					font-family: 'Geomanist', sans-serif;
+					font-size: 1.9rem;
+					font-weight: 700;
+					color: ${value === null ? theme.colors.grey_3 : theme.colors.primary};
+					margin: 0 0 4px;
+					line-height: 1;
+				`}
+			>
+				{value === null ? '…' : count.toLocaleString()}
+			</p>
+			<p
+				css={css`
+					font-family: 'Geomanist', sans-serif;
+					font-size: 0.75rem;
+					font-weight: 700;
+					text-transform: uppercase;
+					letter-spacing: 0.5px;
+					color: ${theme.colors.grey_3};
+					margin: 0;
+				`}
+			>
+				{label}
+			</p>
+		</div>
+	);
+}
 
 const EGA_STUDY_URL = (id: string) => `https://ega-archive.org/studies/${id}`;
 const EGA_DATASET_URL = (id: string) => `https://ega-archive.org/datasets/${id}`;
@@ -467,58 +559,10 @@ const EgaExplorer = (): ReactElement => {
 									margin-bottom: 40px;
 								`}
 							>
-								{[
-									{ value: studies.length.toLocaleString(), label: 'ALS Studies', loading: false },
-									{ value: studyTypeCount.toLocaleString(), label: 'Study Types', loading: false },
-									{
-										value: datasetsAllLoading ? '…' : totalDatasets.toLocaleString(),
-										label: 'ALS Datasets',
-										loading: datasetsAllLoading,
-									},
-									{
-										value: datasetsAllLoading ? '…' : totalSamples.toLocaleString(),
-										label: 'ALS Samples',
-										loading: datasetsAllLoading,
-									},
-								].map((card) => (
-									<div
-										key={card.label}
-										css={css`
-											background: ${theme.colors.white};
-											border: 1px solid ${theme.colors.grey_2};
-											border-radius: 10px;
-											padding: 20px 24px;
-											min-width: 130px;
-											flex: 1;
-										`}
-									>
-										<p
-											css={css`
-												font-family: 'Geomanist', sans-serif;
-												font-size: 1.9rem;
-												font-weight: 700;
-												color: ${card.loading ? theme.colors.grey_3 : theme.colors.primary};
-												margin: 0 0 4px;
-												line-height: 1;
-											`}
-										>
-											{card.value}
-										</p>
-										<p
-											css={css`
-												font-family: 'Geomanist', sans-serif;
-												font-size: 0.75rem;
-												font-weight: 700;
-												text-transform: uppercase;
-												letter-spacing: 0.5px;
-												color: ${theme.colors.grey_3};
-												margin: 0;
-											`}
-										>
-											{card.label}
-										</p>
-									</div>
-								))}
+								<EgaSummaryCard value={studies.length} label="ALS Studies" theme={theme} />
+								<EgaSummaryCard value={studyTypeCount} label="Study Types" theme={theme} />
+								<EgaSummaryCard value={datasetsAllLoading ? null : totalDatasets} label="ALS Datasets" theme={theme} />
+								<EgaSummaryCard value={datasetsAllLoading ? null : totalSamples} label="ALS Samples" theme={theme} />
 							</div>
 
 							{/* Studies table */}
