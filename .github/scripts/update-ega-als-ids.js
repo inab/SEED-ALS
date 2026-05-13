@@ -16,9 +16,15 @@ const KEYWORDS = ['als', 'amyotrophic', 'motor neuron disease'];
 const CONSTANTS_PATH = path.join(__dirname, '../../apps/stage/global/utils/constants.ts');
 const OUTPUT_PATH = path.join(__dirname, 'new-als-ids.json');
 
-function fetch(url) {
+function fetch(url, method = 'GET') {
 	return new Promise((resolve, reject) => {
-		https.get(url, (res) => {
+		const urlObj = new URL(url);
+		const options = {
+			hostname: urlObj.hostname,
+			path: urlObj.pathname + urlObj.search,
+			method,
+		};
+		const req = https.request(options, (res) => {
 			let data = '';
 			res.on('data', (chunk) => (data += chunk));
 			res.on('end', () => {
@@ -28,7 +34,9 @@ function fetch(url) {
 					resolve({ status: res.statusCode, headers: res.headers, body: data });
 				}
 			});
-		}).on('error', reject);
+		});
+		req.on('error', reject);
+		req.end();
 	});
 }
 
@@ -52,7 +60,7 @@ function getCurrentIds() {
 
 async function main() {
 	console.log('Fetching total study count from EGA...');
-	const head = await fetch(`${EGA_BASE}/studies`);
+	const head = await fetch(`${EGA_BASE}/studies`, 'HEAD');
 	const total = parseInt(head.headers['ega-api-total-count'] ?? '0', 10);
 	const PAGE_SIZE = 500;
 	const pages = Math.ceil(total / PAGE_SIZE);
