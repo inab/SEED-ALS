@@ -1,0 +1,35 @@
+services:
+  stage:
+    build:
+      context: .
+      dockerfile: ./apps/stage/Dockerfile
+    image: stageimage:1.0
+    container_name: stage
+    restart: unless-stopped
+    platform: linux/amd64
+    ports:
+      - "3000:3000"
+    environment:
+      # TODO: set to your production domain (e.g. https://seed-als.bsc.es/api/auth)
+      NEXTAUTH_URL: YOUR_PRODUCTION_URL/api/auth
+      NEXT_PUBLIC_LAB_NAME: Seed ALS Portal
+      # TODO: set to the team contact email
+      NEXT_PUBLIC_ADMIN_EMAIL: YOUR_ADMIN_EMAIL
+      NEXT_PUBLIC_DEBUG: false
+      NEXT_PUBLIC_SHOW_MOBILE_WARNING: false
+      NEXT_PUBLIC_ENABLE_DOWNLOADS: true
+      NEXT_PUBLIC_DISABLE_WELCOME_BANNER: true
+      # TODO: replace with a strong random secret (e.g. openssl rand -base64 32)
+      NEXTAUTH_SECRET: YOUR_NEXTAUTH_SECRET
+      SECRET: YOUR_SECRET
+    volumes:
+      - stage-data:/usr/src/public/static/dms_user_assets
+    networks:
+      - platform-network
+
+volumes:
+  stage-data:
+
+networks:
+  platform-network:
+    driver: bridge
