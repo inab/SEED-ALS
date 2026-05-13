@@ -8,6 +8,8 @@ help:
 	@echo "  demo           - Start demo deployment (with data)"
 	@echo ""
 	@echo "  stage-dev      - Start Stage development environment"
+	@echo "  prod           - Start production deployment (stage only)"
+	@echo "  prod-down      - Stop production deployment"
 	@echo ""
 	@echo "System Management:"
 	@echo "  down           - Gracefully shutdown all containers"
@@ -26,6 +28,17 @@ phase0:
 	@echo "Running Pre-deployment checks..."
 	chmod +x ./setup/scripts/deployments/phase0.sh
 	./setup/scripts/deployments/phase0.sh 
+
+# Start production deployment (stage only)
+prod:
+	@echo "Building and starting production stage..."
+	docker compose -f docker-compose.prod.yml build stage
+	docker compose -f docker-compose.prod.yml up -d
+
+# Stop production deployment
+prod-down:
+	@echo "Stopping production stage..."
+	docker compose -f docker-compose.prod.yml down
 
 # Start demo deployment (populates portal with data for you)
 demo: phase0
