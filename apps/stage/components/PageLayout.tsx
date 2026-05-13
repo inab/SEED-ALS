@@ -20,7 +20,7 @@ const PageLayout = ({ children, subtitle }: { children: ReactNode; subtitle?: st
 					color: ${theme.colors.black};
 					width: 100%;
 					max-width: 100%;
-					overflow-x: hidden;
+					overflow-x: clip;
 					padding-top: ${theme.dimensions.navbar.height}px;
 				`}
 			>
