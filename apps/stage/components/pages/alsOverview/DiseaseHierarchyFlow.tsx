@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import ReactFlow, { Edge, Handle, MarkerType, Node, NodeMouseHandler, Position } from 'reactflow';
+import ReactFlow, { Controls, Edge, Handle, MarkerType, Node, NodeMouseHandler, Position } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { HierarchyNode, NodeHierarchy } from '../../../global/types/monarch';
 
@@ -150,7 +150,9 @@ export default function DiseaseHierarchyFlow({ hierarchy, diseaseName, diseaseId
 				panOnScroll={false}
 				panOnDrag={true}
 				proOptions={{ hideAttribution: true }}
-			/>
+			>
+				<Controls showInteractive={false} />
+			</ReactFlow>
 		</div>
 	);
 }
