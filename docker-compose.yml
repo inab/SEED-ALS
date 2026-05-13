@@ -13,7 +13,7 @@ services:
     profiles: ["demo", "default"]
     image: alpine/curl:8.8.0
     container_name: setup
-    restart: unless-stopped
+    restart: on-failure
     ports:
       - "9204:9204"
     volumes:
