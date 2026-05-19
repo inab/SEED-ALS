@@ -81,15 +81,18 @@ async function main() {
 	console.log(`Current list has ${currentIds.length} IDs`);
 
 	const currentSet = new Set(currentIds);
+	const foundSet = new Set(foundIds);
 	const newIds = foundIds.filter((id) => !currentSet.has(id));
+	const removedIds = currentIds.filter((id) => !foundSet.has(id));
 
-	if (newIds.length === 0) {
-		console.log('No new ALS studies found. List is up to date.');
+	if (newIds.length === 0 && removedIds.length === 0) {
+		console.log('No changes detected. List is up to date.');
 		process.exit(0);
 	}
 
-	console.log(`Found ${newIds.length} new ID(s): ${newIds.join(', ')}`);
-	fs.writeFileSync(OUTPUT_PATH, JSON.stringify(newIds, null, 2));
+	if (newIds.length > 0) console.log(`Found ${newIds.length} new ID(s): ${newIds.join(', ')}`);
+	if (removedIds.length > 0) console.log(`Found ${removedIds.length} removed ID(s): ${removedIds.join(', ')}`);
+	fs.writeFileSync(OUTPUT_PATH, JSON.stringify({ newIds, removedIds }, null, 2));
 	process.exit(1);
 }
 
