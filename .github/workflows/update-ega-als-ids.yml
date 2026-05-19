@@ -26,25 +26,27 @@ jobs:
         run: node .github/scripts/update-ega-als-ids.js
         continue-on-error: true
 
-      - name: Update constants.ts with new IDs
+      - name: Update constants.ts with new and removed IDs
         if: steps.detect.outcome == 'failure'
         run: |
-          NEW_IDS=$(node -e "
+          node -e "
             const fs = require('fs');
-            const newIds = JSON.parse(fs.readFileSync('.github/scripts/new-als-ids.json', 'utf8'));
+            const { newIds, removedIds } = JSON.parse(fs.readFileSync('.github/scripts/new-als-ids.json', 'utf8'));
             const src = fs.readFileSync('apps/stage/global/utils/constants.ts', 'utf8');
             const match = src.match(/ALS_EGA_ACCESSION_IDS[^=]*=\s*\[([\s\S]*?)\];/);
             const current = [...match[1].matchAll(/'(EGAS\w+)'/g)].map(m => m[1]);
-            const merged = [...new Set([...current, ...newIds])].sort();
+            const removedSet = new Set(removedIds);
+            const merged = [...new Set([...current.filter(id => !removedSet.has(id)), ...newIds])].sort();
             const entries = merged.map(id => \`\t'\${id}',\`).join('\n');
             const updated = src.replace(
               /ALS_EGA_ACCESSION_IDS[^=]*=\s*\[([\s\S]*?)\];/,
               \`ALS_EGA_ACCESSION_IDS: string[] = [\n\${entries}\n];\`
             );
             fs.writeFileSync('apps/stage/global/utils/constants.ts', updated);
-            console.log(newIds.join(', '));
-          ")
-          echo "NEW_IDS=$NEW_IDS" >> $GITHUB_ENV
+            const envFile = process.env.GITHUB_ENV;
+            if (newIds.length) fs.appendFileSync(envFile, 'NEW_IDS=' + newIds.join(', ') + '\n');
+            if (removedIds.length) fs.appendFileSync(envFile, 'REMOVED_IDS=' + removedIds.join(', ') + '\n');
+          "
 
       - name: Commit and push changes
         if: steps.detect.outcome == 'failure'
@@ -65,18 +67,29 @@ jobs:
           if [ -n "$EXISTING" ]; then
             echo "PR #$EXISTING already exists, skipping creation."
           else
-            gh pr create \
-              --title "[Bot] New ALS studies detected in EGA" \
-              --body "## New ALS studies detected
+            BODY="## EGA ALS accession IDs updated
 
-          The monthly EGA scan found new ALS-related studies not present in the current accession ID list.
+          The monthly EGA scan detected changes in the ALS study list."
+            if [ -n "$NEW_IDS" ]; then
+              BODY="$BODY
 
-          **New IDs added:** \`${{ env.NEW_IDS }}\`
+          **New IDs added:** \`$NEW_IDS\`"
+            fi
+            if [ -n "$REMOVED_IDS" ]; then
+              BODY="$BODY
 
-          Please review and merge if the studies are relevant.
+          **IDs removed** (no longer returned by the EGA API): \`$REMOVED_IDS\`"
+            fi
+            BODY="$BODY
+
+          Please review and merge if the changes are correct.
 
           ---
-          *Opened automatically by the [Update EGA ALS Accession IDs](.github/workflows/update-ega-als-ids.yml) workflow.*" \
+          *Opened automatically by the [Update EGA ALS Accession IDs](.github/workflows/update-ega-als-ids.yml) workflow.*"
+
+            gh pr create \
+              --title "[Bot] EGA ALS accession IDs updated" \
+              --body "$BODY" \
               --base TechBioLab \
               --label "automated" \
               --label "data-update"
