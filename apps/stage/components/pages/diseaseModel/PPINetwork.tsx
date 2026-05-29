@@ -1,9 +1,6 @@
 import { css, useTheme } from '@emotion/react';
-import dynamic from 'next/dynamic';
 import { useEffect, useRef, useState, ReactElement, useCallback } from 'react';
 import defaultTheme from '../../theme';
-
-const ForceGraph2D = dynamic(() => import('react-force-graph-2d') as any, { ssr: false });
 
 interface PPINode {
 	id: string;
@@ -35,12 +32,19 @@ const PPINetwork = (): ReactElement => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const graphRef = useRef<any>(null);
 
+	const [ForceGraph2D, setForceGraph2D] = useState<any>(null);
 	const [data, setData] = useState<PPINetworkData | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 	const [dimensions, setDimensions] = useState({ width: 800, height: 600 });
 	const [hoveredNode, setHoveredNode] = useState<PPINode | null>(null);
 	const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+
+	useEffect(() => {
+		import('react-force-graph-2d').then((mod) => {
+			setForceGraph2D(() => mod.default ?? mod);
+		});
+	}, []);
 
 	useEffect(() => {
 		fetch('/data/ppi-network.json')
@@ -291,7 +295,7 @@ const PPINetwork = (): ReactElement => {
 					</div>
 				)}
 
-				{!loading && !error && data && (
+				{!loading && !error && data && ForceGraph2D && (
 					<>
 						<ForceGraph2D
 							ref={graphRef}
