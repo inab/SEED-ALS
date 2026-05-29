@@ -23,7 +23,7 @@ WORKDIR /usr/src
 COPY --chown=node:node apps/stage/package*.json ./
 
 # Install dependencies
-RUN npm ci --omit=optional
+RUN npm install --omit=optional
 
 # Copy the stage app code
 COPY --chown=node:node apps/stage ./
