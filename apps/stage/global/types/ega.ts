@@ -26,3 +26,8 @@ export interface EgaDataset {
 	is_deprecated: boolean;
 	policy_accession_id: string | null;
 }
+
+/** Shape of each entry in the static `public/data/ega-studies.json` file. */
+export interface EgaStudyWithDatasets extends EgaStudy {
+	datasets: EgaDataset[];
+}
