@@ -1,31 +1,39 @@
-import { EgaStudy, EgaDataset } from '../types/ega';
+import { EgaStudy, EgaDataset, EgaStudyWithDatasets } from '../types/ega';
 
-const EGA_PROXY_STUDIES = '/api/ega/studies';
-const EGA_PROXY_STUDY_DATASETS = '/api/ega/study-datasets';
+const EGA_STATIC_DATA_URL = '/data/ega-studies.json';
+
+let cachedStudies: Promise<EgaStudyWithDatasets[]> | null = null;
 
 /**
- * Fetches ALS studies from the server-side proxy.
- * The proxy resolves the predefined accession ID list directly against the EGA API.
+ * Loads the static EGA studies+datasets file once and caches the in-flight
+ * promise so concurrent callers share the same fetch.
  */
-export async function fetchAlsStudies(): Promise<EgaStudy[]> {
-	const response = await fetch(EGA_PROXY_STUDIES);
-
-	if (!response.ok) {
-		throw new Error(`EGA API error: ${response.status} ${response.statusText}`);
+function loadStaticData(): Promise<EgaStudyWithDatasets[]> {
+	if (!cachedStudies) {
+		cachedStudies = fetch(EGA_STATIC_DATA_URL).then((response) => {
+			if (!response.ok) {
+				throw new Error(`EGA static data error: ${response.status} ${response.statusText}`);
+			}
+			return response.json();
+		});
 	}
 
-	return response.json();
+	return cachedStudies;
 }
 
 /**
- * Fetches all datasets belonging to a specific study via server-side proxy.
+ * Returns ALS studies from the static EGA data file.
+ */
+export async function fetchAlsStudies(): Promise<EgaStudy[]> {
+	const studies = await loadStaticData();
+	return studies.map(({ datasets, ...study }) => study);
+}
+
+/**
+ * Returns the datasets belonging to a specific study from the static EGA data file.
  */
 export async function fetchStudyDatasets(studyId: string): Promise<EgaDataset[]> {
-	const response = await fetch(`${EGA_PROXY_STUDY_DATASETS}/${studyId}`);
-
-	if (!response.ok) {
-		throw new Error(`EGA API error: ${response.status} ${response.statusText} for /studies/${studyId}/datasets`);
-	}
-
-	return response.json();
+	const studies = await loadStaticData();
+	const study = studies.find((s) => s.accession_id === studyId);
+	return study?.datasets ?? [];
 }

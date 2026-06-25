@@ -1,0 +1,893 @@
+[
+  {
+    "accession_id": "EGAS00001002439",
+    "title": "Whole exome sequencing in patients with ALS and concomitant FTD lacking the C9orf72 repeat expansion",
+    "description": "Amyotrophic lateral sclerosis (ALS) and frontotemporal dementia (FTD) are part of a clinical, pathological and genetic continuum. The purpose of the present study was to assess the mutation burden that is present in ALS and/or FTD known disease-causing genes in 54 patients (16 with available postmortem neuropathological diagnosis) with concurrent ALS and FTD (ALS/FTD) not-carrying the C9orf72 hexanucleotide repeat expansion, the most important genetic cause in both diseases.",
+    "abstract": "Amyotrophic lateral sclerosis (ALS) and frontotemporal dementia (FTD) are part of a clinical, pathological and genetic continuum. The purpose of the present study was to assess the mutation burden that is present in ALS and/or FTD known disease-causing genes in 54 patients (16 with available postmortem neuropathological diagnosis) with concurrent ALS and FTD (ALS/FTD) not-carrying the C9orf72 hexanucleotide repeat expansion, the most important genetic cause in both diseases.",
+    "study_type": "Other",
+    "pubmed_ids": null,
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2017-04-26T11:33:11+02:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD00001003409",
+        "title": "Whole exome sequencing in patients with ALS and concomitant FTD lacking the C9orf72 repeat expansion",
+        "description": "Amyotrophic lateral sclerosis (ALS) and frontotemporal dementia (FTD) are part of a clinical, pathological and genetic continuum. The purpose of the present study was to assess the mutation burden that is present in ALS and/or FTD known disease-causing genes in 54 patients (16 with available postmortem neuropathological diagnosis) with concurrent ALS and FTD (ALS/FTD) not-carrying the C9orf72 hexanucleotide repeat expansion, the most important genetic cause in both diseases.",
+        "dataset_types": [
+          "Exome sequencing"
+        ],
+        "technologies": [
+          "Illumina HiSeq 2500"
+        ],
+        "num_samples": 54,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2017-09-05T00:00:00+02:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP00001000630"
+      }
+    ]
+  },
+  {
+    "accession_id": "EGAS00001002462",
+    "title": "PCR-free HiSeqX whole genome sequence data on 120 samples with triplet repeat expansions (premutation and full expansions)",
+    "description": "Whole genome sequence (WGS) data was generated on 120 Coriell samples with the following validated repeat expansions: Fragile X Syndrome, Huntington disease, Friedreich’s ataxia, Amyotrophic Lateral Sclerosis, Myotonic Dystrophy, Spinocerebellar Ataxia 1/3 and Dentatorubral-Pallidoluysian Atrophy. These samples were sequenced using 2x150bp reads on an Illumina HiSeqX sequencer and the repeat expansions were called using ExpansionHunter to demonstrate the ability to call large repeats from high throughput, PCR-free WGS data.",
+    "abstract": "Whole genome sequence (WGS) data was generated on 120 Coriell samples with the following validated repeat expansions: Fragile X Syndrome, Huntington disease, Friedreich’s ataxia, Amyotrophic Lateral Sclerosis, Myotonic Dystrophy, Spinocerebellar Ataxia 1/3 and Dentatorubral-Pallidoluysian Atrophy. These samples were sequenced using 2x150bp reads on an Illumina HiSeqX sequencer and the repeat expansions were called using ExpansionHunter to demonstrate the ability to call large repeats from high throughput, PCR-free WGS data.",
+    "study_type": "Other",
+    "pubmed_ids": null,
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2017-05-12T20:46:44+02:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD00001003562",
+        "title": "Whole genome sequence data from Illumina HiSeqX instruments",
+        "description": "This dataset includes bam files from 120 samples. These samples were sequenced using 2x150bp reads on an Illumina HiSeqX sequencer and aligned using the Isaac aligner. All samples were processed with TruSeq DNA PCR-free sample preparation.",
+        "dataset_types": [
+          "Whole genome sequencing"
+        ],
+        "technologies": [
+          "HiSeq X Ten"
+        ],
+        "num_samples": 118,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2017-08-23T00:00:00+02:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP00001000676"
+      }
+    ]
+  },
+  {
+    "accession_id": "EGAS00001002473",
+    "title": "Fungal infection in neural tissue from Amyotrophic Lateral Sclerosis",
+    "description": "The study shows that fungus infection, isolated from neural tissue, can be a risk factor to develop Amyothophic lateral sclerosis (ALS).",
+    "abstract": "The study shows that fungus infection, isolated from neural tissue, can be a risk factor to develop Amyothophic lateral sclerosis (ALS).",
+    "study_type": "Other",
+    "pubmed_ids": null,
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2017-05-17T08:45:51+02:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD00001003341",
+        "title": "FUNGAL INFECTION IN NEURAL TISSUE FROM AMYOTROPHIC LATERAL SCLEROSIS",
+        "description": "Sequence data from fungal infection isolated from neural tissue in ALS patients.",
+        "dataset_types": [
+          "Amplicon sequencing"
+        ],
+        "technologies": [
+          "Illumina MiSeq"
+        ],
+        "num_samples": 34,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2017-09-12T00:00:00+02:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP00001000639"
+      }
+    ]
+  },
+  {
+    "accession_id": "EGAS00001002598",
+    "title": "Illumina HiSeqX and HiSeq 2000 whole genome sequence data on 3,001 ALS samples including 212 with known C9orf72 repeat expansions",
+    "description": "Whole genome sequence (WGS) data was generated on 3,001 samples previously quantified for the presence of the C9orf72 repeat expansion (212 expanded and 2,789 wild type), These samples were sequenced using a combination of 2x100bp reads on an Illumina HiSeq2000 and 2x150bp reads on an Illumina HiSeqX sequencer. The repeat expansions were called using ExpansionHunter to demonstrate the ability to call large repeats from high throughput, WGS data. Provided here are all read pairs where at least one of the reads aligns within 1kb of the C9orf72 repeat expansion in addition to reads aligned in pre-determined off target locations where the aligners are known to mis-align reads.",
+    "abstract": "Whole genome sequence (WGS) data was generated on 3,001 samples previously quantified for the presence of the C9orf72 repeat expansion (212 expanded and 2,789 wild type), These samples were sequenced using a combination of 2x100bp reads on an Illumina HiSeq2000 and 2x150bp reads on an Illumina HiSeqX sequencer. The repeat expansions were called using ExpansionHunter to demonstrate the ability to call large repeats from high throughput, WGS data. Provided here are all read pairs where at least one of the reads aligns within 1kb of the C9orf72 repeat expansion in addition to reads aligned in pre-determined off target locations where the aligners are known to mis-align reads.",
+    "study_type": "Other",
+    "pubmed_ids": null,
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2017-08-01T21:59:45+02:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD00001003513",
+        "title": "Aligned reads from specific genomic locations derived from Illumina HiSeqX and HiSeq2000 whole genome sequence data",
+        "description": "This dataset includes bam files from 3,001 samples. These bam files include all read pairs where at least one of the reads aligns within 1kb of the C9orf72 repeat expansion. Additionally, these bam files also contain reads that are aligned to any of 29 pre-determined off target locations where the aligners are known to mis-align reads associated with this repeat expansion. These samples were sequenced using a combination of 2x100bp reads on an Illumina HiSeq2000 and 2x150bp reads on an Illumina HiSeqX sequencer and aligned using the Isaac aligner.",
+        "dataset_types": [
+          "Whole genome sequencing"
+        ],
+        "technologies": [
+          "HiSeq X Ten",
+          "Illumina HiSeq 2000"
+        ],
+        "num_samples": 3001,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2017-08-23T00:00:00+02:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP00001000677"
+      }
+    ]
+  },
+  {
+    "accession_id": "EGAS00001003295",
+    "title": "SEARCH FOR BACTERIA IN NEURAL TISSUE FROM AMYOTROPHIC LATERAL SCLEROSIS",
+    "description": "The study aims to find bacteria in neural tissue from patients with amyotrophic lateral sclerosis",
+    "abstract": "The study aims to find bacteria in neural tissue from patients with amyotrophic lateral sclerosis",
+    "study_type": "Other",
+    "pubmed_ids": null,
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2018-11-07T11:17:13+01:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD00001004458",
+        "title": "Bacteria Lateral sclerosis",
+        "description": "The study aims to find bacteria in neural tissue from patients with amyotrophic lateral sclerosis",
+        "dataset_types": [
+          "Amplicon sequencing"
+        ],
+        "technologies": [
+          "Illumina MiSeq"
+        ],
+        "num_samples": 34,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2001-01-01T00:00:00+01:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP00001001032"
+      }
+    ]
+  },
+  {
+    "accession_id": "EGAS00001003383",
+    "title": "ProjectMinE :llumina HiSeqX and HiSeq 2000 whole genome sequence data on 3,001 ALS samples including 212 with known C9orf72 repeat expansions",
+    "description": "Whole genome sequence (WGS) data was generated on 3,001 samples previously quantified for the presence of the C9orf72 repeat expansion (212 expanded and 2,789 wild type), These samples were sequenced using a combination of 2x100bp reads on an Illumina HiSeq2000 and 2x150bp reads on an Illumina HiSeqX sequencer. The repeat expansions were called using ExpansionHunter to demonstrate the ability to call large repeats from high throughput, WGS data. Provided here are all read pairs where at least one of the reads aligns within 1kb of the C9orf72 repeat expansion in addition to reads aligned in pre-determined off target locations where the aligners are known to mis-align reads.",
+    "abstract": "Whole genome sequence (WGS) data was generated on 3,001 samples previously quantified for the presence of the C9orf72 repeat expansion (212 expanded and 2,789 wild type), These samples were sequenced using a combination of 2x100bp reads on an Illumina HiSeq2000 and 2x150bp reads on an Illumina HiSeqX sequencer. The repeat expansions were called using ExpansionHunter to demonstrate the ability to call large repeats from high throughput, WGS data. Provided here are all read pairs where at least one of the reads aligns within 1kb of the C9orf72 repeat expansion in addition to reads aligned in pre-determined off target locations where the aligners are known to mis-align reads.",
+    "study_type": "Other",
+    "pubmed_ids": null,
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2018-12-12T15:08:50+01:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD00001004834",
+        "title": "C9orf72 region reads of 3001 samples",
+        "description": "This dataset includes cram files from 3,001 samples. These cram files include all read pairs where at least one of the reads aligns within 1kb of the C9orf72 repeat expansion. Additionally, these cram files also contain reads that are aligned to any of 29 pre-determined off target locations where the aligners are known to mis-align reads associated with this repeat expansion. These samples were sequenced using a combination of 2x100bp reads on an Illumina HiSeq2000 and 2x150bp reads on an Illumina HiSeqX sequencer and aligned using the Isaac aligner.",
+        "dataset_types": [
+          "Whole genome sequencing"
+        ],
+        "technologies": [
+          "HiSeq X Ten",
+          "Illumina HiSeq 2000"
+        ],
+        "num_samples": 3001,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2001-01-01T00:00:00+01:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP00001001062"
+      }
+    ]
+  },
+  {
+    "accession_id": "EGAS00001004286",
+    "title": "Total RNAseq in the sporadic ALS and healthy control motor cortex",
+    "description": "Amyotrophic lateral sclerosis (ALS) is a neurodegenerative disease characterized by the degeneration of upper and lower motor neurons leading to progressive muscle weakness, wasting and paralysis that result in death within a few years from disease onset.\nIn order to characterize RNA alterations in ALS, total RNAseq was performed in the ALS motor cortex, which is an early and vulnerable region in ALS.",
+    "abstract": "Amyotrophic lateral sclerosis (ALS) is a neurodegenerative disease characterized by the degeneration of upper and lower motor neurons leading to progressive muscle weakness, wasting and paralysis that result in death within a few years from disease onset.\nIn order to characterize RNA alterations in ALS, total RNAseq was performed in the ALS motor cortex, which is an early and vulnerable region in ALS.",
+    "study_type": "Other",
+    "pubmed_ids": null,
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2020-03-04T10:16:51+01:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD00001006022",
+        "title": "Total RNAseq in the sporadic ALS and healthy control motor cortex",
+        "description": "The motor cortex is the earliest affected brain region in ALS. This dataset contains total RNA sequencing (stranded, 2x101bp) data derived from the motor cortex of 11 sporadic ALS patients and 8 healthy controls.",
+        "dataset_types": [
+          "Transcriptome profiling by high-throughput sequencing"
+        ],
+        "technologies": [
+          "Illumina HiSeq 2500"
+        ],
+        "num_samples": 19,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2001-01-01T00:00:00+01:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP00001001492"
+      }
+    ]
+  },
+  {
+    "accession_id": "EGAS00001004587",
+    "title": "Project MinE Illumina Infinium HumanMethylation450 (450k) BeadChip data on 2,790 Dutch whole blood samples, including 1,761 ALS patients of which 119 are known carriers of the C9orf72 repeat expansion.",
+    "description": "This dataset includes IDAT files from 2,790 blood samples. The samples were profiled using the Illumina Infinium HumanMethylation450 (450k) BeadChip.",
+    "abstract": "This dataset includes IDAT files from 2,790 blood samples. The samples were profiled using the Illumina Infinium HumanMethylation450 (450k) BeadChip.",
+    "study_type": "Other",
+    "pubmed_ids": null,
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2020-07-30T22:21:58+02:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD00010001938",
+        "title": "HumanMethylation450_NL",
+        "description": "This dataset includes IDAT files from 2,790 blood samples. The samples were profiled using the Illumina Infinium HumanMethylation450 (450k) BeadChip.",
+        "dataset_types": null,
+        "technologies": [
+          "Illumina Infinium HumanMethylation450"
+        ],
+        "num_samples": 2790,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2020-08-17T02:00:00+02:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP00001001062"
+      }
+    ]
+  },
+  {
+    "accession_id": "EGAS00001005220",
+    "title": "Novel optineurin frameshift insertion causing familial frontotemporal dementia and parkinsonism without amyotrophic lateral sclerosis",
+    "description": "Frontotemporal Dementia (FTD) is a common cause of Young Onset Dementia and has diverse clinical manifestations involving behaviour, executive function, language and motor function, including parkinsonism. Up to 50% of FTD patients report a positive family history, supporting a strong genetic basis, particularly in cases with both FTD and amyotrophic lateral sclerosis (FTD-ALS). Mutations in three genes are associated with the majority of familial FTD (fFTD) cases - microtubule associated protein tau gene (MAPT), progranulin gene (PGRN), and hexanucleotide repeat expansions in chromosome 9 open reading frame 72 (C9orf72), whilst mutations in other genes such as optineurin (OPTN) have rarely been reported. Mutations in OPTN have been reported mostly in familial and sporadic cases of ALS, or in rare cases of FTD-ALS, but not in association with pure or predominant FTD and/or parkinsonian phenotype. Here, we report for the first time, a family from the Philippines with 4 affected members harbouring the same OPTN frameshift insertion, presenting with FTD-related phenotypes, including one sibling with predominant parkinsonism resembling corticobasal syndrome. Notably, none of the affected members showed any evidence of motor neuron disease or ALS at the time of writing, both clinically and on electrophysiological testing, expanding the phenotypic spectrum of OPTN mutations. Close follow-up of mutation carriers for the development of new clinical features and wider investigation of additional family members with further genetic analyses will be conducted to investigate the possibility of other genetic modifiers in this family which could explain phenotypic heterogeneity.",
+    "abstract": "Frontotemporal Dementia (FTD) is a common cause of Young Onset Dementia and has diverse clinical manifestations involving behaviour, executive function, language and motor function, including parkinsonism. Up to 50% of FTD patients report a positive family history, supporting a strong genetic basis, particularly in cases with both FTD and amyotrophic lateral sclerosis (FTD-ALS). Mutations in three genes are associated with the majority of familial FTD (fFTD) cases - microtubule associated protein tau gene (MAPT), progranulin gene (PGRN), and hexanucleotide repeat expansions in chromosome 9 open reading frame 72 (C9orf72), whilst mutations in other genes such as optineurin (OPTN) have rarely been reported. Mutations in OPTN have been reported mostly in familial and sporadic cases of ALS, or in rare cases of FTD-ALS, but not in association with pure or predominant FTD and/or parkinsonian phenotype. Here, we report for the first time, a family from the Philippines with 4 affected members harbouring the same OPTN frameshift insertion, presenting with FTD-related phenotypes, including one sibling with predominant parkinsonism resembling corticobasal syndrome. Notably, none of the affected members showed any evidence of motor neuron disease or ALS at the time of writing, both clinically and on electrophysiological testing, expanding the phenotypic spectrum of OPTN mutations. Close follow-up of mutation carriers for the development of new clinical features and wider investigation of additional family members with further genetic analyses will be conducted to investigate the possibility of other genetic modifiers in this family which could explain phenotypic heterogeneity.",
+    "study_type": "Other",
+    "pubmed_ids": null,
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2021-04-16T10:43:08+02:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD00001007526",
+        "title": "Novel optineurin frameshift insertion causing familial frontotemporal dementia and parkinsonism without amyotrophic lateral sclerosis",
+        "description": "Novel optineurin frameshift insertion causing familial frontotemporal dementia and parkinsonism without amyotrophic lateral sclerosis",
+        "dataset_types": [
+          "Exome sequencing"
+        ],
+        "technologies": [
+          "Illumina HiSeq 4000"
+        ],
+        "num_samples": 4,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2001-01-01T00:00:00+01:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP00001002068"
+      }
+    ]
+  },
+  {
+    "accession_id": "EGAS00001005879",
+    "title": "Deciphering RBP - alternative splicing networks in ALS iPSC-MN: patient and control datasets",
+    "description": "We produce RNA-seq datasets of iPSC-derived motor neurons (iPSC-MN) from healthy controls and sporadic ALS patients and controls and familial ALS patients with pathogenic variants in TARDBP.",
+    "abstract": "We produce RNA-seq datasets of iPSC-derived motor neurons (iPSC-MN) from healthy controls and sporadic ALS patients and controls and familial ALS patients with pathogenic variants in TARDBP.",
+    "study_type": "Other",
+    "pubmed_ids": null,
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2021-12-13T18:19:13+01:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD00001008424",
+        "title": "1_RNAseq_sALS_Ctrl",
+        "description": "iPSC-derived motor neurons form sporadic ALS and Controls. 4 sALS iPSC lines and 4 Ctrl iPSC lines.",
+        "dataset_types": [
+          "Transcriptome profiling by high-throughput sequencing"
+        ],
+        "technologies": [
+          "Illumina HiSeq 4000"
+        ],
+        "num_samples": 8,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2001-01-01T00:00:00+01:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP00001002475"
+      },
+      {
+        "accession_id": "EGAD00001008425",
+        "title": "2_RNAseq_fALS_Ctrl",
+        "description": "iPSC-derived motor neurons form familial ALS and Controls. 2 fALS iPSC lines and 3 Ctrl iPSC lines.",
+        "dataset_types": [
+          "Transcriptome profiling by high-throughput sequencing"
+        ],
+        "technologies": [
+          "Illumina NovaSeq 6000"
+        ],
+        "num_samples": 5,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2001-01-01T00:00:00+01:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP00001002475"
+      }
+    ]
+  },
+  {
+    "accession_id": "EGAS00001005880",
+    "title": "Deciphering RBP - alternative splicing networks in ALS iPSC-MN: TDP-43, NOVA1, NOVA2 and RBFOX2 eCLIP-seq",
+    "description": "We produced enhanced cross-linking immunoprecipitation (eCLIP) sequencing data of the RNA binding proteins (RBP) TDP-43, NOVA1, NOVA2 and RBFOX2 in iPSC motor neurons of two healthy control individuals, respectively.",
+    "abstract": "We produced enhanced cross-linking immunoprecipitation (eCLIP) sequencing data of the RNA binding proteins (RBP) TDP-43, NOVA1, NOVA2 and RBFOX2 in iPSC motor neurons of two healthy control individuals, respectively.",
+    "study_type": "Other",
+    "pubmed_ids": null,
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2021-12-13T18:19:13+01:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD00001008426",
+        "title": "3_eCLIP_TDP-43",
+        "description": "eCLIP of TDP-43 from iPSC-derived motor neurons in 2 control lines. Per line input and IP samples and analysis including bigWig files and peak files.",
+        "dataset_types": [
+          "Transcriptome profiling by high-throughput sequencing"
+        ],
+        "technologies": [
+          "Illumina HiSeq 4000"
+        ],
+        "num_samples": 4,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2001-01-01T00:00:00+01:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP00001002475"
+      },
+      {
+        "accession_id": "EGAD00001008428",
+        "title": "4_eCLIP_NOVA1_NOVA2_RBFOX2",
+        "description": "eCLIP of NOVA1, NOVA2 and RBFOX2 from iPSC-derived motor neurons in 2 control lines. Per line and RNA-binding protein input and IP samples and analysis including bigWig files and peak files.",
+        "dataset_types": [
+          "Transcriptome profiling by high-throughput sequencing"
+        ],
+        "technologies": [
+          "Illumina NovaSeq 6000"
+        ],
+        "num_samples": 12,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2001-01-01T00:00:00+01:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP00001002475"
+      }
+    ]
+  },
+  {
+    "accession_id": "EGAS00001005881",
+    "title": "Deciphering RBP - alternative splicing networks in ALS iPSC-MN: NOVA1 gain and loss of function systems",
+    "description": "We produced NOVA1 and EGFP over-expression RNA-seq datasets in three healthy control individuals using lentivirus-mediated gene transfer to model NOVA1 gain of function. Additionally, we produced a NOVA1 loss of function RNA-seq dataset by generating iPSC-MN with NOVA1 knock out produced by CRISPR/Cas9 in the CV-B iPSC line.",
+    "abstract": "We produced NOVA1 and EGFP over-expression RNA-seq datasets in three healthy control individuals using lentivirus-mediated gene transfer to model NOVA1 gain of function. Additionally, we produced a NOVA1 loss of function RNA-seq dataset by generating iPSC-MN with NOVA1 knock out produced by CRISPR/Cas9 in the CV-B iPSC line.",
+    "study_type": "Other",
+    "pubmed_ids": null,
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2021-12-13T18:19:13+01:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD00001008423",
+        "title": "5_RNAseq_NOVA1_vs_EGFP_overexpressiong",
+        "description": "3 control iPSC lines differentiated into iPSC-derived motor neurons transduced with either EGFP or NOVA1 lentivirus.",
+        "dataset_types": [
+          "Transcriptome profiling by high-throughput sequencing"
+        ],
+        "technologies": [
+          "Illumina NovaSeq 6000"
+        ],
+        "num_samples": 6,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2001-01-01T00:00:00+01:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP00001002475"
+      },
+      {
+        "accession_id": "EGAD00001008427",
+        "title": "6_RNAseq_NOVA1_KO_vs_wt",
+        "description": "iPSC-derived motor neurons from 5 NOVA1 knock out and 5 NOVA1 wt lines in the CVB background.",
+        "dataset_types": [
+          "Transcriptome profiling by high-throughput sequencing"
+        ],
+        "technologies": [
+          "Illumina NovaSeq 6000"
+        ],
+        "num_samples": 10,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2001-01-01T00:00:00+01:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP00001002475"
+      }
+    ]
+  },
+  {
+    "accession_id": "EGAS00001006138",
+    "title": "Drug screen in iPSC-Neurons identifies nucleoside analogs as inhibitors of (G4C2)n expression in C9orf72 ALS/FTD",
+    "description": "To investigate the mode of action and potential side-effects we analyzed differential gene expression in\npost-mitotic C9orf72 iPSC-Neurons by RNAseq",
+    "abstract": "To investigate the mode of action and potential side-effects we analyzed differential gene expression in\npost-mitotic C9orf72 iPSC-Neurons by RNAseq",
+    "study_type": "Other",
+    "pubmed_ids": null,
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2022-03-21T00:58:33+01:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD00001008674",
+        "title": "Drug screen in iPSC-Neurons identifies nucleoside analogs as inhibitors of (G4C2)n expression in C9orf72 ALS/FTD",
+        "description": "To investigate the mode of action and potential side-effects we analyzed differential gene expression in\nPostmitotic C9orf72 iPSC-Neurons by RNAseq. The cells were treated in a 2 dose regime at 10 µm in 0.1 % DMSO for 9 days. Compound treated iPSC-Neurons were washed with PBS, frozen on dry ice and stored at -80°C until RNA\nisolation. The RNA was isolated using miRNA Mini Kit (Qiagen) using 700 μl of Qiazol. A total of 250 ng of\nRNA per sample was processed for mRNA library preparation as per the manufacturer’s instructions for\nIllumina® Stranded mRNA Prep Ligation to be used with the IDT® for Illumina® RNA UD Indexes Set B and sequenced using NextSeq 500/550 High Output Kit v2.5 (Illumina) on NextSeq 550 (Illumina). The data\nwas processed and analyzed using CLC genomics workbench (Version 21.0.3, Qiagen)",
+        "dataset_types": [
+          "Transcriptome profiling by high-throughput sequencing"
+        ],
+        "technologies": [
+          "NextSeq 550"
+        ],
+        "num_samples": 27,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2001-01-01T00:00:00+01:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP00001002625"
+      }
+    ]
+  },
+  {
+    "accession_id": "EGAS00001006675",
+    "title": "T cell responses of ALS patients",
+    "description": "In this project, we aimed to understand how T cell responses contribute to the disease progression of amyotrophic lateral sclerosis (ALS). The present data is on single-cell sequencing isolated from human cerebrospinal fluid (CSF) cells from both ALS patients (n=5) and controls (n=4). This analysis was conducted as part of a bigger project which is summarized in the section below.\n\nWe used flow cytometry to define T cell subsets and phenotypes in blood and CSF samples collected at the time of diagnosis on a cohort of 89 newly diagnosed ALS patients in Stockholm, Sweden. High frequency of CD4+FOXP3- effector T cells in blood and CSF was associated with poor survival whereas high frequency of activated regulatory T (Treg) cells and high ratio between activated and resting Treg cells in blood was associated with better survival. T cell profiles also predicted disease progression rate. On an independent cohort of cases and controls, we used single cell transcriptomics data to demonstrate that ALS patients had altered T cell gene expression patterns and clonally expanded CD4+ and CD8+ T cells in CSF. In summary, T cell responses contribute to disease progression of ALS, supporting modulation of adaptive immunity as a viable therapeutic option.",
+    "abstract": "In this project, we aimed to understand how T cell responses contribute to the disease progression of amyotrophic lateral sclerosis (ALS). The present data is on single-cell sequencing isolated from human cerebrospinal fluid (CSF) cells from both ALS patients (n=5) and controls (n=4). This analysis was conducted as part of a bigger project which is summarized in the section below.\n\nWe used flow cytometry to define T cell subsets and phenotypes in blood and CSF samples collected at the time of diagnosis on a cohort of 89 newly diagnosed ALS patients in Stockholm, Sweden. High frequency of CD4+FOXP3- effector T cells in blood and CSF was associated with poor survival whereas high frequency of activated regulatory T (Treg) cells and high ratio between activated and resting Treg cells in blood was associated with better survival. T cell profiles also predicted disease progression rate. On an independent cohort of cases and controls, we used single cell transcriptomics data to demonstrate that ALS patients had altered T cell gene expression patterns and clonally expanded CD4+ and CD8+ T cells in CSF. In summary, T cell responses contribute to disease progression of ALS, supporting modulation of adaptive immunity as a viable therapeutic option.",
+    "study_type": "Other",
+    "pubmed_ids": [
+      36347843
+    ],
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2022-10-10T08:38:27+02:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD00001009623",
+        "title": "scRNAseq of ALS patients",
+        "description": "The data set contains information from 9 individuals (5 ALS + 4 controls) using single cell RNA sequencing in combination with TCR V(D)J sequencing to study the immune profile of the central nervous compartment (CSF). Sequencing was done using 10x Genomics platform (5’ scRNAseq &amp; V(D)J Reagent Kits v1.1). 5P and TCR libraries were then pooled and for sequencing on the NovaSeq sequencer. Provided files are in .fastq.gz format and per individual four files are available (Read 1&amp;2 and Lane 1&amp;2).",
+        "dataset_types": [
+          "Transcriptome profiling by high-throughput sequencing"
+        ],
+        "technologies": [
+          "Illumina NovaSeq 6000"
+        ],
+        "num_samples": 36,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2001-01-01T00:00:00+01:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP00001002932"
+      }
+    ]
+  },
+  {
+    "accession_id": "EGAS00001006711",
+    "title": "Hexanucleotide repeat expansions in C9orf72 alter microglial responses and prevent a coordinated glial reaction in ALS",
+    "description": "Neuroinflammation is an important hallmark in amyotrophic lateral sclerosis (ALS). Experimental evidence has highlighted a role of microglia in the modulation of motor neuron degeneration. However, the exact contribution of microglia to both sporadic and genetic forms of ALS is still unclear. We generated single nuclei profiles of spinal cord and motor cortex from sporadic and C9orf72 ALS patients, as well as controls. We particularly focused on the transcriptomic responses of both microglia and astrocytes. We confirmed that C9orf72 is highly expressed in microglia and shows a diminished expression in carriers of the hexanucleotide repeat expansion (HRE). This resulted in an impaired response to disease, with specific deficits in phagocytic and lysosomal transcriptional pathways. Astrocytes also displayed a dysregulated response in C9orf72 ALS patients, remaining in a homeostatic state. This suggests that C9orf72 HRE alters a coordinated glial response, which ultimately would increase the risk for developing ALS. Our results indicate that C9orf72 HRE results in a selective microglial loss-of-function, likely impairing microglial-astrocyte communication and preventing a global glial response. This is relevant as it indicates that sporadic and familial forms of ALS may present a different cellular substrate, which is of great importance for patient stratification and treatment.",
+    "abstract": "Neuroinflammation is an important hallmark in amyotrophic lateral sclerosis (ALS). Experimental evidence has highlighted a role of microglia in the modulation of motor neuron degeneration. However, the exact contribution of microglia to both sporadic and genetic forms of ALS is still unclear. We generated single nuclei profiles of spinal cord and motor cortex from sporadic and C9orf72 ALS patients, as well as controls. We particularly focused on the transcriptomic responses of both microglia and astrocytes. We confirmed that C9orf72 is highly expressed in microglia and shows a diminished expression in carriers of the hexanucleotide repeat expansion (HRE). This resulted in an impaired response to disease, with specific deficits in phagocytic and lysosomal transcriptional pathways. Astrocytes also displayed a dysregulated response in C9orf72 ALS patients, remaining in a homeostatic state. This suggests that C9orf72 HRE alters a coordinated glial response, which ultimately would increase the risk for developing ALS. Our results indicate that C9orf72 HRE results in a selective microglial loss-of-function, likely impairing microglial-astrocyte communication and preventing a global glial response. This is relevant as it indicates that sporadic and familial forms of ALS may present a different cellular substrate, which is of great importance for patient stratification and treatment.",
+    "study_type": "Other",
+    "pubmed_ids": null,
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2022-10-22T11:24:56+02:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD00001009686",
+        "title": "Postmortem Single Nuclei and Bulk RNA-seq data of the Motor Cortex and Spinal Cord for Healthy, C9ALS and sALS Patients",
+        "description": "This dataset contains both snRNA-seq and bulk RNA-seq data from 19 different patients, comprising of 9 healthy controls (4 Spinal Cord, 5 Motor Cortex) as well as 5 C9ALS patients and 5 sporadic ALS patients, each with paired data from the spinal cord and motor cortex. For the snRNA-seq data, fastq files containing the raw reads are provided, many of these samples were pooled for sequencing and subsequently require demultiplexing using SNPs using a tool such as freemuxlet. The paired bulk RNA-seq data (raw fastq files) can be used to acquire the ground truth per patient - a list of pooled samples can be found in map.txt. snRNA-seq data was produced using the 10X Genomics 3' v3 kit and bulk RNA-seq was produced using the Illumina TruSeq v2 kit.",
+        "dataset_types": [
+          "Transcriptome profiling by high-throughput sequencing"
+        ],
+        "technologies": [
+          "Illumina NovaSeq 6000"
+        ],
+        "num_samples": 64,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2001-01-01T00:00:00+01:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP00001002969"
+      }
+    ]
+  },
+  {
+    "accession_id": "EGAS00001007318",
+    "title": "Multiomics analyses of ALS prefrontal cortex tissue",
+    "description": null,
+    "abstract": "We performed a multiomic analysis of the prefrontal cortex from 51 sporadic ALS patients and 50 control subjects, aiming to characterize early disease mechanisms in ALS.",
+    "study_type": "Other",
+    "pubmed_ids": null,
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2024-05-06T12:10:03.456196+02:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD50000000467",
+        "title": "Transcriptomics dataset from human prefrontal cortex tissue - ALS vs CTR",
+        "description": "Fastq files and BAM files",
+        "dataset_types": [
+          "Transcriptome profiling by high-throughput sequencing"
+        ],
+        "technologies": [
+          "Illumina HiSeq 2500",
+          "Illumina NovaSeq 6000"
+        ],
+        "num_samples": 101,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2024-05-06T12:10:03.456196+02:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP00001003351"
+      },
+      {
+        "accession_id": "EGAD50000000468",
+        "title": "Small RNA sequencing dataset from human prefrontal cortex tissue - ALS vs CTR",
+        "description": "For mature miRNAs and hairpins, BAM and FASTq files",
+        "dataset_types": [
+          "Transcriptome profiling by high-throughput sequencing"
+        ],
+        "technologies": [
+          "Illumina HiSeq 2500"
+        ],
+        "num_samples": 101,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2024-05-06T12:10:05.722859+02:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP00001003351"
+      }
+    ]
+  },
+  {
+    "accession_id": "EGAS00001008053",
+    "title": "Discordant_Monozygotic_Twins_ALS (Epigenetics)",
+    "description": "We conducted a multi-omics study on a monozygotic twin pair discordant for amyotrophic lateral sclerosis. Here, we submit epigenetic data from EPIC array.",
+    "abstract": "We conducted a multi-omics study on a monozygotic twin pair discordant for amyotrophic lateral sclerosis. Here, we submit epigenetic data from EPIC array.",
+    "study_type": "Other",
+    "pubmed_ids": null,
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2025-02-25T11:45:55+01:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD00010002716",
+        "title": "Discordant_Monozygotic_Twins_ALS (Epigenetics)",
+        "description": "We conducted a multi-omics study on a monozygotic twin pair discordant for amyotrophic lateral sclerosis. Data refers to 7 samples that are technical replicates from biological samples collected from the twins at two different time points (T1 and T2).",
+        "dataset_types": null,
+        "technologies": [
+          "Illumina (EPIC Array)"
+        ],
+        "num_samples": 7,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2026-04-10T00:00:00+02:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP00001003614"
+      }
+    ]
+  },
+  {
+    "accession_id": "EGAS50000000575",
+    "title": "TDP43 proteinopathy leads to divergent cryptic splicing in the cortex and spinal cord",
+    "description": "Mislocalization of the nuclear TAR DNA-binding protein 43 (TDP43) is a hallmark of ALS and FTD which leads to de-repression and inclusion of cryptic exons, promising biomarkers of TDP43 pathology in a spectrum of neurodegenerative diseases. However, most cryptic exons to date have been identified from in vitro models or a single cortical FTD dataset, and little is known about cryptic splicing in the spinal cord, or within different neuronal subtypes. We meta-analyzed published bulk RNAseq datasets representing 1,778 RNAseq profiles of ALS and FTD post-mortem tissue, and in vitro models with experimentally depleted TDP43. We identified 142 cryptic splices, including 76 novel events. We found a novel pattern of spinal cord cryptic splicing, validated in an independent cohort by qPCR, which differed significantly from cortical and in vitro splicing. Finally, leveraging multiple public single-nucleus RNAseq datasets of ALS and FTD motor and frontal cortex, we confirmed the elevation of cortical-enriched splices in disease and localized them to layer-specific neuronal populations. This catalog of cryptic splices could inform efforts to develop biomarkers for tissue-specific and cell type-specific TDP43 pathology.\r\n",
+    "abstract": null,
+    "study_type": "Transcriptome Analysis",
+    "pubmed_ids": [],
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2024-10-15T10:32:56.115885+02:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD50000000820",
+        "title": "Exonic Counts",
+        "description": " Read counts, per gene, aligning to exons. Alignment performed with GSNAP. 20 samples.",
+        "dataset_types": [
+          "Phenotype information"
+        ],
+        "technologies": null,
+        "num_samples": 20,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2024-10-17T08:22:53.706676+02:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP50000000054"
+      },
+      {
+        "accession_id": "EGAD50000000833",
+        "title": "RNA-seq (raw fastq files)",
+        "description": "RNA-seq data from lumbar spinal cord blocks from 10 ALS samples and Controls. Raw fastq files are provided in this dataset.",
+        "dataset_types": [
+          "Transcriptome profiling by high-throughput sequencing"
+        ],
+        "technologies": [
+          "Illumina NovaSeq 6000"
+        ],
+        "num_samples": 20,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2024-10-15T10:32:56.115885+02:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP50000000054"
+      }
+    ]
+  },
+  {
+    "accession_id": "EGAS50000000908",
+    "title": "Discordant_Monozygotic_Twins_ALS(Genetics)",
+    "description": "Amyotrophic lateral sclerosis (ALS) is a fatal neurodegenerative disease. Regarding genetic factors, pathogenetic mutations in more than 35 genes have been identified as playing a role in disease pathogenesis. However, a substantial portion of ALS heritability remains unaccounted for, pointing to the potential involvement of additional genetic and epigenetic factors. For this reason, we conducted a multi-omics study on a monozygotic twin pair discordant for amyotrophic lateral sclerosis, performing whole exome sequencing, transcriptomic and epigenetic analyses to gain crucial insights into underlying pathogenetic disease mechanisms. Here, we share genetic data.",
+    "abstract": null,
+    "study_type": "Exome Sequencing",
+    "pubmed_ids": [],
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2026-04-23T16:22:52.978274+02:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD50000001329",
+        "title": "Genetic data of a monozygotic twin pair discordant for ALS",
+        "description": "We performed whole exome sequencing of a monozygotic twin pair discordant for ALS. This dataset contains two VCF files: one of the healthy twin and one of the ALS twin.  Library was prepared according to Agilent SureSelectQXT Kit protocol and processed using Illumina NextSeq 550 sequencer). Fastq files were aligned on the reference human genome hg19 (GRCh37) and, for each patient, a list of variations in a VCF format file (Variant Call Format) was produced by GATK software and annotated by wAnnovar. ",
+        "dataset_types": [
+          "Exome sequencing"
+        ],
+        "technologies": [
+          "NextSeq 550"
+        ],
+        "num_samples": 2,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2026-04-23T16:22:52.978274+02:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP50000000458"
+      }
+    ]
+  },
+  {
+    "accession_id": "EGAS50000000909",
+    "title": "Discordant_Monozygotic_Twins_ALS(Transcriptomics)",
+    "description": "Amyotrophic lateral sclerosis (ALS) is a progressive neurodegenerative disorder characterized by motor neuron degeneration. Despite known genetic contributions to both familial and sporadic ALS cases, much of ALS heritability remains unexplained, suggesting the involvement of other genetic and epigenetic factors. To address this gap, we used a comprehensive multi-omics approach, in a pair of Italian monozygotic twins discordant for ALS, integrating DNA methylation, transcriptomics, and whole exome sequencing (WES). Here we share transcriptomic data derived from bulk RNA-seq on RNA extracted from PBMCs of the twin pair. This analysis revealed distinct transcriptomic profiles underlying the discordant disease phenotypes. ",
+    "abstract": null,
+    "study_type": "RNASeq",
+    "pubmed_ids": [],
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2026-04-23T16:22:56.00412+02:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD50000001330",
+        "title": "Transcriptomic data of a discordant monozygotic twin pair for ALS",
+        "description": "The dataset contains bulk RNAseq data of a discordant monozygotic twin pair for ALS; in particular the matrix with gene names and TPM counts for each sample. For both healthy and ALS twin, RNA sequencing was performed on RNA samples collected at two different time points (T1 and T2), for a total of seven samples.\r\nRNA extracted from PBMCs was used for library preparation according to Illumina TruSeq Stranded mRNA kit and processed on Illumina NextSeq 550 sequencer. Reads were aligned to the reference human genome GRCh38/hg38 and annotations were provided by the Ensembl v100 database. ",
+        "dataset_types": [
+          "Transcriptome profiling by high-throughput sequencing"
+        ],
+        "technologies": [
+          "NextSeq 550"
+        ],
+        "num_samples": 7,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2026-04-23T16:22:56.00412+02:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP50000000458"
+      }
+    ]
+  },
+  {
+    "accession_id": "EGAS50000001019",
+    "title": "Whole blood RNAseq from a large ALS case-control study at Univ of Michigan",
+    "description": "Patients with amyotrophic lateral sclerosis (ALS), a rare fatal neurodegenerative disease, face a lengthy diagnostic process, and, although most survive only 2 to 4 years from diagnosis, lack information regarding their specific anticipated disease course due to a lack of prognostic tools. Although ALS is a heterogeneous disease of varied etiology, peripheral immune system dysfunction is ubiquitous, reflected in altered whole blood transcriptome. Herein, we profiled whole blood gene expression by RNA sequencing in a large cohort of ALS cases versus controls. Several machine learning classifiers trained on our gene expression dataset predicted case-control status and survival, and integration analysis with external cohorts led to the identification of drug candidates. ",
+    "abstract": null,
+    "study_type": "RNASeq",
+    "pubmed_ids": [],
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2025-09-09T12:14:44.803891+02:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD50000001488",
+        "title": "Whole blood RNAseq from a large ALS case-control study at Univ of Michigan",
+        "description": "This dataset consists of 388 bulk RNA-seq data (sorted aligned BAM files) from whole blood of ALS participants meeting the Gold Coast definition of ALS during their clinical visit (n=204) and healthy controls (n=184) at the University of Michigan (UM). Samples were collected as part of the UM Pranger ALS Clinic between 2011-2021, and prepared either using poly-A selection of rRNA depletion (see Experiments). RNAseq was performed on the NovSeq 6000 S4 at the UM Advanced Genomics Core, resulting in 150bp paired-end reads. Raw reads were trimmed using Cutadapt (v2.3) and aligned to hg38 using STAR (v2.5.3a). Age provided is the age at blood sample collection date. The related paper Zhao, Y., et al. 2025 included 694 samples/participants, and 388 out of the 694 participants consented to share their individual-level data.",
+        "dataset_types": [
+          "Transcriptome profiling by high-throughput sequencing"
+        ],
+        "technologies": [
+          "Illumina NovaSeq 6000"
+        ],
+        "num_samples": 387,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2025-09-09T12:14:44.803891+02:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP50000000538"
+      }
+    ]
+  },
+  {
+    "accession_id": "EGAS50000001267",
+    "title": "Multimodal epigenetic sequencing analysis of cell-free DNA identifies biomarkers for ALS diagnosis and progression",
+    "description": "The role of the circulating epigenome in ALS remains understudied. We aim to develop diagnostic and prognostic blood-based biomarkers for Amyotrophic Lateral Sclerosis (ALS) by profiling methylome signatures in circulating cell-free DNA (cfDNA) in 20 sporadic ALS cases, 10 C9orf72-associated ALS cases, 10 asymptomatic C9orf72 expansion carriers, and 21 healthy controls using targeted enzymatic methyl-sequencing (EM-seq) of ~4 million CpG loci. We detected numerous differentially methylated genes, including several implicated in ALS risk and pathobiology, and integrated multiple epigenetic features with our Multimodal Epigenetic Sequencing Analysis (MESA) algorithm, achieving an ROC AUC of 0.91 and detecting ~70% of ALS cases at ~100% specificity. Methylation at a subset of loci also correlated with clinical progression and cerebrospinal-fluid neurofilament levels, supporting the potential of cfDNA-based biomarkers for ALS diagnosis and monitoring.",
+    "abstract": null,
+    "study_type": "Epigenetics",
+    "pubmed_ids": [],
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2026-02-10T17:57:09.603183+01:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD50000001808",
+        "title": "EM-seq data from plasma cfDNA samples of ALS patients, control and C9-carriers",
+        "description": "This dataset contains targeted EM-seq data from 61 plasma cfDNA samples spanning 20 sporadic ALS, 10 C9orf72-ALS, 10 asymptomatic C9orf72 expansion carriers, and 21 non-disease controls. Libraries were prepared with the NEBNext Enzymatic Methyl-seq (EM-seq) kit, captured using the Twist Human Methylome Panel (3.98 M CpGs; 123 Mb), and sequenced on Illumina NovaSeq 6000 (150 bp paired-end; ~45× on-target depth) with unmethylated lambda DNA spike-in and a 20% PhiX balance library. The dataset includes per-sample gzipped FASTQ files (R1/R2) and minimal metadata.",
+        "dataset_types": [
+          "Methylation profiling by high-throughput sequencing"
+        ],
+        "technologies": [
+          "Illumina NovaSeq 6000"
+        ],
+        "num_samples": 60,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2026-02-10T17:57:09.603183+01:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP50000000671"
+      }
+    ]
+  },
+  {
+    "accession_id": "EGAS50000001562",
+    "title": "Single-nucleus transcriptome sequencing of the human motor cortex",
+    "description": "Single-nucleus RNA-sequencing of the human motor cortex in patients with ALS, C9ORF72-ALS-FTD, ALS-FTD and unaffected controls. ",
+    "abstract": null,
+    "study_type": "Transcriptome Sequencing",
+    "pubmed_ids": [],
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2026-01-30T16:38:17.949975+01:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD50000002240",
+        "title": "Multi-omic single-nucleus ATAC-seq + RNA-seq of nuclei from the motor cortex of ALS/ALS-FTD patients and unaffected controls",
+        "description": "A multi-omic dataset of single-nucleus paired ATAC-seq + RNA-seq data of nuclei from the post-mortem human primary motor cortex from patients with ALS/ALS-FTD and unaffected controls. ",
+        "dataset_types": [
+          "Transcriptome profiling by high-throughput sequencing",
+          "Chromatin accessibility profiling by high-throughput sequencing"
+        ],
+        "technologies": [
+          "Illumina NovaSeq 6000"
+        ],
+        "num_samples": 32,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2026-01-30T16:38:17.949975+01:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP50000000826"
+      }
+    ]
+  },
+  {
+    "accession_id": "EGAS50000001563",
+    "title": "Single-nucleus ATAC sequencing of the human motor cortex",
+    "description": "Single-nucleus ATAC-sequencing of the human motor cortex in patients with ALS, C9ORF72-ALS-FTD, ALS-FTD and unaffected controls. ",
+    "abstract": null,
+    "study_type": "Epigenetics",
+    "pubmed_ids": [],
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2026-01-30T16:38:17.949975+01:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD50000002240",
+        "title": "Multi-omic single-nucleus ATAC-seq + RNA-seq of nuclei from the motor cortex of ALS/ALS-FTD patients and unaffected controls",
+        "description": "A multi-omic dataset of single-nucleus paired ATAC-seq + RNA-seq data of nuclei from the post-mortem human primary motor cortex from patients with ALS/ALS-FTD and unaffected controls. ",
+        "dataset_types": [
+          "Transcriptome profiling by high-throughput sequencing",
+          "Chromatin accessibility profiling by high-throughput sequencing"
+        ],
+        "technologies": [
+          "Illumina NovaSeq 6000"
+        ],
+        "num_samples": 32,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2026-01-30T16:38:17.949975+01:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP50000000826"
+      }
+    ]
+  },
+  {
+    "accession_id": "EGAS50000001566",
+    "title": "Single-nucleus transcriptome sequencing of the ALS-FTD motor cortex after sorting by TDP-43 ",
+    "description": "Single-nucleus RNA-sequencing of NeuN+ nuclei of the post-mortem human primary motor cortex from patients with ALS-FTD confirmed for TDP-43 pathology, after sorting for TDP-43 signal, TDP-43 Low vs. TDP-43 High ",
+    "abstract": null,
+    "study_type": "Transcriptome Analysis",
+    "pubmed_ids": [],
+    "external_links": null,
+    "is_released": true,
+    "released_date": "2026-01-30T16:38:21.002058+01:00",
+    "is_deprecated": false,
+    "datasets": [
+      {
+        "accession_id": "EGAD50000002243",
+        "title": "ALS-FTD brain motor cortex single-nucleus RNA-seq of NeuN+ nuclei sorted for TDP-43 low vs. high",
+        "description": "A dataset of single-nucleus RNA-seq data of nuclei from the post-mortem human primary motor cortex from patients with ALS-FTD. The nuclei were sorted by flow cytomotetry into NeuN+ (neuronal) TDP-43 low vs. TDP-43 high fractions. ",
+        "dataset_types": [
+          "Transcriptome profiling by high-throughput sequencing"
+        ],
+        "technologies": [
+          "Illumina NovaSeq X Plus"
+        ],
+        "num_samples": 11,
+        "access_type": "controlled",
+        "is_in_beacon": false,
+        "is_released": true,
+        "released_date": "2026-01-30T16:38:21.002058+01:00",
+        "is_deprecated": false,
+        "policy_accession_id": "EGAP50000000827"
+      }
+    ]
+  }
+]
