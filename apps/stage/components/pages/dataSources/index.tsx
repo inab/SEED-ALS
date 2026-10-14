@@ -50,6 +50,28 @@ const DATA_SOURCES = [
 			{ label: 'Data access request guide', url: 'https://ega-archive.org/access/request-data/how-to-request-data/' },
 		],
 	},
+	{
+		key: 'biogrid',
+		name: 'BioGRID',
+		logo: '/seed-als/logos/biogrid.png',
+		tagline: 'Open repository of curated protein, genetic and chemical interactions',
+		accessModel: 'Open Access',
+		accessColor: 'success',
+		description:
+			'The Biological General Repository for Interaction Datasets (BioGRID) is an open-access database that archives and freely disseminates protein, genetic and chemical interactions, as well as post-translational modifications, compiled through comprehensive manual curation of the biomedical literature for humans and major model organisms.',
+		role: 'SEED-ALS uses BioGRID to build the protein–protein interaction network shown on the Disease Model page. Human physical interactions are filtered to retain experimentally validated, high-specificity evidence and mapped against the ALS-associated genes retrieved from the Monarch Initiative.',
+		details: [
+			'Human protein–protein physical interactions',
+			'Experimental detection methods (used to exclude low-specificity techniques)',
+			'Interactions between ALS-associated genes and their partners',
+			'Number of supporting records per interaction',
+		],
+		links: [
+			{ label: 'BioGRID website', url: 'https://thebiogrid.org/' },
+			{ label: 'Data downloads', url: 'https://downloads.thebiogrid.org/BioGRID' },
+			{ label: 'BioGRID documentation', url: 'https://wiki.thebiogrid.org/' },
+		],
+	},
 ];
 
 const DataSources = (): ReactElement => {
@@ -87,7 +109,7 @@ const DataSources = (): ReactElement => {
 						line-height: 1.6;
 					`}
 				>
-					SEED-ALS integrates data from two established biomedical resources to provide a comprehensive
+					SEED-ALS integrates data from three established biomedical resources to provide a comprehensive
 					and scientifically accurate view of Amyotrophic Lateral Sclerosis.
 				</p>
 			</section>
@@ -95,15 +117,15 @@ const DataSources = (): ReactElement => {
 			{/* Data source cards — side by side on large screens */}
 			<div
 				css={css`
-					max-width: 1600px;
+					max-width: 1920px;
 					margin: 0 auto;
-					padding: 56px 40px 72px;
+					padding: 56px 24px 72px;
 					display: grid;
-					grid-template-columns: 1fr 1fr;
-					gap: 32px;
+					grid-template-columns: repeat(3, 1fr);
+					gap: 24px;
 					align-items: stretch;
 
-					@media (max-width: 900px) {
+					@media (max-width: 1200px) {
 						grid-template-columns: 1fr;
 					}
 					@media (max-width: 768px) {
@@ -193,8 +215,7 @@ const DataSources = (): ReactElement => {
 									font-size: 0.85rem;
 									color: ${theme.colors.grey_5};
 									margin: 0;
-									line-height: 1.4;
-								`}
+									line-height: 1.4;								`}
 							>
 								{source.tagline}
 							</p>
